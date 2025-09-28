@@ -4,7 +4,7 @@ import { ButtonProps } from "./button.types"
 
 export const Button = ({ children, className, ...props }: ButtonProps) => {
   return (
-    <Pressable className={twMerge("font-poppins-medium text-center rounded-[15px]", className)} {...props}>
+    <Pressable className={twMerge("font-poppins-medium text-center rounded-[16px]", className)} {...props}>
       {children}
     </Pressable>
   )
