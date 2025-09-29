@@ -53,7 +53,7 @@ export default function SignIn() {
               
               <View className="mt-5 w-full max-w-[300px] gap-7">
                 <View className="gap-3">
-                    
+
                   <Controller
                     control={control}
                     name="email"
@@ -91,7 +91,9 @@ export default function SignIn() {
                     )}
                   />
 
-                  <Text className="font-poppins-medium text-[#797777] text-sm text-right w-full pb-5">Esqueceu a senha?</Text>
+                  <TouchableOpacity onPress={() => {}}>
+                    <Text className="font-poppins-medium text-[#797777] text-sm text-right w-full pb-5">Esqueceu a senha?</Text>
+                  </TouchableOpacity>
 
                   <View>
                     <Button onPress={handleSubmit(onSubmit)} className="flex items-center justify-center w-full h-[50px] bg-[#FF6B35] data-[pressed]:bg-[#e85a28]">
@@ -100,16 +102,20 @@ export default function SignIn() {
                   </View>
 
                   <View>
-                    <Button onPress={handleSubmit(onSubmit)} className="flex items-center justify-center w-full h-[50px] bg-[#FF6B35] data-[pressed]:bg-[#e85a28]">
+                    <Button onPress={() => {}} className="flex items-center justify-center w-full h-[50px] bg-[#FF6B35] data-[pressed]:bg-[#e85a28]">
                       <Text className="text-[#F3F3F3] font-semibold text-lg">Cadastre-se</Text>
                     </Button>
                   </View>
 
                   <View className="flex w-full items-center gap-4 pt-3">
                     <Text className="font-poppins-medium text-[#797777] text-xs">Ou continue com</Text>
-                    <Image resizeMode="contain" source={require("@/app/assets/images/google-icon.png")} />
+                    <TouchableOpacity onPress={() => {}}>
+                        <Image resizeMode="contain" source={require("@/app/assets/images/google-icon.png")} />
+                    </TouchableOpacity>
                   </View>
-                  <Text className="font-poppins-medium text-[#797777] text-sm text-center pt-3">Acessar como convidado</Text>
+                  <TouchableOpacity onPress={() => {}}>
+                    <Text className="font-poppins-medium text-[#797777] text-sm text-center pt-3">Acessar como convidado</Text>
+                  </TouchableOpacity>
                 </View>
               </View>
             </View>
