@@ -1,14 +1,15 @@
 import { useState } from 'react';
 import { Text, View, Image, TouchableWithoutFeedback, Keyboard, TouchableOpacity } from "react-native"; 
-import { EmailIcon } from "@/app/assets/icons/email-icon";
-import { Input } from "@/app/components/input";
+import { EmailIcon } from "assets/icons/email-icon";
+import { Input } from "@/components/input";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { KeyIcon } from "@/app/assets/icons/key-icon";
-import { OpenEyeIcon } from "@/app/assets/icons/open-eye-icon";
-import { ClosedEyeIcon } from "@/app/assets/icons/closed-eye-icon";
-import { Button } from "@/app/components/button";
+import { KeyIcon } from "assets/icons/key-icon";
+import { OpenEyeIcon } from "assets/icons/open-eye-icon";
+import { ClosedEyeIcon } from "assets/icons/closed-eye-icon";
+import { Button } from "@/components/button";
 
 import { Controller, useForm } from 'react-hook-form'
+import { router } from 'expo-router';
 
 interface FormDataLogin {
   email: string;
@@ -41,7 +42,7 @@ export default function SignIn() {
           <View className="items-center">
             <Image 
               resizeMode="contain" 
-              source={require("@/app/assets/images/goat-greeting.png")} 
+              source={require("@/assets/images/goat-greeting.png")} 
               className="w-70 h-70 z-10" 
             />
             <View className="w-full bg-[#FBF3ED] rounded-t-3xl items-center p-4 -mt-20 pt-24">
@@ -102,7 +103,7 @@ export default function SignIn() {
                   </View>
 
                   <View>
-                    <Button onPress={() => {}} className="flex items-center justify-center w-full h-[50px] bg-[#FF6B35] data-[pressed]:bg-[#e85a28]">
+                    <Button onPress={() => router.push('/signup/signup')} className="flex items-center justify-center w-full h-[50px] bg-[#FF6B35] data-[pressed]:bg-[#e85a28]">
                       <Text className="text-[#F3F3F3] font-semibold text-lg">Cadastre-se</Text>
                     </Button>
                   </View>
@@ -110,7 +111,7 @@ export default function SignIn() {
                   <View className="flex w-full items-center gap-4 pt-3">
                     <Text className="font-poppins-medium text-[#797777] text-xs">Ou continue com</Text>
                     <TouchableOpacity onPress={() => {}}>
-                        <Image resizeMode="contain" source={require("@/app/assets/images/google-icon.png")} />
+                        <Image resizeMode="contain" source={require("@/assets/images/google-icon.png")} />
                     </TouchableOpacity>
                   </View>
                   <TouchableOpacity onPress={() => {}}>
