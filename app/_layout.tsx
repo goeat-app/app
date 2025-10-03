@@ -1,8 +1,8 @@
-import "@/styles/global.css";
-
-import { Slot } from 'expo-router';
+import { Slot, Stack } from 'expo-router';
 import { useFonts, Poppins_400Regular, Poppins_500Medium, Poppins_600SemiBold } from "@expo-google-fonts/poppins";
 import { Text } from "react-native";
+
+import '../global.css';
 
 export default function Layout() {
   const [loaded] = useFonts({
@@ -16,7 +16,5 @@ export default function Layout() {
   }
 
 
-  return (
-    <Slot />
-  )
+  return <Stack screenOptions={{ headerShown: false }} />;
 }

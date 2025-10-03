@@ -1,12 +1,12 @@
-import { ProfileIcon } from "@/app/assets/icons/profile-icon";
-import { EmailIcon } from "@/app/assets/icons/email-icon";
-import { Input } from "@/app/components/input";
+import { ProfileIcon } from "assets/icons/profile-icon";
+import { EmailIcon } from "assets/icons/email-icon";
+import { Input } from "@/components/input";
 import { Text, View, Image, ScrollView, Platform, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { KeyIcon } from "@/app/assets/icons/key-icon";
-import { ClosedEyeIcon } from "@/app/assets/icons/closed-eye-icon";
+import { KeyIcon } from "assets/icons/key-icon";
+import { ClosedEyeIcon } from "assets/icons/closed-eye-icon";
 import { Controller, useForm } from 'react-hook-form'
-import { Button } from "@/app/components/button";
+import { Button } from "@/components/button";
 
 interface FormDataRegister {
   name: string;
@@ -36,7 +36,7 @@ export default function SignUp() {
               showsVerticalScrollIndicator={false}
             >
               <View className="flex-1 w-full items-center justify-center">
-                <Image resizeMode="contain" source={require("@/app/assets/images/goat-eating.png")} />
+                <Image resizeMode="contain" source={require("@/assets/images/goat-eating.png")} />
 
                 <View className="flex-1">
                   <Text className="text-[#FF6B35] text-[38px] font-poppins-semi-bold text-start">Bem-vindo(a)!</Text>
@@ -125,7 +125,7 @@ export default function SignUp() {
                 
                 <View className="flex w-full items-center gap-4">
                   <Text className="font-poppins-medium text-[#79777] text-xs">Ou continue com</Text>
-                  <Image resizeMode="contain" source={require("@/app/assets/images/google-icon.png")} />
+                  <Image resizeMode="contain" source={require("@/assets/images/google-icon.png")} />
                 </View>
 
                 <Text className="font-poppins-medium text-[#79777] text-sm text-center">Acessar como convidado</Text>

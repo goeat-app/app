@@ -1,12 +1,13 @@
-import { colors } from './src/styles/colors';
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./src/**/*.{ts,tsx}"],
+  content: [
+    "./app/**/*.{js,jsx,ts,tsx}",
+    "./src/**/*.{js,jsx,ts,tsx}",
+  ],
   presets: [require("nativewind/preset")],
   theme: {
     extend: {
-      colors,
       fontFamily: {
         poppins: ["PoppinsRegular"],
         "poppins-medium": ["PoppinsMedium"],
