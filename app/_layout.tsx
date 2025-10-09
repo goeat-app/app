@@ -3,6 +3,7 @@ import { useFonts, Poppins_400Regular, Poppins_500Medium, Poppins_600SemiBold } 
 import { Text } from "react-native";
 
 import '../global.css';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 export default function Layout() {
   const [loaded] = useFonts({
@@ -16,5 +17,11 @@ export default function Layout() {
   }
 
 
-  return <Stack screenOptions={{ headerShown: false }} />;
+  return (
+    <SafeAreaProvider>
+      <SafeAreaView className='flex-1'>
+        <Stack screenOptions={{ headerShown: false }} />;
+      </SafeAreaView>
+    </SafeAreaProvider>
+  ) 
 }

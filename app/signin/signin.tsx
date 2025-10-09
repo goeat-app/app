@@ -10,6 +10,7 @@ import { Button } from "@/components/button";
 
 import { Controller, useForm } from 'react-hook-form'
 import { router } from 'expo-router';
+import { Typography } from '@/components/typography/typography';
 
 interface FormDataLogin {
   email: string;
@@ -48,8 +49,16 @@ export default function SignIn() {
             <View className="w-full bg-[#FBF3ED] rounded-t-3xl items-center p-4 -mt-20 pt-24">
 
               <View className="w-full items-center justify-center mb-5">
-                <Text className="text-[#FF6B35] text-[30px] font-poppins-semi-bold text-center">Bem-vindo de volta!</Text>
-                <Text className="text-[#797777] text-[14px] font-poppins-medium text-center">A gente sentiu sua falta</Text>
+                <Typography 
+                  type='h2' 
+                  className='text-[#FF6B35] font-poppins-semi-bold text-center'
+                  text='Bem-vindo de volta!'  
+                />
+                <Typography 
+                  type='p' 
+                  className='text-[#797777] font-poppins-medium text-center'
+                  text='A gente sentiu sua falta'  
+                />
               </View>
               
               <View className="mt-5 w-full max-w-[300px] gap-7">
@@ -93,29 +102,45 @@ export default function SignIn() {
                   />
 
                   <TouchableOpacity onPress={() => {}}>
-                    <Text className="font-poppins-medium text-[#797777] text-sm text-right w-full pb-5">Esqueceu a senha?</Text>
+                    <Typography 
+                      type='p' 
+                      className='font-poppins-medium text-[#797777] text-right w-full pb-5'
+                      text='Esqueceu a senha?'  
+                    />
                   </TouchableOpacity>
 
                   <View>
                     <Button onPress={handleSubmit(onSubmit)} className="flex items-center justify-center w-full h-[50px] bg-[#FF6B35] data-[pressed]:bg-[#e85a28]">
-                      <Text className="text-[#F3F3F3] font-semibold text-lg">Login</Text>
+                      <Typography 
+                        type='h5' 
+                        className='text-[#F3F3F3] font-semibold'
+                        text='Login'  
+                      />
                     </Button>
                   </View>
 
                   <View>
                     <Button onPress={() => router.push('/signup/signup')} className="flex items-center justify-center w-full h-[50px] bg-[#FF6B35] data-[pressed]:bg-[#e85a28]">
-                      <Text className="text-[#F3F3F3] font-semibold text-lg">Cadastre-se</Text>
+                      <Typography 
+                        type='h5' 
+                        className='text-[#F3F3F3] font-semibold'
+                        text='Cadastre-se'  
+                      />
                     </Button>
                   </View>
 
                   <View className="flex w-full items-center gap-4 pt-3">
                     <Text className="font-poppins-medium text-[#797777] text-xs">Ou continue com</Text>
                     <TouchableOpacity onPress={() => {}}>
-                        <Image resizeMode="contain" source={require("@/assets/images/google-icon.png")} />
+                      <Image resizeMode="contain" source={require("@/assets/images/google-icon.png")} />
                     </TouchableOpacity>
                   </View>
                   <TouchableOpacity onPress={() => {}}>
-                    <Text className="font-poppins-medium text-[#797777] text-sm text-center pt-3">Acessar como convidado</Text>
+                    <Typography 
+                      type='p' 
+                      className='font-poppins-medium text-[#797777] text-center pt-3'
+                      text='Acessar como convidado'  
+                    />
                   </TouchableOpacity>
                 </View>
               </View>
