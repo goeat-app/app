@@ -5,7 +5,8 @@
     "paths": {
       "@/*": ["src/*"],
       "@/app/*": ["app/*"],
-      "@/assets/*": ["assets/*"]
+      "@/assets/*": ["assets/*"],
+      "@/lib/*": ["lib/*"]
     },
     "jsx": "react-jsx"
   },

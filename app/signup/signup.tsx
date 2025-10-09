@@ -7,6 +7,8 @@ import { KeyIcon } from "assets/icons/key-icon";
 import { ClosedEyeIcon } from "assets/icons/closed-eye-icon";
 import { Controller, useForm } from 'react-hook-form'
 import { Button } from "@/components/button";
+import { router } from "expo-router";
+import { Typography } from "@/components/typography/typography";
 
 interface FormDataRegister {
   name: string;
@@ -20,6 +22,7 @@ export default function SignUp() {
 
   const onSubmit = (data: FormDataRegister) => {
     console.log('data = ', data);
+    
   }
 
   return (
@@ -36,11 +39,11 @@ export default function SignUp() {
               showsVerticalScrollIndicator={false}
             >
               <View className="flex-1 w-full items-center justify-center">
-                <Image resizeMode="contain" source={require("@/assets/images/goat-eating.png")} />
+                <Image resizeMode="contain" source={require("@/assets/images/goat-register.png")} />
 
                 <View className="flex-1">
                   <Text className="text-[#FF6B35] text-[38px] font-poppins-semi-bold text-start">Bem-vindo(a)!</Text>
-                  <Text className="text-[#797777] text-[14px] font-poppins-medium w-[300px]">Faça seu cadastro para garantir uma experiência ainda mais personalizada</Text>
+                  <Text className="text-[#797777] text-sm font-poppins-medium w-[300px]">Faça seu cadastro para garantir uma experiência ainda mais personalizada</Text>
                 </View>
               </View>
               <View className="mt-5 max-w-[300px] gap-7">
@@ -118,17 +121,29 @@ export default function SignUp() {
                 </View>
 
                 <View>
-                  <Button onPress={handleSubmit(onSubmit)} className="flex items-center justify-center w-full h-[50px] bg-[#FF6B35] data-[pressed]:bg-[#e85a28]">
-                    <Text className="text-[#F3F3F3] text-lg">Cadastre-se</Text>
+                  <Button onPress={() => router.push('/profile-mapping/step-one')} className="flex items-center justify-center w-full h-[50px] bg-[#FF6B35] data-[pressed]:bg-[#e85a28]">
+                    <Typography 
+                      type='h5' 
+                      className="text-[#F3F3F3]" 
+                      text='Cadastre-se' 
+                    />
                   </Button>
                 </View>
                 
                 <View className="flex w-full items-center gap-4">
-                  <Text className="font-poppins-medium text-[#79777] text-xs">Ou continue com</Text>
+                  <Typography 
+                    type='small' 
+                    className="font-poppins-medium text-[#79777]" 
+                    text='Ou continue com' 
+                  />
                   <Image resizeMode="contain" source={require("@/assets/images/google-icon.png")} />
                 </View>
 
-                <Text className="font-poppins-medium text-[#79777] text-sm text-center">Acessar como convidado</Text>
+                <Typography 
+                  type='span' 
+                  text='Acessar como convidado' 
+                  className='font-poppins-medium text-[#79777] text-center'
+                />
               </View>
             </ScrollView>
           </TouchableWithoutFeedback>
