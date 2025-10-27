@@ -130,7 +130,11 @@ export default function SignIn() {
                   </View>
 
                   <View className="flex w-full items-center gap-4 pt-3">
-                    <Text className="font-poppins-medium text-[#797777] text-xs">Ou continue com</Text>
+                    <Typography 
+                      className='font-poppins-medium text-[#797777]' 
+                      type='small' 
+                      text='Ou continue com'
+                    />
                     <TouchableOpacity onPress={() => {}}>
                       <Image resizeMode="contain" source={require("@/assets/images/google-icon.png")} />
                     </TouchableOpacity>

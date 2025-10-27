@@ -41,9 +41,17 @@ export default function SignUp() {
               <View className="flex-1 w-full items-center justify-center">
                 <Image resizeMode="contain" source={require("@/assets/images/goat-register.png")} />
 
-                <View className="flex-1">
-                  <Text className="text-[#FF6B35] text-[38px] font-poppins-semi-bold text-start">Bem-vindo(a)!</Text>
-                  <Text className="text-[#797777] text-sm font-poppins-medium w-[300px]">Faça seu cadastro para garantir uma experiência ainda mais personalizada</Text>
+                <View className="flex- gap-4">
+                  <Typography 
+                    type='h1' 
+                    className="text-5xl text-[#FF6B35] text-start"
+                    text='Bem-vindo(a)!'  
+                  />
+                  <Typography 
+                    type='p' 
+                    className="text-[#797777] font-poppins-medium w-[300px]"
+                    text='Faça seu cadastro para garantir uma experiência ainda mais personalizada'  
+                  />
                 </View>
               </View>
               <View className="mt-5 max-w-[300px] gap-7">
@@ -121,7 +129,7 @@ export default function SignUp() {
                 </View>
 
                 <View>
-                  <Button onPress={() => router.push('/profile-mapping/step-one')} className="flex items-center justify-center w-full h-[50px] bg-[#FF6B35] data-[pressed]:bg-[#e85a28]">
+                  <Button onPress={() => router.push('/profile-mapping/step-one/step-one')} className="flex items-center justify-center w-full h-[50px] bg-[#FF6B35] data-[pressed]:bg-[#e85a28]">
                     <Typography 
                       type='h5' 
                       className="text-[#F3F3F3]" 

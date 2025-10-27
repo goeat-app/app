@@ -3,6 +3,7 @@ import { Typography } from "@/components/typography/typography";
 import { twMerge } from "lib/utils/twMerge";
 import { Image, Text, View } from "react-native";
 import { useStepOneModel } from "./step-one.model";
+import { router } from "expo-router";
 
 export default function StepOne () {
   const {  progress, selectedItem, handleSelect, foodItems } = useStepOneModel();
@@ -55,7 +56,10 @@ export default function StepOne () {
       </View>
 
       <View>
-        <Button className="flex items-center justify-center w-[314px] h-[50px] bg-[#FF6B35] data-[pressed]:bg-[#e85a28]">
+        <Button 
+          onPress={() => router.push('/profile-mapping/step-two/step-two')} 
+          className="flex items-center justify-center w-[314px] h-[50px] bg-[#FF6B35] data-[pressed]:bg-[#e85a28]"
+        >
           <Typography type='h5' className='font-poppins-semi-bold text-[#F3F3F3]' text='Próximo' />
         </Button>
       </View>
