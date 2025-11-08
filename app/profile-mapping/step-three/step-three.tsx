@@ -7,6 +7,7 @@ import { Button } from '@/components/button';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useStepThreeModel } from './step-three.model';
 import React from 'react';
+import { router } from 'expo-router';
 
 export default function StepThree() {
   const {
@@ -129,7 +130,7 @@ export default function StepThree() {
 
           <View className="w-full">
             <Button
-              onPress={() => {}}
+              onPress={() => router.push('/recomendations/recomendations')}
               className="flex items-center justify-center  h-[50px] bg-[#FF6B35] data-[pressed]:bg-[#e85a28]"
             >
               <Typography

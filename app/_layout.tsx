@@ -75,6 +75,12 @@ export default function Layout() {
             <Stack.Screen name="profile-mapping/step-one/step-one" />
             <Stack.Screen name="profile-mapping/step-two/step-two" />
             <Stack.Screen name="profile-mapping/step-three/step-three" />
+            <Stack.Screen
+              name="recomendations/recomendations"
+              options={{
+                headerShown: false,
+              }}
+            />
           </Stack>
         </KeyboardAvoidingView>
       </SafeAreaView>
