@@ -1,22 +1,17 @@
-import Svg, { G, Rect, Path, Defs, SvgProps } from 'react-native-svg';
+import Svg, { Path, SvgProps } from 'react-native-svg';
 
 export const FavoriteIcon = (props: SvgProps) => (
-  <Svg width={30} height={30} fill="none" {...props}>
-    <G filter="url(#a)">
-      <Rect width={28} height={28} x={1} y={1} fill="#FF6B35" rx={14} />
-    </G>
-    <G filter="url(#b)">
-      <Path
-        fill="#FFC6C9"
-        d="M15.08 9.913s-.346.288-.706.803c-.432.619-.883 1.565-.764 2.729"
-      />
-      <Path
-        stroke="#FDFDFD"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M15.08 9.913s-.346.288-.706.803m-.764 2.729c-.119-1.164.332-2.11.764-2.73m0 0a5.438 5.438 0 0 1 1.463-1.404m0 0c.932-.616 1.9-.891 2.42-.957a4.495 4.495 0 0 1 3.304 1.261c1.89 1.852 2.167 5.343.46 7.404-1.708 2.061-4.509 2.975-6.231 5.07-.28.334-.518.7-.71 1.09a5.416 5.416 0 0 0-.706-1.09c-1.725-2.095-4.508-2.988-6.233-5.07-1.726-2.08-1.43-5.55.459-7.404 1.012-1.21 3.327-2.777 7.238-.304Z"
-      />
-    </G>
-    <Defs></Defs>
+  <Svg
+    width={props.width ?? 21}
+    height={props.height ?? 18}
+    fill={props.fill ?? 'none'}
+    {...props}
+  >
+    <Path
+      stroke={props.color ?? '#fff'}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M18.958 2.003A5.274 5.274 0 0 0 17.25.89a5.382 5.382 0 0 0-4.028 0 5.274 5.274 0 0 0-1.708 1.112L10.5 2.99l-1.014-.988A5.334 5.334 0 0 0 5.764.5c-1.396 0-2.735.54-3.722 1.503A5.064 5.064 0 0 0 .5 5.63c0 1.36.555 2.665 1.542 3.627l1.014.989L10.5 17.5l7.444-7.254 1.014-.989a5.122 5.122 0 0 0 1.141-1.664 5.015 5.015 0 0 0 0-3.926 5.122 5.122 0 0 0-1.141-1.664v0Z"
+    />
   </Svg>
 );
