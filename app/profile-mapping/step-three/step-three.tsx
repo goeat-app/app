@@ -130,7 +130,7 @@ export default function StepThree() {
 
           <View className="w-full">
             <Button
-              onPress={() => router.push('/recomendations/recomendations')}
+              onPress={() => router.push('/home/home')}
               className="flex items-center justify-center  h-[50px] bg-[#FF6B35] data-[pressed]:bg-[#e85a28]"
             >
               <Typography

@@ -81,6 +81,12 @@ export default function Layout() {
                 headerShown: false,
               }}
             />
+            <Stack.Screen
+              name="home/home"
+              options={{
+                headerShown: false,
+              }}
+            />
           </Stack>
         </KeyboardAvoidingView>
       </SafeAreaView>
