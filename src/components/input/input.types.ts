@@ -1,4 +1,4 @@
-import { TextInputProps, ViewProps } from "react-native";
+import { TextInputProps, ViewProps } from 'react-native';
 
 type RootProps = ViewProps & {
   children?: React.ReactNode;
@@ -14,6 +14,11 @@ type IndicatorProps = RootProps;
 type LabelProps = {
   text: string;
   className?: string;
-}
+};
 
-export { FieldProps, IndicatorProps, LabelProps, RootProps };
+type ContentProps = {
+  children: React.ReactNode;
+  className?: string;
+};
+
+export { ContentProps, FieldProps, IndicatorProps, LabelProps, RootProps };

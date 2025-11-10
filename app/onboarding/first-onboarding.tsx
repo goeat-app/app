@@ -53,14 +53,14 @@ export default function OnBoardingCarousel() {
         <View className="flex-2 justify-start items-center">
           <View className="w-full items-center gap-2">
             <Typography
-              type="h2"
+              type="h3"
               className="text-[#FF6B35] font-poppins-semi-bold text-center"
               text={item.title}
               numberOfLines={2}
               adjustsFontSizeToFit={true}
             />
             <Typography
-              type="p"
+              type="span"
               className="text-[#797777] font-poppins-medium text-center"
               text={item.description}
             />

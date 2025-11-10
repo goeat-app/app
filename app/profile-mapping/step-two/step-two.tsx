@@ -63,7 +63,11 @@ export default function StepTwo() {
               style={{ overflow: 'hidden', borderRadius: 12 }}
               onPress={() => handleSelectEnvironment(item.id)}
             >
-              <ImageBackground className="w-full" source={item.image}>
+              <ImageBackground
+                source={item.image}
+                style={{ flex: 1, width: '100%', height: '100%' }}
+                imageStyle={{ borderRadius: 12, resizeMode: 'cover' }}
+              >
                 <LinearGradient
                   colors={[
                     'rgba(0, 0, 0, 0.3)',
