@@ -1,8 +1,8 @@
 import { View, Image, TouchableOpacity } from 'react-native';
 import { Typography } from '@/components/typography/typography';
-import { StarIcon } from 'assets/icons/star-icon';
+import { StarIcon } from '@/assets/icons/star-icon';
 import { LocationIcon } from '@/assets/icons/location';
-import { MoneyIcon } from '../money-icon/money-icon';
+import { MoneyIcon } from '@/assets/icons/money';
 
 export const RestaurantCard = ({ item }) => {
   return (

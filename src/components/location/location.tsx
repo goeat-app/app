@@ -1,4 +1,3 @@
-import react from 'react';
 import { View } from 'react-native';
 import { Typography } from '@/components/typography/typography';
 import { LocationIcon } from '@/assets/icons/location';
