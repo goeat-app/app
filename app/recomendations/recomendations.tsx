@@ -1,13 +1,11 @@
 import { useState, useRef, useCallback } from 'react';
 import {
   View,
-  Platform,
   StatusBar,
   ImageBackground,
   Animated,
-  ScrollView,
+  FlatList,
 } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Ionicons } from '@expo/vector-icons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
@@ -21,83 +19,24 @@ import { Button } from '@/components/button';
 import { Input } from '@/components/input';
 import { MoneyIcon } from '@/components/money-icon/money-icon';
 import { Typography } from '@/components/typography/typography';
+import { useRecomendationsModel } from './recomendations.model';
+import { recomendationsListMock } from '@/lib/mocks/recomendations-list-mock';
 
 export default function Recomendations() {
-  const [searchValue, setSearchValue] = useState('');
-  const [favoriteList, setFavoriteList] = useState<number[]>([]);
-  const router = useRouter();
-  const insets = useSafeAreaInsets();
-
-  const recomendationsListMock = [
-    {
-      id: 1,
-      name: 'Sunshine',
-      image: require('@/assets/images/photo-restaurant/restaurant-mock-1.png'),
-      description: 'Comemorações, animado, divertido.',
-      location: '2.1 km - Jardim Horta, Campinas',
-      mediumPrice: 3,
-    },
-    {
-      id: 2,
-      name: 'French Toast',
-      image: require('@/assets/images/photo-restaurant/restaurant-mock-2.png'),
-      description: 'Comemorações, animado, divertido.',
-      location: '2.1 km - Jardim Horta, Campinas',
-      mediumPrice: 3,
-    },
-    {
-      id: 3,
-      name: 'French Toast',
-      image: require('@/assets/images/photo-restaurant/restaurant-mock-2.png'),
-      description: 'Comemorações, animado, divertido.',
-      location: '2.1 km - Jardim Horta, Campinas',
-      mediumPrice: 3,
-    },
-  ];
-
-  const scaleAnims = useRef<Record<number, Animated.Value>>(
-    recomendationsListMock.reduce(
-      (acc, item) => {
-        acc[item.id] = new Animated.Value(1);
-        return acc;
-      },
-      {} as Record<number, Animated.Value>,
-    ),
-  ).current;
-
-  const handleClearSearch = () => {
-    setSearchValue('');
-  };
-
-  const handleFavorite = useCallback(
-    (id: number) => {
-      const isFavorited = favoriteList.includes(id);
-
-      setFavoriteList(prev =>
-        isFavorited ? prev.filter(itemId => itemId !== id) : [...prev, id],
-      );
-
-      Animated.spring(scaleAnims[id], {
-        toValue: isFavorited ? 1 : 1.3,
-        friction: 4,
-        tension: 120,
-        useNativeDriver: true,
-      }).start();
-    },
-    [favoriteList, scaleAnims],
-  );
+  const {
+    favoriteList,
+    setSearchValue,
+    searchValue,
+    scaleAnims,
+    router,
+    handleClearSearch,
+    handleFavorite,
+  } = useRecomendationsModel();
 
   return (
     <View className="flex-1 bg-[#FDF6F5]">
       <StatusBar barStyle="dark-content" backgroundColor="#FDF6F5" />
-      <View
-        className="flex-row items-center justify-between px-4 bg-[#FDF6F5]"
-        style={{
-          paddingTop: Platform.OS === 'ios' ? insets.top + 10 : 16,
-          paddingBottom: 12,
-          minHeight: Platform.OS === 'ios' ? 70 : 60,
-        }}
-      >
+      <View className="flex-row items-center justify-between px-4 bg-[#FDF6F5]">
         <Button onPress={() => router.back()} className="p-2">
           <Ionicons name="chevron-back" size={32} color="#000000" />
         </Button>
@@ -140,16 +79,19 @@ export default function Recomendations() {
         </Button>
       </View>
 
-      <View className="flex-1 items-center gap-12">
-        <ScrollView
-          contentContainerStyle={{ gap: 32 }}
-          showsVerticalScrollIndicator={false}
-        >
-          {recomendationsListMock?.map(item => (
-            <View key={item.id} className="w-[335px] h-[225px] rounded-s-2xl">
-              <View className="w-full h-[153px] gap-2">
+      <View className="flex-1 items-center ">
+        <FlatList
+          data={recomendationsListMock}
+          keyExtractor={item => item.id}
+          renderItem={({ item }) => (
+            <View
+              key={item.id}
+              className="w-[335px] h-[225px] rounded-s-2xl my-6"
+            >
+              <View className="w-full h-[150px] ">
                 <ImageBackground
                   className="w-full h-full flex items-end p-2"
+                  resizeMode="cover"
                   source={item.image}
                 >
                   <Button onPress={() => handleFavorite(item.id)}>
@@ -211,8 +153,8 @@ export default function Recomendations() {
                 </View>
               </View>
             </View>
-          ))}
-        </ScrollView>
+          )}
+        />
       </View>
     </View>
   );
