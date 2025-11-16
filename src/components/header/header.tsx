@@ -7,8 +7,8 @@ export const Header = () => {
         resizeMode="contain"
         source={require('@/assets/images/logotipo.png')}
         style={{
-          width: 100,
-          height: 100,
+          width: 80,
+          height: 80,
         }}
       />
     </View>

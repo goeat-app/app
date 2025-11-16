@@ -1,8 +1,11 @@
 import { View, FlatList, Pressable } from 'react-native';
-import { Typography } from '@/components/typography/typography';
-import { restaurantsCarousel } from '@/lib/mocks/restaurants-mock';
-import { RestaurantCard } from './restaurantCard';
+
 import { router } from 'expo-router';
+
+import { Typography } from '@/components/typography/typography';
+import { restaurantsMocks } from '@/lib/mocks/restaurants-mock';
+
+import { RestaurantCard } from './restaurantCard';
 
 export const Carousel = () => {
   return (
@@ -25,7 +28,7 @@ export const Carousel = () => {
       </View>
 
       <FlatList
-        data={restaurantsCarousel}
+        data={restaurantsMocks}
         renderItem={({ item }) => <RestaurantCard item={item} />}
         keyExtractor={item => String(item.id)}
         horizontal={true}
