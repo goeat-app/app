@@ -1,10 +1,3 @@
-import { router, Stack } from 'expo-router';
-import {
-  useFonts,
-  Poppins_400Regular,
-  Poppins_500Medium,
-  Poppins_600SemiBold,
-} from '@expo-google-fonts/poppins';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -12,9 +5,19 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
+import {
+  useFonts,
+  Poppins_400Regular,
+  Poppins_500Medium,
+  Poppins_600SemiBold,
+} from '@expo-google-fonts/poppins';
+import { router, Stack } from 'expo-router';
+
 import '../global.css';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+
 import { Ionicons } from '@expo/vector-icons';
+
 import { useMemo } from 'react';
 
 export default function Layout() {
@@ -83,6 +86,12 @@ export default function Layout() {
             />
             <Stack.Screen
               name="home/home"
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="favorites/favorites"
               options={{
                 headerShown: false,
               }}

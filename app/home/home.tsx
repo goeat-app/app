@@ -1,33 +1,16 @@
 import { useRef } from 'react';
-import { View, Animated, ScrollView } from 'react-native';
+import { View, ScrollView } from 'react-native';
 
-import { Typography } from '@/components/typography/typography';
-import { Header } from '@/components/header/header';
-import { Chips } from '@/components/chips/chips';
-import { Location } from '@/components/location/location';
 import { Carousel } from '@/components/carousel/carousel';
+import { Chips } from '@/components/chips/chips';
+import { Header } from '@/components/header/header';
+import { Location } from '@/components/location/location';
 import { MapPreview } from '@/components/mapPreview/mapPreview';
-import { TabBar } from '@/components/tabBar/tabBar';
+import { TabBar, TabBarRef } from '@/components/tabBar/tabBar';
+import { Typography } from '@/components/typography/typography';
 
 export default function Home() {
-  const tabBarTranslateY = useRef(new Animated.Value(0)).current;
-  const hide_value = 150;
-
-  const hideTabBar = () => {
-    Animated.timing(tabBarTranslateY, {
-      toValue: hide_value,
-      duration: 250,
-      useNativeDriver: true,
-    }).start();
-  };
-
-  const showTabBar = () => {
-    Animated.timing(tabBarTranslateY, {
-      toValue: 0,
-      duration: 250,
-      useNativeDriver: true,
-    }).start();
-  };
+  const tabBarRef = useRef<TabBarRef>(null);
 
   return (
     <View className="flex-1 bg-[#FDF6F5]">
@@ -35,13 +18,14 @@ export default function Home() {
         <Header />
       </View>
       <ScrollView
+        className="flex-1"
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 120 }}
-        onScrollBeginDrag={hideTabBar}
-        onScrollEndDrag={showTabBar}
-        onMomentumScrollEnd={showTabBar}
+        onScrollBeginDrag={() => tabBarRef.current?.hide()}
+        onScrollEndDrag={() => tabBarRef.current?.show()}
+        onMomentumScrollEnd={() => tabBarRef.current?.show()}
       >
-        <View className="items-left justify-left gap-6">
+        <View className="items-left justify-left gap-5">
           <View className="w-full flex-col gap-2">
             <Typography
               type="h2"
@@ -53,14 +37,16 @@ export default function Home() {
               className="text-[#003247] font-poppins-regular"
               text="O que você está com vontade de comer hoje?"
             />
-            <Chips />
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              <Chips />
+            </ScrollView>
             <Location />
           </View>
           <Carousel />
           <MapPreview />
         </View>
       </ScrollView>
-      <TabBar translateY={tabBarTranslateY} />
+      <TabBar ref={tabBarRef} />
     </View>
   );
 }

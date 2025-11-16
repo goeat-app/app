@@ -7,7 +7,7 @@ import { restaurantsMocks } from '@/lib/mocks/restaurants-mock';
 
 export const useRecomendationsModel = () => {
   const [searchValue, setSearchValue] = useState('');
-  const [favoriteList, setFavoriteList] = useState<number[]>([]);
+  const [favoriteList, setFavoriteList] = useState<number[]>([1, 3, 5]);
   const router = useRouter();
 
   const scaleAnims = useRef<Record<number, Animated.Value>>(

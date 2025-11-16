@@ -1,4 +1,4 @@
-export const restaurantsCarousel = [
+export const restaurantsMocks = [
   {
     id: 1,
     name: 'GIUGIU',
@@ -6,6 +6,8 @@ export const restaurantsCarousel = [
     rating: 5.0,
     price: 3,
     distance: '1.2 km',
+    description: 'Comemorações, animado, divertido.',
+    location: '2.1 km - Jardim Horta, Campinas',
   },
   {
     id: 2,
@@ -14,6 +16,8 @@ export const restaurantsCarousel = [
     rating: 4.2,
     price: 2,
     distance: '5.2 km',
+    description: 'Comemorações, animado, divertido.',
+    location: '2.1 km - Jardim Horta, Campinas',
   },
   {
     id: 3,
@@ -22,6 +26,8 @@ export const restaurantsCarousel = [
     rating: 4.8,
     price: 3,
     distance: '3.2 km',
+    description: 'Comemorações, animado, divertido.',
+    location: '2.1 km - Jardim Horta, Campinas',
   },
   {
     id: 4,
@@ -30,6 +36,8 @@ export const restaurantsCarousel = [
     rating: 4.9,
     price: 4,
     distance: '4.1 km',
+    description: 'Comemorações, animado, divertido.',
+    location: '2.1 km - Jardim Horta, Campinas',
   },
   {
     id: 5,
@@ -38,5 +46,7 @@ export const restaurantsCarousel = [
     rating: 4.4,
     price: 2,
     distance: '3.6 km',
+    description: 'Comemorações, animado, divertido.',
+    location: '2.1 km - Jardim Horta, Campinas',
   },
 ];

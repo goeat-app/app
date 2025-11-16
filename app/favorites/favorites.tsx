@@ -1,22 +1,19 @@
 import { useRef } from 'react';
-import { View, StatusBar, FlatList, ScrollView } from 'react-native';
+import { FlatList, StatusBar, View } from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
-import { FilterIcon } from '@/assets/icons/filter-icon';
 import { Button } from '@/components/button';
-import { Chips } from '@/components/chips/chips';
 import { Header } from '@/components/header/header';
 import { Input } from '@/components/input';
 import { RestaurantCard } from '@/components/recomendationCard/recomendationCard';
 import { TabBar, TabBarRef } from '@/components/tabBar/tabBar';
-import { Typography } from '@/components/typography/typography';
 import { restaurantsMocks } from '@/lib/mocks/restaurants-mock';
 
-import { useRecomendationsModel } from './recomendations.model';
+import { useRecomendationsModel } from './favorites.model';
 
-export default function Recomendations() {
+export default function Favorites() {
   const {
     favoriteList,
     setSearchValue,
@@ -31,13 +28,15 @@ export default function Recomendations() {
     // router.push(`/restaurant/${itemId}`);
   };
 
+  const favoritedRestaurants = restaurantsMocks.filter(restaurant =>
+    favoriteList.includes(restaurant.id),
+  );
+
   const tabBarRef = useRef<TabBarRef>(null);
 
   return (
     <View className="flex-1 bg-[#FDF6F5]">
-      <View className="px-4">
-        <Header />
-      </View>
+      <Header />
       <StatusBar barStyle="dark-content" backgroundColor="#FDF6F5" />
       <View className="flex-row items-center justify-between px-4 bg-[#FDF6F5]">
         <Button onPress={() => router.back()} className="p-2">
@@ -70,32 +69,9 @@ export default function Recomendations() {
           </Input.Field>
         </Input.Root>
       </View>
-
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{
-          paddingHorizontal: 14,
-          paddingVertical: 14,
-          alignItems: 'center',
-          gap: 8,
-        }}
-        style={{ flexGrow: 0 }}
-      >
-        <Button className="flex flex-row gap-2 w-[80px] h-[25px] bg-[#FF6B35] rounded-tl-xs rounded-tr-md rounded-bl-md rounded-br-xs items-center justify-center">
-          <FilterIcon />
-          <Typography
-            text="Filtrar"
-            type="span"
-            className="font-poppins-medium text-white"
-          />
-        </Button>
-        <Chips />
-      </ScrollView>
-
       <View className="flex-1 items-center ">
         <FlatList
-          data={restaurantsMocks}
+          data={favoritedRestaurants}
           keyExtractor={item => item.id.toString()}
           onScrollBeginDrag={() => tabBarRef.current?.hide()}
           onScrollEndDrag={() => tabBarRef.current?.show()}
