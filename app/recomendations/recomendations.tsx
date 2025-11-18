@@ -10,11 +10,12 @@ import { Chips } from '@/components/chips/chips';
 import { Header } from '@/components/header/header';
 import { Input } from '@/components/input';
 import { RestaurantCard } from '@/components/recomendationCard/recomendationCard';
-import { TabBar, TabBarRef } from '@/components/tabBar/tabBar';
+import { TabBar } from '@/components/tabBar/tabBar';
 import { Typography } from '@/components/typography/typography';
 import { restaurantsMocks } from '@/lib/mocks/restaurants-mock';
 
 import { useRecomendationsModel } from './recomendations.model';
+import { TabBarRef } from '@/components/tabBar/tabBar.model';
 
 export default function Recomendations() {
   const {
