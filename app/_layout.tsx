@@ -96,6 +96,18 @@ export default function Layout() {
                 headerShown: false,
               }}
             />
+            <Stack.Screen
+              name="profile-page/profile-page"
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="edit-profile/edit-profile"
+              options={{
+                headerShown: false,
+              }}
+            />
           </Stack>
         </KeyboardAvoidingView>
       </SafeAreaView>

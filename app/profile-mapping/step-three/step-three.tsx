@@ -1,13 +1,16 @@
-import { Typography } from '@/components/typography/typography';
+import React from 'react';
 import { Keyboard, TouchableWithoutFeedback, View } from 'react-native';
 import { Text } from 'react-native';
-import MultiSlider from '@ptomasroos/react-native-multi-slider';
-import { Input } from '@/components/input';
-import { Button } from '@/components/button';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { useStepThreeModel } from './step-three.model';
-import React from 'react';
+
+import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import { router } from 'expo-router';
+
+import { Button } from '@/components/button';
+import { Input } from '@/components/input';
+import { Typography } from '@/components/typography/typography';
+
+import { useStepThreeModel } from './step-three.model';
 
 export default function StepThree() {
   const {

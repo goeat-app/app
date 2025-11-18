@@ -1,19 +1,15 @@
-import { forwardRef, useRef, useImperativeHandle } from 'react';
+import { forwardRef } from 'react';
 import { Animated, View } from 'react-native';
 
-import { router, usePathname } from 'expo-router';
+import { usePathname } from 'expo-router';
 
 import { FavoriteIcon } from '@/assets/icons/favorites-icon';
 import { HomeIcon } from '@/assets/icons/home-icon';
 import { RestaurantsIcon } from '@/assets/icons/restaurants-icon';
 import { UserIcon } from '@/assets/icons/user-icon';
 
+import { TabBarRef, useTabBarModel } from './tabBar.model';
 import { TabItem } from './tabItem';
-
-export interface TabBarRef {
-  hide: () => void;
-  show: () => void;
-}
 
 type TabBarProps = {
   hideValue?: number;
@@ -21,32 +17,15 @@ type TabBarProps = {
 
 export const TabBar = forwardRef<TabBarRef, TabBarProps>(
   ({ hideValue = 150 }, ref) => {
-    const translateY = useRef(new Animated.Value(0)).current;
+    const {
+      translateY,
+      navigateHome,
+      navigateFavorites,
+      navigateRestaurants,
+      navigateProfile,
+    } = useTabBarModel({ hideValue, ref });
+
     const pathname = usePathname();
-
-    const navigateHome = () => router.replace('/home/home');
-    const navigateFavorites = () => router.replace('/favorites/favorites');
-    const navigateRestaurants = () =>
-      router.replace('/recomendations/recomendations');
-    const navigateProfile = () => router.replace('/home/home');
-
-    useImperativeHandle(ref, () => ({
-      hide: () => {
-        Animated.timing(translateY, {
-          toValue: hideValue,
-          duration: 250,
-          useNativeDriver: true,
-        }).start();
-      },
-      show: () => {
-        Animated.timing(translateY, {
-          toValue: 0,
-          duration: 250,
-          useNativeDriver: true,
-        }).start();
-      },
-    }));
-
     return (
       <Animated.View
         className="absolute bottom-4 left-4 right-4"
@@ -78,7 +57,7 @@ export const TabBar = forwardRef<TabBarRef, TabBarProps>(
             label="Profile"
             icon={<UserIcon width={24} height={24} />}
             onPress={navigateProfile}
-            isActive={pathname === '/profile/profile'}
+            isActive={pathname === '/profile-page/profile-page'}
           />
         </View>
       </Animated.View>
