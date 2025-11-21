@@ -15,7 +15,14 @@ const ContentRight = ({ children, className }: ContentProps) => {
   );
 };
 
-const Field = ({ className, children, ...props }: FieldProps) => {
+const Field = ({
+  className,
+  children,
+  value,
+  onChangeText,
+  onBlur,
+  ...props
+}: FieldProps) => {
   const childrenArray = React.Children.toArray(children);
 
   const leftContent = childrenArray.find(
@@ -40,6 +47,9 @@ const Field = ({ className, children, ...props }: FieldProps) => {
           'flex-1 w-full h-full text-[#828282] font-poppins-medium outline-none',
         )}
         placeholderTextColor="#AAAAAA"
+        value={value}
+        onChangeText={onChangeText}
+        onBlur={onBlur}
         {...props}
       />
 

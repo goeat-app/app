@@ -8,7 +8,7 @@ import { PhoneIcon } from '@/assets/icons/phone-icon';
 import { PlacesVisitedIcon } from '@/assets/icons/places-icon';
 import { SettingsIcon } from '@/assets/icons/settings-icon';
 import { StarFeedbackIcon } from '@/assets/icons/star-feedback-icon';
-import { ProfileMenuItem } from '@/components/profileMenuItem/profileMenuItem';
+import { ProfileMenuItem } from '@/components/profile-menu-item/profile-menu-item';
 import { Typography } from '@/components/typography/typography';
 
 import { useProfilePageModel } from './profile-page.model';

@@ -5,9 +5,10 @@ import { Carousel } from '@/components/carousel/carousel';
 import { Chips } from '@/components/chips/chips';
 import { Header } from '@/components/header/header';
 import { Location } from '@/components/location/location';
-import { MapPreview } from '@/components/mapPreview/mapPreview';
-import { TabBar, TabBarRef } from '@/components/tabBar/tabBar';
+import { MapPreview } from '@/components/map-preview/map-preview';
+import { TabBar } from '@/components/tabBar/tabBar';
 import { Typography } from '@/components/typography/typography';
+import { TabBarRef } from '@/components/tabBar/tabBar.model';
 
 export default function Home() {
   const tabBarRef = useRef<TabBarRef>(null);

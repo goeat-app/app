@@ -7,6 +7,7 @@ type RootProps = ViewProps & {
 
 type FieldProps = TextInputProps & {
   children?: React.ReactNode;
+  onChangeText?: (text: string) => void;
 };
 
 type IndicatorProps = RootProps;
