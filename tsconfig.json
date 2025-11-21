@@ -6,7 +6,10 @@
       "@/*": ["src/*"],
       "@/app/*": ["app/*"],
       "@/assets/*": ["assets/*"],
-      "@/lib/*": ["lib/*"]
+      "@/lib/*": ["lib/*"],
+      "@/components/*": ["src/components/*"],
+      "@/hooks/*": ["hooks/*"],
+      "@/store/*": ["store/*"]
     },
     "jsx": "react-jsx"
   },

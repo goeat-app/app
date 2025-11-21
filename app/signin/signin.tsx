@@ -150,7 +150,7 @@ export default function SignIn() {
 
                   <View>
                     <Button
-                      onPress={() => router.push('/signup/signup')}
+                      onPress={() => router.push('/signup/signup-view')}
                       className="flex items-center justify-center w-full h-[50px] bg-[#FF6B35] data-[pressed]:bg-[#e85a28]"
                     >
                       <Typography

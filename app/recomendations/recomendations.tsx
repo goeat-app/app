@@ -9,7 +9,7 @@ import { Button } from '@/components/button';
 import { Chips } from '@/components/chips/chips';
 import { Header } from '@/components/header/header';
 import { Input } from '@/components/input';
-import { RestaurantCard } from '@/components/recomendationCard/recomendationCard';
+import { RestaurantCard } from '@/components/recomendation-card/recomendation-card';
 import { TabBar } from '@/components/tabBar/tabBar';
 import { Typography } from '@/components/typography/typography';
 import { restaurantsMocks } from '@/lib/mocks/restaurants-mock';

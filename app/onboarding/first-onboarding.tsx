@@ -146,10 +146,6 @@ export default function OnBoardingCarousel() {
               />
             ))}
           </View>
-
-          <Pressable onPress={handleNext}>
-            <Feather name="arrow-right" size={24} color="#FF6B35" />
-          </Pressable>
         </View>
       </View>
     </View>

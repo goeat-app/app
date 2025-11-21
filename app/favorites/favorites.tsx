@@ -7,7 +7,7 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { Button } from '@/components/button';
 import { Header } from '@/components/header/header';
 import { Input } from '@/components/input';
-import { RestaurantCard } from '@/components/recomendationCard/recomendationCard';
+import { RestaurantCard } from '@/components/recomendation-card/recomendation-card';
 import { TabBar, TabBarRef } from '@/components/tabBar/tabBar';
 import { restaurantsMocks } from '@/lib/mocks/restaurants-mock';
 

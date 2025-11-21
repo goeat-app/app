@@ -19,6 +19,8 @@ import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 
 import { useMemo } from 'react';
+import Loading from '@/components/loading/loading';
+import Toast from 'react-native-toast-message';
 
 export default function Layout() {
   const [loaded] = useFonts({
@@ -75,7 +77,12 @@ export default function Layout() {
 
             <Stack.Screen name="signin/signin" />
             <Stack.Screen name="signup/signup" />
-            <Stack.Screen name="profile-mapping/step-one/step-one" />
+            <Stack.Screen
+              name="profile-mapping/step-one/step-one"
+              options={{
+                headerShown: false,
+              }}
+            />
             <Stack.Screen name="profile-mapping/step-two/step-two" />
             <Stack.Screen name="profile-mapping/step-three/step-three" />
             <Stack.Screen
@@ -115,6 +122,9 @@ export default function Layout() {
               }}
             />
           </Stack>
+
+          <Loading />
+          <Toast />
         </KeyboardAvoidingView>
       </SafeAreaView>
     </SafeAreaProvider>
