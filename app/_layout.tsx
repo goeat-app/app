@@ -1,8 +1,10 @@
 import {
+  ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
   Text,
   TouchableOpacity,
+  View,
 } from 'react-native';
 
 import {
@@ -11,23 +13,56 @@ import {
   Poppins_500Medium,
   Poppins_600SemiBold,
 } from '@expo-google-fonts/poppins';
-import { router, Stack } from 'expo-router';
+import { router, Stack, usePathname } from 'expo-router';
 
 import '../global.css';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 import { Ionicons } from '@expo/vector-icons';
 
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Loading from '@/components/loading/loading';
 import Toast from 'react-native-toast-message';
+import { useAuthStore } from '@/store/auth-store';
+
+const PROTECTED_ROUTES = [
+  '/recomendations/recomendations',
+  '/home/home',
+  '/favorites/favorites',
+  '/profile-page/profile-page',
+  '/edit-profile/edit-profile',
+  '/place-details/place-details',
+];
 
 export default function Layout() {
-  const [loaded] = useFonts({
+  const [fontsLoaded] = useFonts({
     PoppinsRegular: Poppins_400Regular,
     PoppinsMedium: Poppins_500Medium,
     PoppinsSemiBold: Poppins_600SemiBold,
   });
+
+  const [isReady, setIsReady] = useState(false);
+  const pathname = usePathname();
+  const isAuthenticated = useAuthStore(state => state.isAuthenticated);
+  const loadTokens = useAuthStore(state => state.loadTokensFromStorage);
+
+  useEffect(() => {
+    loadTokens().finally(() => setIsReady(true));
+  }, []);
+
+  useEffect(() => {
+    if (!isReady) return;
+
+    const isProtectedRoute = PROTECTED_ROUTES.includes(pathname);
+
+    if (!isAuthenticated && isProtectedRoute) {
+      router.replace('/signin/signin-view');
+    }
+
+    if (isAuthenticated && pathname === '/signin/signin-view') {
+      router.replace('/home/home');
+    }
+  }, [isAuthenticated, pathname, isReady]);
 
   const screenOptions = useMemo(
     () => ({
@@ -53,8 +88,13 @@ export default function Layout() {
     [],
   );
 
-  if (!loaded) {
-    return <Text>Loading..</Text>;
+  if (!fontsLoaded || !isReady) {
+    return (
+      <View className="flex-1 items-center justify-center bg-[#FDF6F5]">
+        <ActivityIndicator size="large" color="#FF7947" />
+        <Text className="mt-4 text-[#FF7947] text-base">Carregando...</Text>
+      </View>
+    );
   }
 
   return (

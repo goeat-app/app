@@ -3,9 +3,9 @@ import { FormDataRegister } from './signup.types';
 import { router } from 'expo-router';
 import { cleanPhoneMask } from '@/lib/utils/format-phone-mask';
 import { loadingWrapper } from '@/hooks/loading-wrapper';
-import { registerUserUseCase } from 'use-cases/register.use-case';
 import { useState } from 'react';
 import { toast } from '@/components/toast/toast';
+import { registerUserUseCase } from 'use-cases/register/register.use-case';
 
 export default function useSignUpModel() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
