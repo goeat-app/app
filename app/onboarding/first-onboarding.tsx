@@ -9,7 +9,6 @@ import {
   useWindowDimensions,
 } from 'react-native';
 import { useState, useRef } from 'react';
-import { Feather } from '@expo/vector-icons';
 
 export default function OnBoardingCarousel() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -71,13 +70,13 @@ export default function OnBoardingCarousel() {
   }
 
   const handleSkip = () => {
-    router.push('/signin/signin');
+    router.push('/signin/signin-view');
   };
 
   const handleNext = () => {
     const nextIndex = activeIndex + 1;
     if (nextIndex >= onboardingSteps.length) {
-      router.push('/signin/signin');
+      router.push('/signin/signin-view');
     } else {
       FlatListRef.current?.scrollToIndex({ index: nextIndex, animated: true });
     }

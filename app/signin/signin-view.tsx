@@ -15,31 +15,19 @@ import { OpenEyeIcon } from 'assets/icons/open-eye-icon';
 import { ClosedEyeIcon } from 'assets/icons/closed-eye-icon';
 import { Button } from '@/components/button';
 
-import { Controller, useForm } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 import { router } from 'expo-router';
 import { Typography } from '@/components/typography/typography';
-
-interface FormDataLogin {
-  email: string;
-  password: string;
-}
+import useSignInModel from './signin.model';
 
 export default function SignIn() {
   const {
     control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormDataLogin>({ mode: 'onChange' });
-
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-
-  const togglePasswordVisibility = () => {
-    setIsPasswordVisible(!isPasswordVisible);
-  };
-
-  const onSubmit = (data: FormDataLogin) => {
-    console.log('data = ', data);
-  };
+    onSubmit,
+    isPasswordVisible,
+    togglePasswordVisibility,
+    errors,
+  } = useSignInModel();
 
   return (
     <View className="flex-1 bg-[#FDF6F5]">
@@ -90,6 +78,14 @@ export default function SignIn() {
                             <EmailIcon />
                           </Input.ContentLeft>
                         </Input.Field>
+
+                        {errors.email && (
+                          <Typography
+                            type="span"
+                            className="text-[#FF6B35] font-poppins-semi-bold ml-1"
+                            text={errors.email.message}
+                          />
+                        )}
                       </Input.Root>
                     )}
                   />
@@ -123,6 +119,14 @@ export default function SignIn() {
                             </TouchableOpacity>
                           </Input.ContentRight>
                         </Input.Field>
+
+                        {errors.password && (
+                          <Typography
+                            type="span"
+                            className="text-[#FF6B35] font-poppins-semi-bold ml-1"
+                            text={errors.password.message}
+                          />
+                        )}
                       </Input.Root>
                     )}
                   />
@@ -137,7 +141,7 @@ export default function SignIn() {
 
                   <View>
                     <Button
-                      onPress={handleSubmit(onSubmit)}
+                      onPress={onSubmit}
                       className="flex items-center justify-center w-full h-[50px] bg-[#FF6B35] data-[pressed]:bg-[#e85a28]"
                     >
                       <Typography

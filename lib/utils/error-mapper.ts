@@ -1,6 +1,10 @@
 export const ERROR_MESSAGES: Record<string, string> = {
   'User already exists': 'Usuário já existe. Tente fazer login.',
   'Network Error': 'Erro de conexão. Verifique sua internet e tente novamente.',
+  'Invalid credentials': 'Email ou senha incorretos.',
+  'User not found': 'Usuário não encontrado.',
+  'Too many attempts':
+    'Muitas tentativas de login. Tente novamente em alguns minutos.',
 };
 
 export const getErrorByStatusCode = (status?: number): string => {
