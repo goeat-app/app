@@ -4,7 +4,6 @@ import { Text } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
-import { router } from 'expo-router';
 
 import { Button } from '@/components/button';
 import { Input } from '@/components/input';
@@ -21,6 +20,7 @@ export default function StepThree() {
     maxInput,
     handleChangePrice,
     handleBlur,
+    createProfile,
   } = useStepThreeModel();
 
   return (
@@ -83,7 +83,7 @@ export default function StepThree() {
                 <View style={{ alignItems: 'center' }}>
                   <View className="flex items-center justify-center bg-[#FF7A00] w-12 h-10 rounded-md">
                     <Text className="text-white font-bold text-xs">
-                      {formatCurrency(e.currentValue.toString())}
+                      {formatCurrency(e.currentValue)}
                     </Text>
                   </View>
 
@@ -110,7 +110,9 @@ export default function StepThree() {
               <Input.Root>
                 <Input.Field
                   value={formatCurrency(minInput)}
-                  onChangeText={value => handleChangePrice(value, 'min')}
+                  onChangeText={value =>
+                    handleChangePrice(parseInt(value, 10), 'min')
+                  }
                   onBlur={() => handleBlur('min')}
                   keyboardType="numeric"
                   className="w-[90px] h-[45px] border border-[#8B8B8B] bg-transparent"
@@ -120,7 +122,9 @@ export default function StepThree() {
 
               <Input.Root>
                 <Input.Field
-                  onChangeText={value => handleChangePrice(value, 'max')}
+                  onChangeText={value =>
+                    handleChangePrice(parseInt(value, 10), 'max')
+                  }
                   onBlur={() => handleBlur('max')}
                   value={formatCurrency(maxInput)}
                   keyboardType="numeric"
@@ -133,7 +137,7 @@ export default function StepThree() {
 
           <View className="w-full">
             <Button
-              onPress={() => router.push('/home/home')}
+              onPress={createProfile}
               className="flex items-center justify-center  h-[50px] bg-[#FF6B35] data-[pressed]:bg-[#e85a28]"
             >
               <Typography

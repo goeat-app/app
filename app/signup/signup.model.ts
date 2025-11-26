@@ -1,11 +1,14 @@
-import { useForm } from 'react-hook-form';
-import { FormDataRegister } from './signup.types';
-import { router } from 'expo-router';
-import { cleanPhoneMask } from '@/lib/utils/format-phone-mask';
-import { loadingWrapper } from '@/hooks/loading-wrapper';
 import { useState } from 'react';
-import { toast } from '@/components/toast/toast';
+import { useForm } from 'react-hook-form';
+
+import { router } from 'expo-router';
 import { registerUserUseCase } from 'use-cases/register/register.use-case';
+
+import { toast } from '@/components/toast/toast';
+import { loadingWrapper } from '@/hooks/loading-wrapper';
+import { cleanPhoneMask } from '@/lib/utils/format-phone-mask';
+
+import { FormDataRegister } from './signup.types';
 
 export default function useSignUpModel() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -26,7 +29,7 @@ export default function useSignUpModel() {
 
     if (result.success) {
       toast({ type: 'success', text1: 'Usuário registrado com sucesso!' });
-      router.replace('/profile-mapping/step-one/step-one');
+      router.replace('/profile-mapping/step-one/step-one-view');
     } else {
       toast({ type: 'error', text1: result.error });
     }

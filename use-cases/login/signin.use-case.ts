@@ -1,10 +1,11 @@
-import { FormDataRegister } from '@/app/signup/signup.types';
-import { authService } from 'services/auth-service';
 import { AxiosError } from 'axios';
-import { ERROR_MESSAGES } from '@/lib/utils/error-mapper';
+import { authService } from 'services/auth-service';
+
 import { FormDataLogin } from '@/app/signin/signin.types';
-import { LoginResult } from './sigin.types';
+import { ERROR_MESSAGES } from '@/lib/utils/error-mapper';
 import { useAuthStore } from '@/store/auth-store';
+
+import { LoginResult } from './signin.types';
 
 export async function signInUseCase(
   payload: FormDataLogin,

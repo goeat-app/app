@@ -1,74 +1,65 @@
 import { useState } from 'react';
 
+import { router } from 'expo-router';
+import { createProfileMapping } from 'use-cases/profile-mapping/profile-mapping.use-case';
+
+import { loadingWrapper } from '@/hooks/loading-wrapper';
+
 export const useStepThreeModel = () => {
   const [range, setRange] = useState([20, 300]);
-  const [minInput, setMinInput] = useState('20');
-  const [maxInput, setMaxInput] = useState('300');
+  const [minInput, setMinInput] = useState<number>(20);
+  const [maxInput, setMaxInput] = useState<number>(300);
 
-  const handleChangePrice = (value: string, type: 'min' | 'max') => {
-    const cleanValue = value.replace(/\D/g, '');
-
+  const handleChangePrice = (value: number, type: 'min' | 'max') => {
     if (type === 'min') {
-      setMinInput(cleanValue);
-      const numericValue = parseInt(cleanValue, 10);
+      setMinInput(value);
 
-      if (
-        !isNaN(numericValue) &&
-        numericValue >= 20 &&
-        numericValue <= range[1]
-      ) {
-        const roundedValue = Math.round(numericValue / 10) * 10;
+      if (!isNaN(value) && value >= 20 && value <= range[1]) {
+        const roundedValue = Math.round(value / 10) * 10;
         setRange([roundedValue, range[1]]);
-      } else if (cleanValue === '') {
+      } else {
         setRange([20, range[1]]);
       }
     } else {
-      setMaxInput(cleanValue);
-      const numericValue = parseInt(cleanValue, 10);
+      setMaxInput(value);
 
-      if (
-        !isNaN(numericValue) &&
-        numericValue <= 300 &&
-        numericValue >= range[0]
-      ) {
-        const roundedValue = Math.round(numericValue / 10) * 10;
+      if (!isNaN(value) && value <= 300 && value >= range[0]) {
+        const roundedValue = Math.round(value / 10) * 10;
         setRange([range[0], roundedValue]);
-      } else if (cleanValue === '') {
+      } else {
         setRange([range[0], 300]);
       }
     }
   };
 
-  const formatCurrency = (value: string) => {
+  const formatCurrency = (value: number) => {
     if (!value) return '';
     return `R$ ${value}`;
   };
 
   const handleBlur = (type: 'min' | 'max') => {
     if (type === 'min') {
-      const numericValue = parseInt(minInput, 10);
-      if (isNaN(numericValue) || numericValue < 20) {
-        setMinInput('20');
+      if (isNaN(minInput) || minInput < 20) {
+        setMinInput(20);
         setRange([20, range[1]]);
-      } else if (numericValue > range[1]) {
-        setMinInput(range[1].toString());
+      } else if (minInput > range[1]) {
+        setMinInput(range[1]);
         setRange([range[1], range[1]]);
       } else {
-        const roundedValue = Math.round(numericValue / 10) * 10;
-        setMinInput(roundedValue.toString());
+        const roundedValue = Math.round(minInput / 10) * 10;
+        setMinInput(roundedValue);
         setRange([roundedValue, range[1]]);
       }
     } else {
-      const numericValue = parseInt(maxInput, 10);
-      if (isNaN(numericValue) || numericValue > 300) {
-        setMaxInput('300');
+      if (isNaN(maxInput) || maxInput > 300) {
+        setMaxInput(300);
         setRange([range[0], 300]);
-      } else if (numericValue < range[0]) {
-        setMaxInput(range[0].toString());
+      } else if (maxInput < range[0]) {
+        setMaxInput(maxInput[0]);
         setRange([range[0], range[0]]);
       } else {
-        const roundedValue = Math.round(numericValue / 10) * 10;
-        setMaxInput(roundedValue.toString());
+        const roundedValue = Math.round(maxInput / 10) * 10;
+        setMaxInput(roundedValue);
         setRange([range[0], roundedValue]);
       }
     }
@@ -76,8 +67,23 @@ export const useStepThreeModel = () => {
 
   const handleSliderChange = (values: number[]) => {
     setRange(values);
-    setMinInput(values[0].toString());
-    setMaxInput(values[1].toString());
+    setMinInput(values[0]);
+    setMaxInput(values[1]);
+  };
+
+  const createProfile = async () => {
+    const priceRange = {
+      minValue: minInput,
+      maxValue: maxInput,
+    };
+
+    const result = await loadingWrapper(() => createProfileMapping(priceRange));
+
+    console.log('result', result);
+
+    if (result.success) {
+      router.replace('/home/home');
+    }
   };
 
   return {
@@ -88,5 +94,6 @@ export const useStepThreeModel = () => {
     formatCurrency,
     handleBlur,
     handleSliderChange,
+    createProfile,
   };
 };

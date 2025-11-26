@@ -1,12 +1,23 @@
+import { Image, ScrollView, View } from 'react-native';
+
+import { router } from 'expo-router';
+import { twMerge } from 'lib/utils/twMerge';
+
 import { Button } from '@/components/button';
 import { Typography } from '@/components/typography/typography';
-import { twMerge } from 'lib/utils/twMerge';
-import { Image, ScrollView, View } from 'react-native';
+import { getImageSource } from '@/lib/utils/image-mapper';
+
 import { useStepOneModel } from './step-one.model';
-import { router } from 'expo-router';
 
 export default function StepOne() {
-  const { progress, selectedItem, handleSelect, foodItems } = useStepOneModel();
+  const {
+    progress,
+    selectedItem,
+    handleSelect,
+    foodCategories,
+    isMaxSelected,
+    setSelectedFoodCategories,
+  } = useStepOneModel();
 
   return (
     <View className="flex flex-col w-full h-full items-center justify-between p-8 bg-[#FDF6F5]">
@@ -46,31 +57,41 @@ export default function StepOne() {
         </View>
 
         <View className="flex-row flex-wrap gap-2 justify-center">
-          {foodItems?.map(item => (
-            <Button
-              key={item.id}
-              className={twMerge(
-                'flex flex-col items-center justify-center w-[30%] h-[100px]',
-                selectedItem.includes(item.id) ? 'bg-[#FBDD9C]' : '',
-              )}
-              onPress={() => handleSelect(item.id)}
-            >
-              <Image
-                className="w-[85%]"
-                resizeMode="contain"
-                source={item.image}
-              />
-              <Typography
-                className="text-[#00141C] font-poppins-medium"
-                type="small"
-                text={item.label}
-              />
-            </Button>
-          ))}
+          {foodCategories?.map(item => {
+            const isSelected = selectedItem.includes(item.id);
+            const isDisabled = isMaxSelected && !isSelected;
+
+            return (
+              <Button
+                key={item.id}
+                className={twMerge(
+                  'flex flex-col items-center justify-center w-[30%] h-[100px]',
+                  isSelected ? 'bg-[#FBDD9C]' : '',
+                  isDisabled ? 'opacity-50' : '',
+                )}
+                onPress={() => handleSelect(item.id)}
+                disabled={isDisabled}
+              >
+                <Image
+                  className="w-[85%]"
+                  resizeMode="contain"
+                  source={getImageSource(item.tagImage)}
+                />
+                <Typography
+                  className="text-[#00141C] font-poppins-medium"
+                  type="small"
+                  text={item.name}
+                />
+              </Button>
+            );
+          })}
         </View>
 
         <Button
-          onPress={() => router.push('/profile-mapping/step-two/step-two')}
+          onPress={() => {
+            setSelectedFoodCategories(selectedItem);
+            router.push('/profile-mapping/step-two/step-two-view');
+          }}
           className="flex items-center justify-center w-full h-[50px] bg-[#FF6B35] data-[pressed]:bg-[#e85a28]"
         >
           <Typography
