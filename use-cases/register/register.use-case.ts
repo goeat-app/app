@@ -18,7 +18,6 @@ export async function registerUserUseCase(
     });
 
     const userResponse = await authService.getMe();
-    console.log('userResponse', userResponse);
     useAuthStore.getState().setUser(userResponse);
 
     return {

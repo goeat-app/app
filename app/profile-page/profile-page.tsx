@@ -1,4 +1,4 @@
-import { View, Image, Pressable, TouchableOpacity } from 'react-native';
+import { View, Image, TouchableOpacity } from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
@@ -8,6 +8,7 @@ import { PhoneIcon } from '@/assets/icons/phone-icon';
 import { PlacesVisitedIcon } from '@/assets/icons/places-icon';
 import { SettingsIcon } from '@/assets/icons/settings-icon';
 import { StarFeedbackIcon } from '@/assets/icons/star-feedback-icon';
+import { Button } from '@/components/button';
 import { ProfileMenuItem } from '@/components/profile-menu-item/profile-menu-item';
 import { Typography } from '@/components/typography/typography';
 
@@ -22,6 +23,7 @@ export default function ProfilePage() {
     navigatePlaces,
     navigateFeedback,
     navigateFaq,
+    logout,
   } = useProfilePageModel();
 
   return (
@@ -92,14 +94,17 @@ export default function ProfilePage() {
               />
             </View>
             <View className="flex-[2]" />
-            <Pressable className="flex-row items-center justify-center gap-2">
+            <Button
+              onPress={logout}
+              className="flex-row items-center justify-center gap-2"
+            >
               <Typography
                 type="h3"
                 className="text-[#E62121] font-poppins-semi-bold"
                 text="Sair"
               />
               <ExitIcon color="#E62121" width={24} height={24} />
-            </Pressable>
+            </Button>
             <View className="h-4" />
           </View>
         </View>

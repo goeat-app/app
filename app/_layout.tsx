@@ -25,7 +25,7 @@ import Loading from '@/components/loading/loading';
 import { useAuthStore } from '@/store/auth-store';
 
 const PROTECTED_ROUTES = [
-  '/recomendations/recomendations',
+  '/recomendations/recomendations-view',
   '/home/home',
   '/favorites/favorites',
   '/profile-page/profile-page',
@@ -134,7 +134,7 @@ export default function Layout() {
             <Stack.Screen name="profile-mapping/step-two/step-two" />
             <Stack.Screen name="profile-mapping/step-three/step-three" />
             <Stack.Screen
-              name="recomendations/recomendations"
+              name="recomendations/recomendations-view"
               options={{
                 headerShown: false,
               }}

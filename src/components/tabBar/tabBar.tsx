@@ -51,7 +51,7 @@ export const TabBar = forwardRef<TabBarRef, TabBarProps>(
             label="Restaurants"
             icon={<RestaurantsIcon width={24} height={24} />}
             onPress={navigateRestaurants}
-            isActive={pathname === '/recomendations/recomendations'}
+            isActive={pathname === '/recomendations/recomendations-view'}
           />
           <TabItem
             label="Profile"

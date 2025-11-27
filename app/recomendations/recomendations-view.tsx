@@ -12,7 +12,6 @@ import { Input } from '@/components/input';
 import { RestaurantCard } from '@/components/recomendation-card/recomendation-card';
 import { TabBar } from '@/components/tabBar/tabBar';
 import { Typography } from '@/components/typography/typography';
-import { restaurantsMocks } from '@/lib/mocks/restaurants-mock';
 
 import { useRecomendationsModel } from './recomendations.model';
 import { TabBarRef } from '@/components/tabBar/tabBar.model';
@@ -26,9 +25,10 @@ export default function Recomendations() {
     router,
     handleClearSearch,
     handleFavorite,
+    restaurants,
   } = useRecomendationsModel();
 
-  const handleViewDetails = (itemId: number) => {
+  const handleViewDetails = (itemId: string) => {
     // router.push(`/restaurant/${itemId}`);
   };
 
@@ -96,13 +96,14 @@ export default function Recomendations() {
 
       <View className="flex-1 items-center ">
         <FlatList
-          data={restaurantsMocks}
-          keyExtractor={item => item.id.toString()}
+          data={restaurants}
+          keyExtractor={item => item.id}
           onScrollBeginDrag={() => tabBarRef.current?.hide()}
           onScrollEndDrag={() => tabBarRef.current?.show()}
           onMomentumScrollEnd={() => tabBarRef.current?.show()}
           renderItem={({ item }) => (
             <RestaurantCard
+              key={item.id}
               item={item}
               isFavorite={favoriteList.includes(item.id)}
               scaleAnim={scaleAnims[item.id]}
