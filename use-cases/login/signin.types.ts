@@ -3,11 +3,6 @@ export interface LoginResult {
   data?: {
     accessToken: string;
     refreshToken: string;
-    user?: {
-      id: string;
-      name: string;
-      email: string;
-    };
   };
   error?: string;
 }

@@ -1,5 +1,8 @@
 export type RegisterUserResult = {
   success: boolean;
-  data?: string;
+  data?: {
+    accessToken: string;
+    refreshToken: string;
+  };
   error?: string;
 };

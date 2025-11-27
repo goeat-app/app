@@ -1,8 +1,10 @@
-import { FormDataRegister } from '@/app/signup/signup.types';
 import { authService } from 'services/auth-service';
+
+import { FormDataRegister } from '@/app/signup/signup.types';
+import { handleError } from '@/lib/utils/error-mapper';
+import { useAuthStore } from '@/store/auth-store';
+
 import { RegisterUserResult } from './register.types';
-import { AxiosError } from 'axios';
-import { ERROR_MESSAGES } from '@/lib/utils/error-mapper';
 
 export async function registerUserUseCase(
   payload: FormDataRegister,
@@ -10,29 +12,23 @@ export async function registerUserUseCase(
   try {
     const response = await authService.register(payload);
 
+    await useAuthStore.getState().setTokens({
+      access: response.data.accessToken,
+      refresh: response.data.refreshToken,
+    });
+
+    const userResponse = await authService.getMe();
+    console.log('userResponse', userResponse);
+    useAuthStore.getState().setUser(userResponse);
+
     return {
       success: true,
       data: response.data,
     };
   } catch (error) {
-    const axiosError = error as AxiosError<{
-      message?: string;
-      error?: string;
-    }>;
-
-    const backendMessage =
-      axiosError.response?.data?.message || axiosError.response?.data?.error;
-
-    if (backendMessage && ERROR_MESSAGES[backendMessage]) {
-      return {
-        success: false,
-        error: ERROR_MESSAGES[backendMessage],
-      };
-    }
-
     return {
       success: false,
-      error: backendMessage || 'Erro ao cadastrar usuário. Tente novamente.',
+      error: handleError(error, 'Erro ao cadastrar usuário. Tente novamente.'),
     };
   }
 }

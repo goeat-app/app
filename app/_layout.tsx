@@ -1,3 +1,4 @@
+import { useEffect, useMemo } from 'react';
 import {
   ActivityIndicator,
   KeyboardAvoidingView,
@@ -6,6 +7,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import Toast from 'react-native-toast-message';
 
 import {
   useFonts,
@@ -13,16 +16,12 @@ import {
   Poppins_500Medium,
   Poppins_600SemiBold,
 } from '@expo-google-fonts/poppins';
+import { Ionicons } from '@expo/vector-icons';
 import { router, Stack, usePathname } from 'expo-router';
 
 import '../global.css';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
-import { Ionicons } from '@expo/vector-icons';
-
-import { useEffect, useMemo, useState } from 'react';
 import Loading from '@/components/loading/loading';
-import Toast from 'react-native-toast-message';
 import { useAuthStore } from '@/store/auth-store';
 
 const PROTECTED_ROUTES = [
@@ -32,6 +31,9 @@ const PROTECTED_ROUTES = [
   '/profile-page/profile-page',
   '/edit-profile/edit-profile',
   '/place-details/place-details',
+  'profile-mapping/step-one/step-one',
+  'profile-mapping/step-two/step-two',
+  'profile-mapping/step-three/step-three',
 ];
 
 export default function Layout() {
@@ -41,22 +43,28 @@ export default function Layout() {
     PoppinsSemiBold: Poppins_600SemiBold,
   });
 
-  const [isReady, setIsReady] = useState(false);
   const pathname = usePathname();
   const isAuthenticated = useAuthStore(state => state.isAuthenticated);
-  const loadTokens = useAuthStore(state => state.loadTokensFromStorage);
+  const isHydrated = useAuthStore(state => state._hasHydrated);
+  const isReady = fontsLoaded && isHydrated;
+
+  // const clearAuth = useAuthStore(state => state.clearAuth);
+
+  // useEffect(() => {
+  //   // Descomente para forçar logout na próxima recarga
+  //   clearAuth();
+  // }, []);
 
   useEffect(() => {
-    loadTokens().finally(() => setIsReady(true));
-  }, []);
-
-  useEffect(() => {
-    if (!isReady) return;
+    if (!isReady) {
+      return;
+    }
 
     const isProtectedRoute = PROTECTED_ROUTES.includes(pathname);
 
     if (!isAuthenticated && isProtectedRoute) {
       router.replace('/signin/signin-view');
+      return;
     }
 
     if (isAuthenticated && pathname === '/signin/signin-view') {
