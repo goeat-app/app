@@ -12,18 +12,11 @@ import { LocationIcon } from '@/assets/icons/location-icon';
 import { Button } from '@/components/button';
 import { MoneyIcon } from '@/components/money-icon/money-icon';
 import { Typography } from '@/components/typography/typography';
-
-type RestaurantItem = {
-  id: number;
-  name: string;
-  image: ImageSourcePropType;
-  price: number;
-  description: string;
-  location: string;
-};
+import { RecommendedRestaurant } from 'use-cases/recommender/recommender.types';
+import { getImageSource } from '@/lib/utils/image-mapper';
 
 type RestaurantCardProps = {
-  item: RestaurantItem;
+  item: RecommendedRestaurant;
   isFavorite: boolean;
   scaleAnim: Animated.Value;
   onFavoritePress: () => void;
@@ -43,7 +36,7 @@ export function RestaurantCard({
         <ImageBackground
           className="w-full h-full flex items-end p-2"
           resizeMode="cover"
-          source={item.image}
+          source={getImageSource(item.tagImage)}
           imageStyle={{ borderTopLeftRadius: 16, borderTopRightRadius: 16 }}
         >
           <View style={styles.bottomOverlay} pointerEvents="none" />
@@ -71,7 +64,7 @@ export function RestaurantCard({
             />
           </View>
           <View>
-            <MoneyIcon scale={item.price} />
+            <MoneyIcon scale={item.priceLevel} />
           </View>
 
           <Button
@@ -89,7 +82,7 @@ export function RestaurantCard({
           <View className="flex flex-row gap-2">
             <EnvironmentIcon width={24} height={24} />
             <Typography
-              text={item.description}
+              text={`${item.placeType} - ${item.foodType}`}
               type="span"
               className="text-[#5F6368] text-base"
             />
@@ -98,7 +91,7 @@ export function RestaurantCard({
             <LocationIcon width={10} height={13} />
             <View className="flex-1">
               <Typography
-                text={item.location}
+                text={`${item.address} - ${item.city}, ${item.state}`}
                 type="span"
                 className="text-[#5F6368] text-base"
               />
@@ -117,7 +110,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.12,
     shadowRadius: 8,
     elevation: 6,
-    // keep rounding consistent when using overflow-hidden on parent
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
   },

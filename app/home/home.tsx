@@ -9,12 +9,20 @@ import { MapPreview } from '@/components/map-preview/map-preview';
 import { TabBar } from '@/components/tabBar/tabBar';
 import { Typography } from '@/components/typography/typography';
 import { TabBarRef } from '@/components/tabBar/tabBar.model';
+import { useHomeModel } from './home.model';
 
 export default function Home() {
   const tabBarRef = useRef<TabBarRef>(null);
+  const { user, restaurants } = useHomeModel();
+  
+  if (!user) {
+    return null;
+  }
+  
+  const { name } = user;
 
   return (
-    <View className="flex-1 bg-[#FDF6F5]">
+    <View className="flex-1 bg-[#FDF6F5] gap-4">
       <View className="px-4">
         <Header />
       </View>
@@ -26,12 +34,12 @@ export default function Home() {
         onScrollEndDrag={() => tabBarRef.current?.show()}
         onMomentumScrollEnd={() => tabBarRef.current?.show()}
       >
-        <View className="items-left justify-left gap-5">
-          <View className="w-full flex-col gap-2">
+        <View className="items-left justify-left gap-10">
+          <View className="w-full flex-col gap-6">
             <Typography
               type="h2"
               className="text-[#003247] font-poppins-medium"
-              text="Oi, fulano!"
+              text={`Oi, ${name}!`}
             />
             <Typography
               type="h5"
@@ -43,7 +51,7 @@ export default function Home() {
             </ScrollView>
             <Location />
           </View>
-          <Carousel />
+          <Carousel restaurants={restaurants} />
           <MapPreview />
         </View>
       </ScrollView>

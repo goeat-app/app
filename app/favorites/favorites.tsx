@@ -8,10 +8,11 @@ import { Button } from '@/components/button';
 import { Header } from '@/components/header/header';
 import { Input } from '@/components/input';
 import { RestaurantCard } from '@/components/recomendation-card/recomendation-card';
-import { TabBar, TabBarRef } from '@/components/tabBar/tabBar';
+import { TabBar } from '@/components/tabBar/tabBar';
 import { restaurantsMocks } from '@/lib/mocks/restaurants-mock';
 
-import { useRecomendationsModel } from './favorites.model';
+import { useFavoritesModel } from './favorites.model';
+import { TabBarRef } from '@/components/tabBar/tabBar.model';
 
 export default function Favorites() {
   const {
@@ -22,9 +23,9 @@ export default function Favorites() {
     router,
     handleClearSearch,
     handleFavorite,
-  } = useRecomendationsModel();
+  } = useFavoritesModel();
 
-  const handleViewDetails = (itemId: number) => {
+  const handleViewDetails = (itemId: string) => {
     // router.push(`/restaurant/${itemId}`);
   };
 
@@ -78,6 +79,7 @@ export default function Favorites() {
           onMomentumScrollEnd={() => tabBarRef.current?.show()}
           renderItem={({ item }) => (
             <RestaurantCard
+              key={item.id}
               item={item}
               isFavorite={favoriteList.includes(item.id)}
               scaleAnim={scaleAnims[item.id]}

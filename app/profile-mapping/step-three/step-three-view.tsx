@@ -110,9 +110,7 @@ export default function StepThree() {
               <Input.Root>
                 <Input.Field
                   value={formatCurrency(minInput)}
-                  onChangeText={value =>
-                    handleChangePrice(parseInt(value, 10), 'min')
-                  }
+                  onChangeText={value => handleChangePrice(value, 'min')}
                   onBlur={() => handleBlur('min')}
                   keyboardType="numeric"
                   className="w-[90px] h-[45px] border border-[#8B8B8B] bg-transparent"
@@ -122,9 +120,7 @@ export default function StepThree() {
 
               <Input.Root>
                 <Input.Field
-                  onChangeText={value =>
-                    handleChangePrice(parseInt(value, 10), 'max')
-                  }
+                  onChangeText={value => handleChangePrice(value, 'max')}
                   onBlur={() => handleBlur('max')}
                   value={formatCurrency(maxInput)}
                   keyboardType="numeric"

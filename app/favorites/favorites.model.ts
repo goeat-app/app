@@ -5,12 +5,12 @@ import { useRouter } from 'expo-router';
 
 import { restaurantsMocks } from '@/lib/mocks/restaurants-mock';
 
-export const useRecomendationsModel = () => {
+export const useFavoritesModel = () => {
   const [searchValue, setSearchValue] = useState('');
-  const [favoriteList, setFavoriteList] = useState<number[]>([1, 3, 5]);
+  const [favoriteList, setFavoriteList] = useState<string[]>(['1', '3', '4']);
   const router = useRouter();
 
-  const scaleAnims = useRef<Record<number, Animated.Value>>(
+  const scaleAnims = useRef<Record<string, Animated.Value>>(
     restaurantsMocks.reduce(
       (acc, item) => {
         acc[item.id] = new Animated.Value(1);
@@ -25,7 +25,7 @@ export const useRecomendationsModel = () => {
   };
 
   const handleFavorite = useCallback(
-    (id: number) => {
+    (id: string) => {
       const isFavorited = favoriteList.includes(id);
 
       setFavoriteList(prev =>

@@ -10,24 +10,23 @@ export const useStepThreeModel = () => {
   const [minInput, setMinInput] = useState<number>(20);
   const [maxInput, setMaxInput] = useState<number>(300);
 
-  const handleChangePrice = (value: number, type: 'min' | 'max') => {
+  const handleChangePrice = (value: string, type: 'min' | 'max') => {
+    const cleanValue = value.replace(/[R$\s]/g, '');
+    const numericValue = parseInt(cleanValue, 10);
+    
     if (type === 'min') {
-      setMinInput(value);
+      setMinInput(isNaN(numericValue) ? 0 : numericValue);
 
-      if (!isNaN(value) && value >= 20 && value <= range[1]) {
-        const roundedValue = Math.round(value / 10) * 10;
+      if (!isNaN(numericValue) && numericValue >= 20 && numericValue <= range[1]) {
+        const roundedValue = Math.round(numericValue / 10) * 10;
         setRange([roundedValue, range[1]]);
-      } else {
-        setRange([20, range[1]]);
       }
     } else {
-      setMaxInput(value);
+      setMaxInput(isNaN(numericValue) ? 0 : numericValue);
 
-      if (!isNaN(value) && value <= 300 && value >= range[0]) {
-        const roundedValue = Math.round(value / 10) * 10;
+      if (!isNaN(numericValue) && numericValue <= 300 && numericValue >= range[0]) {
+        const roundedValue = Math.round(numericValue / 10) * 10;
         setRange([range[0], roundedValue]);
-      } else {
-        setRange([range[0], 300]);
       }
     }
   };
@@ -55,7 +54,7 @@ export const useStepThreeModel = () => {
         setMaxInput(300);
         setRange([range[0], 300]);
       } else if (maxInput < range[0]) {
-        setMaxInput(maxInput[0]);
+        setMaxInput(range[0]);
         setRange([range[0], range[0]]);
       } else {
         const roundedValue = Math.round(maxInput / 10) * 10;

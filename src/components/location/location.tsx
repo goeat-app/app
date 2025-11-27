@@ -4,7 +4,7 @@ import { LocationIcon } from '@/assets/icons/location';
 
 export const Location = () => {
   return (
-    <View className="flex-row items-center">
+    <View className="flex-row items-center gap-2">
       <LocationIcon width={16} height={16} fill="#FF6B35" />
       <Typography
         type="body"

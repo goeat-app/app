@@ -4,6 +4,7 @@ import { LocationIcon } from '@/assets/icons/location';
 import { StarIcon } from '@/assets/icons/star-icon';
 import { MoneyIcon } from '@/components/money-icon/money-icon';
 import { Typography } from '@/components/typography/typography';
+import { getImageSource } from '@/lib/utils/image-mapper';
 
 export const RestaurantCard = ({ item }) => {
   return (
@@ -12,7 +13,7 @@ export const RestaurantCard = ({ item }) => {
       style={{ elevation: 5 }}
     >
       <Image
-        source={item.image}
+        source={getImageSource(item?.tagImage)}
         className="w-full h-48 rounded-lg"
         resizeMode="cover"
       />
@@ -20,7 +21,7 @@ export const RestaurantCard = ({ item }) => {
         <Typography
           type="h4"
           className="text-[#003247] font-poppins-medium"
-          text={item.name}
+          text={item?.name}
         />
 
         <View className="flex-row items-center justify-between">
@@ -28,13 +29,13 @@ export const RestaurantCard = ({ item }) => {
             <Typography
               type="body"
               className="text-orange-500 font-poppins-medium leading-tight"
-              text={String(item.rating)}
+              text={String(item?.avgRating)}
             />
             <StarIcon width={14} height={14} />
           </View>
 
           <View className="flex-row items-center gap-1">
-            <MoneyIcon scale={item.price} />
+            <MoneyIcon scale={item?.priceLevel} />
           </View>
 
           <View className="flex-row items-center gap-1">
@@ -42,7 +43,7 @@ export const RestaurantCard = ({ item }) => {
             <Typography
               type="body"
               className="text-[#5F6368] leading-tight"
-              text={item.distance}
+              text={item?.distance ?? ''}
             />
           </View>
         </View>

@@ -1,31 +1,50 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Animated } from 'react-native';
 
 import { useRouter } from 'expo-router';
 
-import { restaurantsMocks } from '@/lib/mocks/restaurants-mock';
+import { loadingWrapper } from '@/hooks/loading-wrapper';
+import { getRecommendationsUseCase } from 'use-cases/recommender/recommender.use-case';
+import { useRecomendationsStore } from '@/store/recommender-store';
 
 export const useRecomendationsModel = () => {
   const [searchValue, setSearchValue] = useState('');
-  const [favoriteList, setFavoriteList] = useState<number[]>([]);
+  const [favoriteList, setFavoriteList] = useState<string[]>([]);
   const router = useRouter();
 
-  const scaleAnims = useRef<Record<number, Animated.Value>>(
-    restaurantsMocks.reduce(
-      (acc, item) => {
-        acc[item.id] = new Animated.Value(1);
-        return acc;
-      },
-      {} as Record<number, Animated.Value>,
-    ),
-  ).current;
+  const setRestaurants = useRecomendationsStore(state => state.setRestaurants);
+  const restaurants = useRecomendationsStore(state => state.restaurants);
+
+  async function loadRecommendations() {
+    const result = await loadingWrapper(() => getRecommendationsUseCase());
+
+    if (result.success) {
+      setRestaurants(result.data);
+    }
+  }
+
+  useEffect(() => {
+    loadRecommendations();
+  }, []);
+
+  const scaleAnims = useMemo<Record<string, Animated.Value>>(
+    () =>
+      restaurants.reduce(
+        (acc, item) => {
+          acc[item.id] = new Animated.Value(1);
+          return acc;
+        },
+        {} as Record<string, Animated.Value>,
+      ),
+    [restaurants],
+  );
 
   const handleClearSearch = () => {
     setSearchValue('');
   };
 
   const handleFavorite = useCallback(
-    (id: number) => {
+    (id: string) => {
       const isFavorited = favoriteList.includes(id);
 
       setFavoriteList(prev =>
@@ -46,10 +65,10 @@ export const useRecomendationsModel = () => {
     searchValue,
     setSearchValue,
     handleClearSearch,
-    restaurantsMocks,
     favoriteList,
     handleFavorite,
     scaleAnims,
     router,
+    restaurants
   };
 };

@@ -3,11 +3,15 @@ import { View, FlatList, Pressable } from 'react-native';
 import { router } from 'expo-router';
 
 import { Typography } from '@/components/typography/typography';
-import { restaurantsMocks } from '@/lib/mocks/restaurants-mock';
 
 import { RestaurantCard } from './restaurantCard';
+import { RecommendedRestaurant } from 'use-cases/recommender/recommender.types';
 
-export const Carousel = () => {
+interface CarouselProps {
+  restaurants: RecommendedRestaurant[];
+}
+
+export const Carousel = ({ restaurants }: CarouselProps) => {
   return (
     <View className="w-full flex-col gap-3">
       <View className="flex-row justify-between items-center">
@@ -17,7 +21,7 @@ export const Carousel = () => {
           text="Recomendados"
         />
         <Pressable
-          onPress={() => router.push('/recomendations/recomendations')}
+          onPress={() => router.push('/recomendations/recomendations-view')}
         >
           <Typography
             type="body"
@@ -28,7 +32,7 @@ export const Carousel = () => {
       </View>
 
       <FlatList
-        data={restaurantsMocks}
+        data={restaurants}
         renderItem={({ item }) => <RestaurantCard item={item} />}
         keyExtractor={item => String(item.id)}
         horizontal={true}
