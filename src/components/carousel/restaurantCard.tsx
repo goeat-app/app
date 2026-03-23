@@ -13,7 +13,7 @@ export const RestaurantCard = ({ item }) => {
       style={{ elevation: 5 }}
     >
       <Image
-        source={getImageSource(item?.tagImage)}
+        source={getImageSource(item?.slug)}
         className="w-full h-48 rounded-lg"
         resizeMode="cover"
       />

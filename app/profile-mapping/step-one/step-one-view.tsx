@@ -8,16 +8,18 @@ import { Typography } from '@/components/typography/typography';
 import { getImageSource } from '@/lib/utils/image-mapper';
 
 import { useStepOneModel } from './step-one.model';
+import { PROGRESS } from './consts/consts';
 
 export default function StepOne() {
   const {
-    progress,
     selectedItem,
     handleSelect,
     foodCategories,
     isMaxSelected,
     setSelectedFoodCategories,
   } = useStepOneModel();
+
+  console.log('foodCategories = ', foodCategories)
 
   return (
     <View className="flex flex-col w-full h-full items-center justify-between p-8 bg-[#FDF6F5]">
@@ -29,9 +31,9 @@ export default function StepOne() {
           <View
             className={twMerge(
               'h-2 bg-[#FF7A00] rounded-full',
-              `w-${progress * 100}%`,
+              `w-${PROGRESS * 100}%`,
             )}
-            style={{ width: `${progress * 100}%` }}
+            style={{ width: `${PROGRESS * 100}%` }}
           />
         </View>
 
@@ -75,7 +77,7 @@ export default function StepOne() {
                 <Image
                   className="w-[85%]"
                   resizeMode="contain"
-                  source={getImageSource(item.tagImage)}
+                  source={getImageSource(item.slug)}
                 />
                 <Typography
                   className="text-[#00141C] font-poppins-medium"

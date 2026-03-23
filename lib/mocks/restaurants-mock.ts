@@ -2,7 +2,7 @@ export const restaurantsMocks = [
   {
     id: '1',
     name: 'GIUGIU',
-    tagImage: 'fun-env',
+    slug: 'fun-env',
     avgRating: 5.0,
     priceLevel: 3,
     address: 'Jardim Horta',
@@ -15,7 +15,7 @@ export const restaurantsMocks = [
   {
     id: '2',
     name: 'Sunshine',
-    tagImage: 'excited-env',
+    slug: 'excited-env',
     avgRating: 4.2,
     priceLevel: 2,
     address: 'Jardim Batatal',
@@ -27,7 +27,7 @@ export const restaurantsMocks = [
   {
     id: '3',
     name: 'Jangada',
-    tagImage: 'bistro-env',
+    slug: 'bistro-env',
     avgRating: 4.8,
     priceLevel: 3,
     address: 'Jardim Horta',
@@ -40,7 +40,7 @@ export const restaurantsMocks = [
   {
     id: '4',
     name: 'La Forneria',
-    tagImage: 'rodizio-env',
+    slug: 'rodizio-env',
     avgRating: 4.9,
     priceLevel: 4,
     address: 'Jardim Marisa',
@@ -48,6 +48,5 @@ export const restaurantsMocks = [
     state: 'SP',
     placeType: 'Comemorações',
     foodType: 'Rodízio',
-    
   },
 ];

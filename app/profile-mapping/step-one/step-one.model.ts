@@ -4,11 +4,11 @@ import { getFoodTypesUseCase } from 'use-cases/profile-mapping/food-types/food-t
 
 import { loadingWrapper } from '@/hooks/loading-wrapper';
 import { useProfileMappingStore } from '@/store/profile-mapping';
+import { MAX_COUNT } from './consts/consts';
 
 export const useStepOneModel = () => {
   const [selectedItem, setSelectedItem] = useState<string[]>([]);
-  const progress = 0.33;
-  const MAX_COUNT = 3;
+
 
   const setFoodCategories = useProfileMappingStore(
     state => state.setFoodCategories,
@@ -44,7 +44,6 @@ export const useStepOneModel = () => {
 
   return {
     selectedItem,
-    progress,
     foodCategories,
     handleSelect,
     isMaxSelected,

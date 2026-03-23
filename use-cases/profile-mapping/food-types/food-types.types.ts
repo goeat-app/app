@@ -1,7 +1,7 @@
 export interface FoodType {
   id: string;
   name: string;
-  tagImage: string;
+  slug: string;
 }
 
 export interface FoodTypesSuccess {

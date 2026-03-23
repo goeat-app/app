@@ -36,7 +36,7 @@ export function RestaurantCard({
         <ImageBackground
           className="w-full h-full flex items-end p-2"
           resizeMode="cover"
-          source={getImageSource(item.tagImage)}
+          source={getImageSource(item.slug)}
           imageStyle={{ borderTopLeftRadius: 16, borderTopRightRadius: 16 }}
         >
           <View style={styles.bottomOverlay} pointerEvents="none" />
