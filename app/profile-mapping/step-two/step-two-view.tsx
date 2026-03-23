@@ -79,7 +79,7 @@ export default function StepTwo() {
                 disabled={isDisabled}
               >
                 <ImageBackground
-                  source={getImageSource(item.tagImage)}
+                  source={getImageSource(item.slug)}
                   style={{ flex: 1, width: '100%', height: '100%' }}
                   imageStyle={{ borderRadius: 12, resizeMode: 'cover' }}
                 >

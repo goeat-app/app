@@ -3,7 +3,7 @@ export interface RecommendedRestaurant {
   id: string;
   name: string;
   placeType: string;
-  tagImage: string;
+  slug: string;
   foodType: string;
   priceLevel: number;
   address: string;
