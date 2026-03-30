@@ -30,6 +30,7 @@ export default function Recomendations() {
 
   const handleViewDetails = (itemId: string) => {
     // router.push(`/restaurant/${itemId}`);
+    router.push(`/place-details/place-details`);
   };
 
   const tabBarRef = useRef<TabBarRef>(null);
