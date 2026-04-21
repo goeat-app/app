@@ -6,9 +6,9 @@ import { View } from 'react-native';
 
 //TODO: Remover dados mockados
 
-export const HeaderRestaurantDetails = () => {
+export const RestaurantHeaderDetails = () => {
   return (
-    <View className="flex gap-4 items-center justify-between ">
+    <View className="p-2 flex gap-4 items-center justify-between">
       <View className="flex flex-row h-[50px] w-full justify-between items-center">
         <View className="w-[90%]">
           <Typography
@@ -32,7 +32,7 @@ export const HeaderRestaurantDetails = () => {
             className="text-lg text-[#5E5959] font-poppins-medium leading-tight"
             text="4.6"
           />
-          <StarIcon width={16} height={16} />
+          <StarIcon width={20} height={20} color="#FB9506" />
         </View>
 
         <Button

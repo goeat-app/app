@@ -30,7 +30,7 @@ const PROTECTED_ROUTES = [
   '/favorites/favorites',
   '/profile-page/profile-page',
   '/edit-profile/edit-profile',
-  '/place-details/place-details',
+  '/restaurant-details/restaurant-details',
   'profile-mapping/step-one/step-one',
   'profile-mapping/step-two/step-two',
   'profile-mapping/step-three/step-three',
@@ -164,7 +164,7 @@ export default function Layout() {
               }}
             />
             <Stack.Screen
-              name="place-details/place-details"
+              name="restaurant-details/restaurant-details"
               options={{
                 headerShown: false,
               }}
