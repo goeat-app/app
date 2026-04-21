@@ -9,10 +9,10 @@ import { View } from 'react-native';
 
 //TODO: Remover dados mockados
 
-export const ContactInfoDetails = () => {
+export const RestaurantContactInfo = () => {
   return (
     <View className="flex flex-col justify-around gap-4">
-      <View className="flex flex-row w-full gap-2 -m-1">
+      <View className="flex flex-row w-full gap-2 -m-1 my-2">
         <MoneyIcon scale={3} color="#FF6B35" />
         <Typography
           type="span"

@@ -11,15 +11,7 @@ import {
   View,
 } from 'react-native';
 import { usePhotoGallery } from './photo-gallery.model';
-
-interface PhotoGalleryProps {
-  /** Array de imagens (require ou { uri }) */
-  photos: ImageSourcePropType[];
-  /** Título exibido acima das thumbnails (padrão: "Fotos") */
-  title?: string;
-  /** Quantidade de thumbnails visíveis antes do "+N" (padrão: 3) */
-  visibleCount?: number;
-}
+import { PhotoGalleryProps } from './photo-gallery.types';
 
 export const PhotoGallery = ({
   photos,
