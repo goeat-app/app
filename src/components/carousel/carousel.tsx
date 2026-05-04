@@ -1,4 +1,4 @@
-import { View, FlatList, Pressable } from 'react-native';
+import { Animated, FlatList, Pressable, View } from 'react-native';
 
 import { router } from 'expo-router';
 
@@ -9,9 +9,17 @@ import { RecommendedRestaurant } from 'use-cases/recommender/recommender.types';
 
 interface CarouselProps {
   restaurants: RecommendedRestaurant[];
+  favoriteList: string[];
+  onFavoritePress: (id: string) => void;
+  scaleAnims: Record<string, Animated.Value>;
 }
 
-export const Carousel = ({ restaurants }: CarouselProps) => {
+export const Carousel = ({
+  restaurants,
+  favoriteList,
+  onFavoritePress,
+  scaleAnims,
+}: CarouselProps) => {
   return (
     <View className="w-full flex-col gap-3">
       <View className="flex-row justify-between items-center">
@@ -33,7 +41,14 @@ export const Carousel = ({ restaurants }: CarouselProps) => {
 
       <FlatList
         data={restaurants}
-        renderItem={({ item }) => <RestaurantCard item={item} />}
+        renderItem={({ item }) => (
+          <RestaurantCard
+            item={item}
+            isFavorite={favoriteList.includes(item.id)}
+            scaleAnim={scaleAnims[item.id]!}
+            onFavoritePress={() => onFavoritePress(item.id)}
+          />
+        )}
         keyExtractor={item => String(item.id)}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
