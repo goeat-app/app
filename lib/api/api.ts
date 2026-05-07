@@ -2,10 +2,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { router } from 'expo-router';
 
+import { resolveApiBaseUrl } from '@/lib/api/resolve-api-base-url';
 import { useAuthStore } from '@/store/auth-store';
 
 export const api = axios.create({
-  baseURL: 'https://backend-ij1x.onrender.com',
+  baseURL: resolveApiBaseUrl(),
   timeout: 10000,
 });
 

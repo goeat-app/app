@@ -9,7 +9,6 @@ import { Header } from '@/components/header/header';
 import { Input } from '@/components/input';
 import { RestaurantCard } from '@/components/recomendation-card/recomendation-card';
 import { TabBar } from '@/components/tabBar/tabBar';
-import { restaurantsMocks } from '@/lib/mocks/restaurants-mock';
 
 import { useFavoritesModel } from './favorites.model';
 import { TabBarRef } from '@/components/tabBar/tabBar.model';
@@ -17,6 +16,7 @@ import { TabBarRef } from '@/components/tabBar/tabBar.model';
 export default function Favorites() {
   const {
     favoriteList,
+    restaurants,
     setSearchValue,
     searchValue,
     scaleAnims,
@@ -28,10 +28,6 @@ export default function Favorites() {
   const handleViewDetails = (itemId: string) => {
     // router.push(`/restaurant/${itemId}`);
   };
-
-  const favoritedRestaurants = restaurantsMocks.filter(restaurant =>
-    favoriteList.includes(restaurant.id),
-  );
 
   const tabBarRef = useRef<TabBarRef>(null);
 
@@ -72,7 +68,7 @@ export default function Favorites() {
       </View>
       <View className="flex-1 items-center ">
         <FlatList
-          data={favoritedRestaurants}
+          data={restaurants}
           keyExtractor={item => item.id.toString()}
           onScrollBeginDrag={() => tabBarRef.current?.hide()}
           onScrollEndDrag={() => tabBarRef.current?.show()}

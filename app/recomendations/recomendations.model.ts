@@ -1,9 +1,15 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Animated } from 'react-native';
 
 import { useRouter } from 'expo-router';
 
+import { toast } from '@/components/toast/toast';
 import { loadingWrapper } from '@/hooks/loading-wrapper';
+import {
+  getFavoriteRestaurantIdsUseCase,
+  removeFavoriteUseCase,
+  saveFavoriteUseCase,
+} from 'use-cases/favorite-savings/favorite-savings.use-case';
 import { getRecommendationsUseCase } from 'use-cases/recommender/recommender.use-case';
 import { useRecomendationsStore } from '@/store/recommender-store';
 
@@ -27,6 +33,16 @@ export const useRecomendationsModel = () => {
     loadRecommendations();
   }, []);
 
+  useEffect(() => {
+    async function loadFavoriteIds() {
+      const result = await getFavoriteRestaurantIdsUseCase();
+      if (result.success) {
+        setFavoriteList(result.data);
+      }
+    }
+    loadFavoriteIds();
+  }, []);
+
   const scaleAnims = useMemo<Record<string, Animated.Value>>(
     () =>
       restaurants.reduce(
@@ -44,7 +60,7 @@ export const useRecomendationsModel = () => {
   };
 
   const handleFavorite = useCallback(
-    (id: string) => {
+    async (id: string) => {
       const isFavorited = favoriteList.includes(id);
 
       setFavoriteList(prev =>
@@ -57,6 +73,17 @@ export const useRecomendationsModel = () => {
         tension: 120,
         useNativeDriver: true,
       }).start();
+
+      const result = isFavorited
+        ? await removeFavoriteUseCase(id)
+        : await saveFavoriteUseCase(id);
+
+      if (result.success === false) {
+        setFavoriteList(prev =>
+          isFavorited ? [...prev, id] : prev.filter(itemId => itemId !== id),
+        );
+        toast({ type: 'error', text1: result.error });
+      }
     },
     [favoriteList, scaleAnims],
   );

@@ -13,7 +13,13 @@ import { useHomeModel } from './home.model';
 
 export default function Home() {
   const tabBarRef = useRef<TabBarRef>(null);
-  const { user, restaurants } = useHomeModel();
+  const {
+    user,
+    restaurants,
+    favoriteList,
+    handleFavorite,
+    scaleAnims,
+  } = useHomeModel();
   
   if (!user) {
     return null;
@@ -51,7 +57,12 @@ export default function Home() {
             </ScrollView>
             <Location />
           </View>
-          <Carousel restaurants={restaurants} />
+          <Carousel
+            restaurants={restaurants}
+            favoriteList={favoriteList}
+            onFavoritePress={handleFavorite}
+            scaleAnims={scaleAnims}
+          />
           <MapPreview />
         </View>
       </ScrollView>
