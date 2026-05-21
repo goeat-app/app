@@ -251,6 +251,8 @@ export const RestaurantFilter = () => {
 
   function handleReset() {
     setLocal(defaultFilters);
+    setMinInput(String(defaultFilters.minPrice));
+    setMaxInput(String(defaultFilters.maxPrice));
     clearFilters();
   }
 
