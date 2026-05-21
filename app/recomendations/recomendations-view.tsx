@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { View, StatusBar, FlatList, ScrollView } from 'react-native';
+import { View, StatusBar, FlatList, ScrollView, Text, StyleSheet } from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
@@ -10,6 +10,7 @@ import { Chips } from '@/components/chips/chips';
 import { Header } from '@/components/header/header';
 import { Input } from '@/components/input';
 import { RestaurantCard } from '@/components/recomendation-card/recomendation-card';
+import { RestaurantFilter } from '@/components/restaurants-filter/restaurant-filter';
 import { TabBar } from '@/components/tabBar/tabBar';
 import { Typography } from '@/components/typography/typography';
 
@@ -26,6 +27,8 @@ export default function Recomendations() {
     handleClearSearch,
     handleFavorite,
     restaurants,
+    openFilter,
+    activeFilterCount,
   } = useRecomendationsModel();
 
   const handleViewDetails = (itemId: string) => {
@@ -73,27 +76,33 @@ export default function Recomendations() {
         </Input.Root>
       </View>
 
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{
-          paddingHorizontal: 14,
-          paddingVertical: 14,
-          alignItems: 'center',
-          gap: 8,
-        }}
-        style={{ flexGrow: 0 }}
-      >
-        <Button className="flex flex-row gap-2 w-[80px] h-[25px] bg-[#FF6B35] rounded-tl-xs rounded-tr-md rounded-bl-md rounded-br-xs items-center justify-center">
+      <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14, paddingVertical: 8, gap: 8 }}>
+        <Button
+          className="flex flex-row gap-2 h-[35px] bg-[#FF6B35] rounded-full items-center justify-center px-4"
+          onPress={openFilter}
+        >
           <FilterIcon />
           <Typography
             text="Filtrar"
             type="span"
             className="font-poppins-medium text-white"
           />
+          {activeFilterCount > 0 && (
+            <View style={filterStyles.badge}>
+              <Text style={filterStyles.badgeText}>{activeFilterCount}</Text>
+            </View>
+          )}
         </Button>
-        <Chips />
-      </ScrollView>
+
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{ alignItems: 'center', gap: 8 }}
+          style={{ flex: 1 }}
+        >
+          <Chips />
+        </ScrollView>
+      </View>
 
       <View className="flex-1 items-center ">
         <FlatList
@@ -114,7 +123,26 @@ export default function Recomendations() {
           )}
         />
       </View>
+      <RestaurantFilter />
       <TabBar ref={tabBarRef} />
     </View>
   );
 }
+
+const filterStyles = StyleSheet.create({
+  badge: {
+    backgroundColor: 'white',
+    width: 18,
+    height: 18,
+    borderRadius: 9,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: 2,
+  },
+  badgeText: {
+    color: '#FF6B35',
+    fontSize: 11,
+    fontWeight: '700',
+    lineHeight: 14,
+  },
+});

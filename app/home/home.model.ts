@@ -11,16 +11,18 @@ import {
   saveFavoriteUseCase,
 } from 'use-cases/favorite-savings/favorite-savings.use-case';
 import { getRecommendationsUseCase } from 'use-cases/recommender/recommender.use-case';
+import { useFilterStore } from '@/store/restaurant-filter-store';
 
 export const useHomeModel = () => {
   const user = useAuthStore(state => state.user);
+  const filters = useFilterStore(state => state.filters);
 
   const setRestaurants = useRecomendationsStore(state => state.setRestaurants);
   const restaurants = useRecomendationsStore(state => state.restaurants);
   const [favoriteList, setFavoriteList] = useState<string[]>([]);
 
-  async function loadRecommendations() {
-    const result = await loadingWrapper(() => getRecommendationsUseCase());
+  async function loadRecommendations(currentFilters?: typeof filters) {
+    const result = await loadingWrapper(() => getRecommendationsUseCase(currentFilters));
 
     if (result.success === true) {
       setRestaurants(result.data.slice(0, 3));
@@ -30,6 +32,10 @@ export const useHomeModel = () => {
   useEffect(() => {
     loadRecommendations();
   }, []);
+
+  useEffect(() => {
+    loadRecommendations(filters);
+  }, [filters]);
 
   useEffect(() => {
     async function loadFavoriteIds() {

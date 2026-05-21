@@ -1,11 +1,12 @@
 import { handleError } from '@/lib/utils/error-mapper';
 import { useAuthStore } from '@/store/auth-store';
+import { RestaurantFilters } from '@/store/restaurant-filter-store';
 
 import { recommenderService } from 'services/recommender-service';
 import { RecommenderResult } from './recommender.types';
 
 
-export async function getRecommendationsUseCase(): Promise<RecommenderResult> {
+export async function getRecommendationsUseCase(filters?: RestaurantFilters): Promise<RecommenderResult> {
 
   try {
     const user = useAuthStore.getState().user;
@@ -14,7 +15,7 @@ export async function getRecommendationsUseCase(): Promise<RecommenderResult> {
       throw new Error('Usuário não encontrado.');
     }
 
-    const result = await recommenderService.getRecommendations(user.id);
+    const result = await recommenderService.getRecommendations(user.id, filters);
 
     return { success: true, data: result };
   } catch (error) {
