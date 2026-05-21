@@ -15,6 +15,7 @@
   "dependencies": {
     "@expo-google-fonts/poppins": "^0.4.1",
     "@expo/vector-icons": "^15.0.3",
+    "@gorhom/bottom-sheet": "^5.2.12",
     "@ptomasroos/react-native-multi-slider": "^2.2.2",
     "@react-native-async-storage/async-storage": "2.2.0",
     "@react-navigation/bottom-tabs": "^7.4.7",
@@ -35,6 +36,7 @@
     "react-dom": "19.0.0",
     "react-hook-form": "^7.66.1",
     "react-native": "0.79.6",
+    "react-native-gesture-handler": "^2.31.1",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-reanimated": "~4.1.1",
     "react-native-safe-area-context": "5.4.0",

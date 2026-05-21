@@ -12,6 +12,8 @@ import {
 } from 'use-cases/favorite-savings/favorite-savings.use-case';
 import { getRecommendationsUseCase } from 'use-cases/recommender/recommender.use-case';
 import { useRecomendationsStore } from '@/store/recommender-store';
+import { useFilterStore } from '@/store/restaurant-filter-store';
+import { defaultMinPrice, defaultMaxPrice } from '@/constants/filterConstants';
 
 export const useRecomendationsModel = () => {
   const [searchValue, setSearchValue] = useState('');
@@ -21,8 +23,11 @@ export const useRecomendationsModel = () => {
   const setRestaurants = useRecomendationsStore(state => state.setRestaurants);
   const restaurants = useRecomendationsStore(state => state.restaurants);
 
-  async function loadRecommendations() {
-    const result = await loadingWrapper(() => getRecommendationsUseCase());
+  const filters = useFilterStore(state => state.filters);
+  const openFilter = useFilterStore(state => state.openFilter);
+
+  async function loadRecommendations(currentFilters?: typeof filters) {
+    const result = await loadingWrapper(() => getRecommendationsUseCase(currentFilters));
 
     if (result.success) {
       setRestaurants(result.data);
@@ -32,6 +37,10 @@ export const useRecomendationsModel = () => {
   useEffect(() => {
     loadRecommendations();
   }, []);
+
+  useEffect(() => {
+    loadRecommendations(filters);
+  }, [filters]);
 
   useEffect(() => {
     async function loadFavoriteIds() {
@@ -88,6 +97,16 @@ export const useRecomendationsModel = () => {
     [favoriteList, scaleAnims],
   );
 
+  const activeFilterCount = useMemo(() => [
+    filters.minRating > 0,
+    filters.foodTypes.length > 0,
+    filters.restaurantStyles.length > 0,
+    filters.mealTypes.length > 0,
+    filters.paymentMethods.length > 0,
+    filters.voucherTypes.length > 0,
+    filters.minPrice !== defaultMinPrice || filters.maxPrice !== defaultMaxPrice,
+  ].filter(Boolean).length, [filters]);
+
   return {
     searchValue,
     setSearchValue,
@@ -96,6 +115,8 @@ export const useRecomendationsModel = () => {
     handleFavorite,
     scaleAnims,
     router,
-    restaurants
+    restaurants,
+    openFilter,
+    activeFilterCount,
   };
 };

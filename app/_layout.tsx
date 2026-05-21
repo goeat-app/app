@@ -1,4 +1,5 @@
 import { useEffect, useMemo } from 'react';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import {
   ActivityIndicator,
   KeyboardAvoidingView,
@@ -106,6 +107,7 @@ export default function Layout() {
   }
 
   return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
     <SafeAreaProvider>
       <SafeAreaView
         className="flex-1 bg-[#FDF6F5]"
@@ -176,5 +178,6 @@ export default function Layout() {
         </KeyboardAvoidingView>
       </SafeAreaView>
     </SafeAreaProvider>
+    </GestureHandlerRootView>
   );
 }
