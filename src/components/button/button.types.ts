@@ -1,10 +1,8 @@
-import { PressableProps } from "react-native";
+import { PressableProps } from 'react-native';
 
 type ButtonProps = PressableProps & {
   children?: React.ReactNode;
   className?: string;
-}
+};
 
-export {
-  ButtonProps
-}
+export { ButtonProps };

@@ -1,5 +1,4 @@
 import { useEffect, useMemo } from 'react';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import {
   ActivityIndicator,
   KeyboardAvoidingView,
@@ -8,6 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import Toast from 'react-native-toast-message';
 
@@ -108,76 +108,76 @@ export default function Layout() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-    <SafeAreaProvider>
-      <SafeAreaView
-        className="flex-1 bg-[#FDF6F5]"
-        edges={['top', 'right', 'bottom', 'left']}
-      >
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          className="flex-1"
+      <SafeAreaProvider>
+        <SafeAreaView
+          className="flex-1 bg-[#FDF6F5]"
+          edges={['top', 'right', 'bottom', 'left']}
         >
-          <Stack screenOptions={screenOptions}>
-            <Stack.Screen
-              name="onboarding/first-onboarding"
-              options={{
-                headerShown: false,
-              }}
-            />
+          <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            className="flex-1"
+          >
+            <Stack screenOptions={screenOptions}>
+              <Stack.Screen
+                name="onboarding/first-onboarding"
+                options={{
+                  headerShown: false,
+                }}
+              />
 
-            <Stack.Screen name="signin/signin" />
-            <Stack.Screen name="signup/signup" />
-            <Stack.Screen
-              name="profile-mapping/step-one/step-one"
-              options={{
-                headerShown: false,
-              }}
-            />
-            <Stack.Screen name="profile-mapping/step-two/step-two" />
-            <Stack.Screen name="profile-mapping/step-three/step-three" />
-            <Stack.Screen
-              name="recomendations/recomendations-view"
-              options={{
-                headerShown: false,
-              }}
-            />
-            <Stack.Screen
-              name="home/home"
-              options={{
-                headerShown: false,
-              }}
-            />
-            <Stack.Screen
-              name="favorites/favorites"
-              options={{
-                headerShown: false,
-              }}
-            />
-            <Stack.Screen
-              name="profile-page/profile-page"
-              options={{
-                headerShown: false,
-              }}
-            />
-            <Stack.Screen
-              name="edit-profile/edit-profile"
-              options={{
-                headerShown: false,
-              }}
-            />
-            <Stack.Screen
-              name="restaurant-details/restaurant-details"
-              options={{
-                headerShown: false,
-              }}
-            />
-          </Stack>
+              <Stack.Screen name="signin/signin" />
+              <Stack.Screen name="signup/signup" />
+              <Stack.Screen
+                name="profile-mapping/step-one/step-one"
+                options={{
+                  headerShown: false,
+                }}
+              />
+              <Stack.Screen name="profile-mapping/step-two/step-two" />
+              <Stack.Screen name="profile-mapping/step-three/step-three" />
+              <Stack.Screen
+                name="recomendations/recomendations-view"
+                options={{
+                  headerShown: false,
+                }}
+              />
+              <Stack.Screen
+                name="home/home"
+                options={{
+                  headerShown: false,
+                }}
+              />
+              <Stack.Screen
+                name="favorites/favorites"
+                options={{
+                  headerShown: false,
+                }}
+              />
+              <Stack.Screen
+                name="profile-page/profile-page"
+                options={{
+                  headerShown: false,
+                }}
+              />
+              <Stack.Screen
+                name="edit-profile/edit-profile"
+                options={{
+                  headerShown: false,
+                }}
+              />
+              <Stack.Screen
+                name="restaurant-details/restaurant-details"
+                options={{
+                  headerShown: false,
+                }}
+              />
+            </Stack>
 
-          <Loading />
-          <Toast />
-        </KeyboardAvoidingView>
-      </SafeAreaView>
-    </SafeAreaProvider>
+            <Loading />
+            <Toast />
+          </KeyboardAvoidingView>
+        </SafeAreaView>
+      </SafeAreaProvider>
     </GestureHandlerRootView>
   );
 }

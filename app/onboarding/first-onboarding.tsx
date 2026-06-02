@@ -1,21 +1,31 @@
-import { router } from 'expo-router';
-import { Button } from '@/components/button';
-import { Typography } from '@/components/typography/typography';
+import { useState, useRef } from 'react';
 import {
   View,
   Image,
   Pressable,
   FlatList,
   useWindowDimensions,
+  ImageSourcePropType,
 } from 'react-native';
-import { useState, useRef } from 'react';
+
+import { router } from 'expo-router';
+
+import { Button } from '@/components/button';
+import { Typography } from '@/components/typography/typography';
+
+type OnboardingStep = {
+  id: string;
+  image: ImageSourcePropType | undefined;
+  title: string;
+  description: string;
+};
 
 export default function OnBoardingCarousel() {
   const [activeIndex, setActiveIndex] = useState(0);
-  const FlatListRef = useRef(null);
+  const FlatListRef = useRef<FlatList<OnboardingStep>>(null);
   const { width } = useWindowDimensions();
 
-  const onboardingSteps = [
+  const onboardingSteps: Array<OnboardingStep> = [
     {
       id: '1',
       image: require('@/assets/images/goat-foods.png'),
@@ -32,7 +42,13 @@ export default function OnBoardingCarousel() {
     },
   ];
 
-  function OnBoardingItem({ item, width }) {
+  function OnBoardingItem({
+    item,
+    width,
+  }: {
+    item: OnboardingStep;
+    width: number;
+  }) {
     return (
       <View
         className="items-center justify-center gap-4 px-4"
@@ -82,11 +98,15 @@ export default function OnBoardingCarousel() {
     }
   };
 
-  const onViewableItemsChanged = useRef(({ viewableItems }) => {
-    if (viewableItems.length > 0) {
-      setActiveIndex(viewableItems[0].index);
-    }
-  }).current;
+  const onViewableItemsChanged = useRef(
+    ({ viewableItems }: { viewableItems: Array<{ index: number | null }> }) => {
+      if (viewableItems.length > 0) {
+        setActiveIndex(
+          viewableItems[0].index !== null ? viewableItems[0].index : 0,
+        );
+      }
+    },
+  ).current;
 
   const viewabilityConfig = useRef({
     itemVisiblePercentThreshold: 50,

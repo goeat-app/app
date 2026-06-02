@@ -1,13 +1,8 @@
-import Svg, { Path, Defs, Pattern, Use, Image } from "react-native-svg"
-import { SvgProps } from "react-native-svg"
+import Svg, { Path, Defs, Pattern, Use, Image } from 'react-native-svg';
+import { SvgProps } from 'react-native-svg';
 
 export const WhatsappIcon = (props: SvgProps) => (
-  <Svg
-    width={14}
-    height={14}
-    fill="none"
-    {...props}
-  >
+  <Svg width={14} height={14} fill="none" {...props}>
     <Path fill="url(#a)" d="M0 0h14v14H0z" />
     <Defs>
       <Pattern
@@ -27,4 +22,4 @@ export const WhatsappIcon = (props: SvgProps) => (
       />
     </Defs>
   </Svg>
-)
+);

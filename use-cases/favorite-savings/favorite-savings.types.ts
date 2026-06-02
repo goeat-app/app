@@ -34,6 +34,4 @@ export type FavoriteRestaurantsResult =
   | FavoriteSavingsSuccess<RecommendedRestaurant[]>
   | FavoriteSavingsError;
 
-export type ToggleFavoriteResult =
-  | { success: true }
-  | FavoriteSavingsError;
+export type ToggleFavoriteResult = { success: true } | FavoriteSavingsError;

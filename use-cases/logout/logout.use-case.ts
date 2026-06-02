@@ -11,7 +11,7 @@ export async function logoutUseCase(): Promise<LogoutResult> {
     await authService.logout();
 
     await useAuthStore.getState().clearAuth();
-    
+
     useRecomendationsStore.getState().setRestaurants([]);
 
     return { success: true };

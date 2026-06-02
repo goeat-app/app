@@ -1,9 +1,9 @@
-import { handleError } from '@/lib/utils/error-mapper';
-import { useAuthStore } from '@/store/auth-store';
-
 import { favoriteSavingsService } from 'services/favorite-savings-service';
 import { restaurantService } from 'services/restaurant-service';
 import { RecommendedRestaurant } from 'use-cases/recommender/recommender.types';
+
+import { handleError } from '@/lib/utils/error-mapper';
+import { useAuthStore } from '@/store/auth-store';
 
 import {
   FavoriteIdsResult,

@@ -1,16 +1,17 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Animated } from 'react-native';
 
-import { toast } from '@/components/toast/toast';
-import { loadingWrapper } from '@/hooks/loading-wrapper';
-import { useAuthStore } from '@/store/auth-store';
-import { useRecomendationsStore } from '@/store/recommender-store';
 import {
   getFavoriteRestaurantIdsUseCase,
   removeFavoriteUseCase,
   saveFavoriteUseCase,
 } from 'use-cases/favorite-savings/favorite-savings.use-case';
 import { getRecommendationsUseCase } from 'use-cases/recommender/recommender.use-case';
+
+import { toast } from '@/components/toast/toast';
+import { loadingWrapper } from '@/hooks/loading-wrapper';
+import { useAuthStore } from '@/store/auth-store';
+import { useRecomendationsStore } from '@/store/recommender-store';
 import { useFilterStore } from '@/store/restaurant-filter-store';
 
 export const useHomeModel = () => {
@@ -22,7 +23,9 @@ export const useHomeModel = () => {
   const [favoriteList, setFavoriteList] = useState<string[]>([]);
 
   async function loadRecommendations(currentFilters?: typeof filters) {
-    const result = await loadingWrapper(() => getRecommendationsUseCase(currentFilters));
+    const result = await loadingWrapper(() =>
+      getRecommendationsUseCase(currentFilters),
+    );
 
     if (result.success === true) {
       setRestaurants(result.data.slice(0, 3));

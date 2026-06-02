@@ -1,17 +1,26 @@
-import { ProfileIcon } from 'assets/icons/profile-icon';
-import { EmailIcon } from 'assets/icons/email-icon';
-import { Input } from '@/components/input';
-import { View, Image, TouchableWithoutFeedback, Keyboard } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { KeyIcon } from 'assets/icons/key-icon';
-import { ClosedEyeIcon } from 'assets/icons/closed-eye-icon';
 import { Controller } from 'react-hook-form';
-import { Button } from '@/components/button';
-import { Typography } from '@/components/typography/typography';
-import useSignUpModel from './signup.model';
+import {
+  View,
+  Image,
+  TouchableWithoutFeedback,
+  Keyboard,
+  TouchableOpacity,
+} from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+
 import Feather from '@expo/vector-icons/Feather';
-import { formatPhoneMask } from '@/lib/utils/format-phone-mask';
+import { ClosedEyeIcon } from 'assets/icons/closed-eye-icon';
+import { EmailIcon } from 'assets/icons/email-icon';
+import { KeyIcon } from 'assets/icons/key-icon';
+import { ProfileIcon } from 'assets/icons/profile-icon';
+
 import { OpenEyeIcon } from '@/assets/icons/open-eye-icon';
+import { Button } from '@/components/button';
+import { Input } from '@/components/input';
+import { Typography } from '@/components/typography/typography';
+import { formatPhoneMask } from '@/lib/utils/format-phone-mask';
+
+import useSignUpModel from './signup.model';
 
 export default function SignUpView() {
   const {
@@ -75,7 +84,7 @@ export default function SignUpView() {
                         </Input.Indicator>
                       </Input.Field>
 
-                      {errors.name && (
+                      {errors.name?.message && (
                         <Typography
                           type="span"
                           className="text-[#FF6B35] font-poppins-semi-bold ml-1"
@@ -104,7 +113,7 @@ export default function SignUpView() {
                         </Input.Indicator>
                       </Input.Field>
 
-                      {errors.email && (
+                      {errors.email?.message && (
                         <Typography
                           type="span"
                           className="text-[#FF6B35] font-poppins-semi-bold ml-1"
@@ -139,7 +148,7 @@ export default function SignUpView() {
                         </Input.Indicator>
                       </Input.Field>
 
-                      {errors.phone && (
+                      {errors.phone?.message && (
                         <Typography
                           type="span"
                           className="text-[#FF6B35] font-poppins-semi-bold ml-1"
@@ -184,7 +193,7 @@ export default function SignUpView() {
                         </Input.ContentRight>
                       </Input.Field>
 
-                      {errors.password && (
+                      {errors.password?.message && (
                         <Typography
                           type="span"
                           className="text-[#FF6B35] font-poppins-semi-bold ml-1"
@@ -227,7 +236,7 @@ export default function SignUpView() {
                         </Input.ContentRight>
                       </Input.Field>
 
-                      {errors.confirmPassword && (
+                      {errors.confirmPassword?.message && (
                         <Typography
                           type="span"
                           className="text-[#FF6B35] font-poppins-semi-bold ml-1"
@@ -258,10 +267,12 @@ export default function SignUpView() {
                   className="font-poppins-medium text-[#79777]"
                   text="Ou continue com"
                 />
-                <Image
-                  resizeMode="contain"
-                  source={require('@/assets/images/google-icon.png')}
-                />
+                <TouchableOpacity onPress={() => {}}>
+                  <Image
+                    resizeMode="contain"
+                    source={require('@/assets/images/google-icon.png')}
+                  />
+                </TouchableOpacity>
               </View>
 
               <Typography

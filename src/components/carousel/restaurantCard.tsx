@@ -1,5 +1,7 @@
 import { Animated, Image, View } from 'react-native';
 
+import { RecommendedRestaurant } from 'use-cases/recommender/recommender.types';
+
 import { FavoriteIcon } from '@/assets/icons/favorite-icon';
 import { LocationIcon } from '@/assets/icons/location';
 import { StarIcon } from '@/assets/icons/star-icon';
@@ -7,7 +9,6 @@ import { Button } from '@/components/button';
 import { MoneyIcon } from '@/components/money-icon/money-icon';
 import { Typography } from '@/components/typography/typography';
 import { getImageSource } from '@/lib/utils/image-mapper';
-import { RecommendedRestaurant } from 'use-cases/recommender/recommender.types';
 
 type CarouselRestaurantCardProps = {
   item: RecommendedRestaurant;
@@ -74,8 +75,8 @@ export const RestaurantCard = ({
               type="body"
               className="text-[#5F6368] leading-tight"
               text={
-                (item as RecommendedRestaurant & { distance?: string }).distance ??
-                ''
+                (item as RecommendedRestaurant & { distance?: string })
+                  .distance ?? ''
               }
             />
           </View>

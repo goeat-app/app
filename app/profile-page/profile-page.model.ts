@@ -1,9 +1,9 @@
 import { router } from 'expo-router';
 import { logoutUseCase } from 'use-cases/logout/logout.use-case';
+
 import { loadingWrapper } from '@/hooks/loading-wrapper';
 
 export function useProfilePageModel() {
-
   const headerHeight = 150;
   const avatarSize = 128;
   const avatarHalfSize = avatarSize / 2;

@@ -1,14 +1,19 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, TouchableOpacityProps } from "react-native";
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  TouchableOpacityProps,
+} from 'react-native';
 
 type ChipButtonProps = {
   text: string;
   isSelected: boolean;
-} & TouchableOpacityProps; 
+} & TouchableOpacityProps;
 
 export const ChipButton = ({ text, isSelected, ...props }: ChipButtonProps) => {
   return (
-    <TouchableOpacity {...props}> 
+    <TouchableOpacity {...props}>
       <View
         className={`
           border rounded-full py-2 px-5 mr-2
@@ -26,4 +31,4 @@ export const ChipButton = ({ text, isSelected, ...props }: ChipButtonProps) => {
       </View>
     </TouchableOpacity>
   );
-}
+};

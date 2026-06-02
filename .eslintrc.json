@@ -74,5 +74,5 @@
       "@typescript-eslint/parser": [".ts", ".tsx", ".d.ts"]
     }
   },
-  "ignorePatterns": ["node_modules"]
+  "ignorePatterns": ["node_modules", "metro.config.js", "tailwind.config.js"]
 }

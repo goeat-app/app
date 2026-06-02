@@ -1,15 +1,18 @@
-import { api } from '@/lib/api/api';
 import { RecommendedRestaurant } from 'use-cases/recommender/recommender.types';
-import { RestaurantFilters } from '@/store/restaurant-filter-store';
+
 import { defaultMinPrice, defaultMaxPrice } from '@/constants/filterConstants';
+import { api } from '@/lib/api/api';
+import { RestaurantFilters } from '@/store/restaurant-filter-store';
 
 export const recommenderService = {
-  async getRecommendations(userId: string, filters?: RestaurantFilters): Promise<RecommendedRestaurant[]> {
+  async getRecommendations(
+    userId: string,
+    filters?: RestaurantFilters,
+  ): Promise<RecommendedRestaurant[]> {
     const params: Record<string, string> = { userId };
 
     if (filters) {
-      if (filters.minRating > 0)
-        params.minRating = String(filters.minRating);
+      if (filters.minRating > 0) params.minRating = String(filters.minRating);
       if (filters.foodTypes.length > 0)
         params.foodTypes = filters.foodTypes.join(',');
       if (filters.restaurantStyles.length > 0)

@@ -1,17 +1,17 @@
-import { api } from '@/lib/api/api';
-
 import {
   FavoriteSavingsResponseDto,
   SaveFavoriteSavingsDto,
 } from 'use-cases/favorite-savings/favorite-savings.types';
 
+import { api } from '@/lib/api/api';
+
 const BASE = '/favorite-savings';
 
 export const favoriteSavingsService = {
   async getByUserId(userId: string): Promise<FavoriteSavingsResponseDto> {
-    const response = await api.get<
-      FavoriteSavingsResponseDto | string[]
-    >(`${BASE}/${userId}`);
+    const response = await api.get<FavoriteSavingsResponseDto | string[]>(
+      `${BASE}/${userId}`,
+    );
     const data = response.data;
     if (Array.isArray(data)) {
       return { userId, restaurantIds: data, restaurants: [] };
@@ -24,10 +24,7 @@ export const favoriteSavingsService = {
   },
 
   async save(dto: SaveFavoriteSavingsDto): Promise<FavoriteSavingsResponseDto> {
-    const response = await api.post<FavoriteSavingsResponseDto>(
-      `${BASE}`,
-      dto,
-    );
+    const response = await api.post<FavoriteSavingsResponseDto>(`${BASE}`, dto);
     return response.data;
   },
 

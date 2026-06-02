@@ -2,9 +2,6 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Animated } from 'react-native';
 
 import { useRouter } from 'expo-router';
-
-import { toast } from '@/components/toast/toast';
-import { loadingWrapper } from '@/hooks/loading-wrapper';
 import {
   loadFavoriteRestaurantsUseCase,
   removeFavoriteUseCase,
@@ -12,15 +9,15 @@ import {
 } from 'use-cases/favorite-savings/favorite-savings.use-case';
 import { RecommendedRestaurant } from 'use-cases/recommender/recommender.types';
 
+import { toast } from '@/components/toast/toast';
+import { loadingWrapper } from '@/hooks/loading-wrapper';
+
 export const useFavoritesModel = () => {
   const [searchValue, setSearchValue] = useState('');
   const [restaurants, setRestaurants] = useState<RecommendedRestaurant[]>([]);
   const router = useRouter();
 
-  const favoriteList = useMemo(
-    () => restaurants.map(r => r.id),
-    [restaurants],
-  );
+  const favoriteList = useMemo(() => restaurants.map(r => r.id), [restaurants]);
 
   async function loadFavorites() {
     const result = await loadingWrapper(() => loadFavoriteRestaurantsUseCase());

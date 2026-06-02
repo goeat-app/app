@@ -1,10 +1,10 @@
-import { Dimensions, FlatList, ImageSourcePropType } from 'react-native';
-import { PhotoGalleryProps } from './photo-gallery.types';
 import { useRef, useState } from 'react';
+import { Dimensions, FlatList, ImageSourcePropType } from 'react-native';
+
+import { PhotoGalleryProps } from './photo-gallery.types';
 
 export const usePhotoGallery = ({
   photos,
-  title,
   visibleCount,
 }: PhotoGalleryProps) => {
   const { width: SCREEN_WIDTH } = Dimensions.get('window');
@@ -12,7 +12,7 @@ export const usePhotoGallery = ({
   const [currentIndex, setCurrentIndex] = useState(0);
   const lightboxRef = useRef<FlatList<ImageSourcePropType>>(null);
 
-  const photosVisible = photos.slice(0, visibleCount + 1);
+  const photosVisible = photos.slice(0, (visibleCount ?? 0) + 1);
 
   return {
     photosVisible,

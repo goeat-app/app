@@ -1,13 +1,12 @@
-import Svg, { G, Path, Defs, ClipPath } from "react-native-svg"
-import { SvgProps } from "react-native-svg"
+import Svg, { G, Path, Defs, ClipPath } from 'react-native-svg';
+import { SvgProps } from 'react-native-svg';
 
-export const NatureVeganIcon = ({ width = 15, height = 15, ...props }: SvgProps) => (
-  <Svg
-    width={width}
-    height={height}
-    fill="none"
-    {...props}
-  >
+export const NatureVeganIcon = ({
+  width = 15,
+  height = 15,
+  ...props
+}: SvgProps) => (
+  <Svg width={width} height={height} fill="none" {...props}>
     <G
       stroke="#fff"
       strokeLinecap="round"
@@ -24,4 +23,4 @@ export const NatureVeganIcon = ({ width = 15, height = 15, ...props }: SvgProps)
       </ClipPath>
     </Defs>
   </Svg>
-)
+);
