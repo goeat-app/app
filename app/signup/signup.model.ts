@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { router } from 'expo-router';
+import { googleSignInUseCase } from 'use-cases/login/google-signin.use-case';
 import { registerUserUseCase } from 'use-cases/register/register.use-case';
 
 import { toast } from '@/components/toast/toast';
@@ -31,12 +32,29 @@ export default function useSignUpModel() {
       toast({ type: 'success', text1: 'Usuário registrado com sucesso!' });
       router.replace('/profile-mapping/step-one/step-one-view');
     } else {
-      toast({ type: 'error', text1: result.error });
+      toast({
+        type: 'error',
+        text1: result.error || 'Erro ao cadastrar usuário. Tente novamente.',
+      });
     }
   };
 
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
+  };
+
+  const onGoogleSignIn = async () => {
+    const result = await loadingWrapper(() => googleSignInUseCase());
+
+    if (result.success) {
+      router.replace('/home/home');
+      return;
+    }
+
+    toast({
+      type: 'error',
+      text1: result.error || 'Erro ao autenticar com Google. Tente novamente.',
+    });
   };
 
   return {
@@ -45,6 +63,7 @@ export default function useSignUpModel() {
     onSubmit: handleSubmit(onSubmit),
     togglePasswordVisibility,
     isPasswordVisible,
+    onGoogleSignIn,
     watch,
   };
 }

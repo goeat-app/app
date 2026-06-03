@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { router } from 'expo-router';
+import { googleSignInUseCase } from 'use-cases/login/google-signin.use-case';
 import { signInUseCase } from 'use-cases/login/signin.use-case';
 
 import { toast } from '@/components/toast/toast';
@@ -36,11 +37,26 @@ export default function useSignInModel() {
     }
   };
 
+  const onGoogleSignIn = async () => {
+    const result = await loadingWrapper(() => googleSignInUseCase());
+
+    if (result.success) {
+      router.replace('/home/home');
+      return;
+    }
+
+    toast({
+      type: 'error',
+      text1: result.error || 'Erro ao autenticar com Google. Tente novamente.',
+    });
+  };
+
   return {
     isPasswordVisible,
     togglePasswordVisibility,
     control,
     errors,
     onSubmit: handleSubmit(onSubmit),
+    onGoogleSignIn,
   };
 }

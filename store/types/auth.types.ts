@@ -11,9 +11,9 @@ export interface UserInfo {
 }
 
 export interface AuthState {
-  accessToken: string;
-  refreshToken: string;
-  user: UserInfo;
+  accessToken: string | null;
+  refreshToken: string | null;
+  user: UserInfo | null;
   isAuthenticated: boolean;
   _hasHydrated: boolean;
 

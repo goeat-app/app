@@ -12,6 +12,10 @@ export async function registerUserUseCase(
   try {
     const response = await authService.register(payload);
 
+    if (!response.data) {
+      throw new Error('Invalid register response');
+    }
+
     await useAuthStore.getState().setTokens({
       access: response.data.accessToken,
       refresh: response.data.refreshToken,

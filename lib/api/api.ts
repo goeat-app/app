@@ -2,6 +2,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { router } from 'expo-router';
 
+import {
+  getFirebaseIdToken,
+  getFirebaseRefreshToken,
+} from '@/lib/auth/firebase-auth';
 import { resolveApiBaseUrl } from '@/lib/api/resolve-api-base-url';
 import { useAuthStore } from '@/store/auth-store';
 
@@ -14,7 +18,8 @@ const PUBLIC_ROUTES = ['/auth/login', '/auth/register', '/auth/refresh'];
 
 api.interceptors.request.use(
   async config => {
-    const token = await AsyncStorage.getItem('accessToken');
+    const firebaseToken = await getFirebaseIdToken();
+    const token = firebaseToken || (await AsyncStorage.getItem('accessToken'));
 
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -48,7 +53,16 @@ api.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        const refreshToken = await AsyncStorage.getItem('refreshToken');
+        const firebaseToken = await getFirebaseIdToken(true);
+        if (firebaseToken) {
+          await AsyncStorage.setItem('accessToken', firebaseToken);
+          originalRequest.headers.Authorization = `Bearer ${firebaseToken}`;
+          return api(originalRequest);
+        }
+
+        const refreshToken =
+          getFirebaseRefreshToken() ||
+          (await AsyncStorage.getItem('refreshToken'));
 
         if (!refreshToken) {
           throw new Error('No refresh token');

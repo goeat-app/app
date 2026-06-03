@@ -26,6 +26,7 @@ export default function SignUpView() {
   const {
     control,
     onSubmit,
+    onGoogleSignIn,
     togglePasswordVisibility,
     isPasswordVisible,
     errors,
@@ -267,7 +268,7 @@ export default function SignUpView() {
                   className="font-poppins-medium text-[#79777]"
                   text="Ou continue com"
                 />
-                <TouchableOpacity onPress={() => {}}>
+                <TouchableOpacity onPress={onGoogleSignIn}>
                   <Image
                     resizeMode="contain"
                     source={require('@/assets/images/google-icon.png')}
