@@ -9,8 +9,7 @@ import { MapPreview } from '@/components/map-preview/map-preview';
 import { TabBar } from '@/components/tabBar/tabBar';
 import { TabBarRef } from '@/components/tabBar/tabBar.model';
 import { Typography } from '@/components/typography/typography';
-
-import { useHomeModel } from './home.model';
+import { useHomeModel } from '@/features/home/home.model';
 
 export default function Home() {
   const tabBarRef = useRef<TabBarRef>(null);

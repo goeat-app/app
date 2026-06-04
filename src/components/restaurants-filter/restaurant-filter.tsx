@@ -1,5 +1,14 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import {
+  Modal,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
 import BottomSheet, {
@@ -319,6 +328,137 @@ export const RestaurantFilter = () => {
     [],
   );
 
+  const filterSections = (
+    <>
+      <AccordionSection title="Ranking">
+        <StarRating
+          value={local.minRating}
+          onChange={v => setLocal(prev => ({ ...prev, minRating: v }))}
+        />
+      </AccordionSection>
+
+      <AccordionSection title="Faixa de preço">
+        <View style={styles.sliderContainer}>
+          <Text style={styles.sliderLabel}>Gasto por pessoa</Text>
+          <MultiSlider
+            values={[local.minPrice, local.maxPrice]}
+            min={defaultMinPrice}
+            max={defaultMaxPrice}
+            step={10}
+            selectedStyle={{ backgroundColor: '#FF6B35' }}
+            unselectedStyle={{ backgroundColor: '#E5E7EB' }}
+            markerStyle={styles.sliderMarker}
+            onValuesChange={([min, max]) => {
+              setLocal(prev => ({ ...prev, minPrice: min, maxPrice: max }));
+              setMinInput(min);
+              setMaxInput(max);
+            }}
+            containerStyle={{ alignSelf: 'center' }}
+          />
+          <View className="w-[250px] flex flex-row justify-between">
+            <Input.Root>
+              <Input.Field
+                value={formatCurrency(minInput)}
+                onChangeText={value => handleChangePrice(value, 'min')}
+                onBlur={() => handleBlur('min')}
+                keyboardType="numeric"
+                className="w-[90px] h-[45px] border border-[#8B8B8B] bg-transparent"
+              />
+              <Input.Label text="Mínimo" className="mb-1 text-[#00141C]" />
+            </Input.Root>
+
+            <Input.Root>
+              <Input.Field
+                value={formatCurrency(maxInput)}
+                onChangeText={value => handleChangePrice(value, 'max')}
+                onBlur={() => handleBlur('max')}
+                keyboardType="numeric"
+                className="w-[90px] h-[45px] border rounded-xl border-[#8B8B8B] bg-transparent"
+              />
+              <Input.Label text="Máximo" className="mb-1 text-[#00141C]" />
+            </Input.Root>
+          </View>
+        </View>
+      </AccordionSection>
+      <AccordionSection title="Tipo de comida">
+        <CheckboxList
+          options={foodTypes}
+          selected={local.foodTypes}
+          onToggle={v => toggleItem('foodTypes', v)}
+        />
+      </AccordionSection>
+
+      <AccordionSection title="Estilo de restaurante">
+        <CheckboxList
+          options={restaurantStyles}
+          selected={local.restaurantStyles}
+          onToggle={v => toggleItem('restaurantStyles', v)}
+        />
+      </AccordionSection>
+
+      <AccordionSection title="Tipo de refeição">
+        <CheckboxList
+          options={mealTypes}
+          selected={local.mealTypes}
+          onToggle={v => toggleItem('mealTypes', v)}
+        />
+      </AccordionSection>
+
+      <AccordionSection title="Formas de pagamento">
+        <CheckboxList
+          options={paymentMethods}
+          selected={local.paymentMethods}
+          onToggle={handlePaymentToggle}
+        />
+        {local.paymentMethods.includes('Vale-refeição') && (
+          <VoucherSubFilter
+            selected={local.voucherTypes}
+            onChange={updated =>
+              setLocal(prev => ({ ...prev, voucherTypes: updated }))
+            }
+          />
+        )}
+      </AccordionSection>
+      <View style={{ height: 100 }} />
+    </>
+  );
+
+  const filterFooter = (
+    <View style={styles.footer}>
+      <TouchableOpacity style={styles.resetBtn} onPress={handleReset}>
+        <Text style={styles.resetText}>Resetar Filtros</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.applyBtn} onPress={handleApply}>
+        <Text style={styles.applyText}>
+          Aplicar Filtros{activeCount > 0 ? ` (${activeCount})` : ''}
+        </Text>
+      </TouchableOpacity>
+    </View>
+  );
+
+  if (Platform.OS === 'web') {
+    return (
+      <Modal
+        visible={isFilterOpen}
+        transparent
+        animationType="fade"
+        onRequestClose={closeFilter}
+      >
+        <Pressable style={styles.webBackdrop} onPress={closeFilter}>
+          <Pressable style={styles.webModal} onPress={() => undefined}>
+            <ScrollView
+              contentContainerStyle={styles.scrollContent}
+              showsVerticalScrollIndicator={false}
+            >
+              {filterSections}
+            </ScrollView>
+            {filterFooter}
+          </Pressable>
+        </Pressable>
+      </Modal>
+    );
+  }
+
   return (
     <BottomSheet
       ref={sheetRef}
@@ -334,108 +474,9 @@ export const RestaurantFilter = () => {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        <AccordionSection title="Ranking">
-          <StarRating
-            value={local.minRating}
-            onChange={v => setLocal(prev => ({ ...prev, minRating: v }))}
-          />
-        </AccordionSection>
-
-        <AccordionSection title="Faixa de preço">
-          <View style={styles.sliderContainer}>
-            <Text style={styles.sliderLabel}>Gasto por pessoa</Text>
-            <MultiSlider
-              values={[local.minPrice, local.maxPrice]}
-              min={defaultMinPrice}
-              max={defaultMaxPrice}
-              step={10}
-              selectedStyle={{ backgroundColor: '#FF6B35' }}
-              unselectedStyle={{ backgroundColor: '#E5E7EB' }}
-              markerStyle={styles.sliderMarker}
-              onValuesChange={([min, max]) => {
-                setLocal(prev => ({ ...prev, minPrice: min, maxPrice: max }));
-                setMinInput(min);
-                setMaxInput(max);
-              }}
-              containerStyle={{ alignSelf: 'center' }}
-            />
-            <View className="w-[250px] flex flex-row justify-between">
-              <Input.Root>
-                <Input.Field
-                  value={formatCurrency(minInput)}
-                  onChangeText={value => handleChangePrice(value, 'min')}
-                  onBlur={() => handleBlur('min')}
-                  keyboardType="numeric"
-                  className="w-[90px] h-[45px] border border-[#8B8B8B] bg-transparent"
-                />
-                <Input.Label text="Mínimo" className="mb-1 text-[#00141C]" />
-              </Input.Root>
-
-              <Input.Root>
-                <Input.Field
-                  value={formatCurrency(maxInput)}
-                  onChangeText={value => handleChangePrice(value, 'max')}
-                  onBlur={() => handleBlur('max')}
-                  keyboardType="numeric"
-                  className="w-[90px] h-[45px] border rounded-xl border-[#8B8B8B] bg-transparent"
-                />
-                <Input.Label text="Máximo" className="mb-1 text-[#00141C]" />
-              </Input.Root>
-            </View>
-          </View>
-        </AccordionSection>
-        <AccordionSection title="Tipo de comida">
-          <CheckboxList
-            options={foodTypes}
-            selected={local.foodTypes}
-            onToggle={v => toggleItem('foodTypes', v)}
-          />
-        </AccordionSection>
-
-        <AccordionSection title="Estilo de restaurante">
-          <CheckboxList
-            options={restaurantStyles}
-            selected={local.restaurantStyles}
-            onToggle={v => toggleItem('restaurantStyles', v)}
-          />
-        </AccordionSection>
-
-        <AccordionSection title="Tipo de refeição">
-          <CheckboxList
-            options={mealTypes}
-            selected={local.mealTypes}
-            onToggle={v => toggleItem('mealTypes', v)}
-          />
-        </AccordionSection>
-
-        <AccordionSection title="Formas de pagamento">
-          <CheckboxList
-            options={paymentMethods}
-            selected={local.paymentMethods}
-            onToggle={handlePaymentToggle}
-          />
-          {local.paymentMethods.includes('Vale-refeição') && (
-            <VoucherSubFilter
-              selected={local.voucherTypes}
-              onChange={updated =>
-                setLocal(prev => ({ ...prev, voucherTypes: updated }))
-              }
-            />
-          )}
-        </AccordionSection>
-        <View style={{ height: 100 }} />
+        {filterSections}
       </BottomSheetScrollView>
-
-      <View style={styles.footer}>
-        <TouchableOpacity style={styles.resetBtn} onPress={handleReset}>
-          <Text style={styles.resetText}>Resetar Filtros</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.applyBtn} onPress={handleApply}>
-          <Text style={styles.applyText}>
-            Aplicar Filtros{activeCount > 0 ? ` (${activeCount})` : ''}
-          </Text>
-        </TouchableOpacity>
-      </View>
+      {filterFooter}
     </BottomSheet>
   );
 };
@@ -592,5 +633,23 @@ const styles = StyleSheet.create({
     color: 'white',
     fontFamily: 'PoppinsMedium',
     fontSize: 16,
+  },
+  webBackdrop: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 20, 28, 0.38)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 24,
+    paddingVertical: 24,
+  },
+  webModal: {
+    width: '100%',
+    maxWidth: 680,
+    maxHeight: '90%',
+    borderRadius: 24,
+    overflow: 'hidden',
+    backgroundColor: '#FDF6F5',
+    borderWidth: 1,
+    borderColor: '#F1DDD8',
   },
 });

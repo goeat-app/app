@@ -7,8 +7,8 @@ import { Button } from '@/components/button';
 import { Typography } from '@/components/typography/typography';
 import { getImageSource } from '@/lib/utils/image-mapper';
 
-import { PROGRESS } from './consts/consts';
-import { useStepOneModel } from './step-one.model';
+import { PROGRESS } from '@/features/profile-mapping/constants';
+import { useStepOneModel } from '@/features/profile-mapping/step-one.model';
 
 export default function StepOne() {
   const {

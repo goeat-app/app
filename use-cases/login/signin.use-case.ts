@@ -1,6 +1,6 @@
 import { authService } from 'services/auth-service';
 
-import { FormDataLogin } from '@/app/signin/signin.types';
+import { FormDataLogin } from '@/features/auth/signin.types';
 import { handleError } from '@/lib/utils/error-mapper';
 import { useAuthStore } from '@/store/auth-store';
 

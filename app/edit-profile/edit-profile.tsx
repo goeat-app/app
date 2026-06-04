@@ -16,7 +16,7 @@ import { Button } from '@/components/button';
 import { Input } from '@/components/input';
 import { Typography } from '@/components/typography/typography';
 
-import { useEditProfileModel } from './edit-profile.model';
+import { useEditProfileModel } from '@/features/edit-profile/edit-profile.model';
 
 export default function EditProfileFloating() {
   const { windowHeight, avatarHalfSize, isKeyboardVisible, handleGoBack } =

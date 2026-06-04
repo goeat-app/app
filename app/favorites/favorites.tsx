@@ -10,8 +10,7 @@ import { Input } from '@/components/input';
 import { RestaurantCard } from '@/components/recomendation-card/recomendation-card';
 import { TabBar } from '@/components/tabBar/tabBar';
 import { TabBarRef } from '@/components/tabBar/tabBar.model';
-
-import { useFavoritesModel } from './favorites.model';
+import { useFavoritesModel } from '@/features/favorites/favorites.model';
 
 export default function Favorites() {
   const {

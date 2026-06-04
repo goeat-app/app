@@ -30,3 +30,24 @@ Run the backend and emulator before opening the app:
 1. `cd ../backend && npm run emulators:auth`
 2. `cd ../backend && npm run start:emulator`
 3. `cd ../app && yarn start`
+
+## PWA build
+
+This app now includes a web PWA shell (`manifest.json`, service worker, and offline fallback) under `public/`.
+
+Build the static PWA bundle:
+
+1. `cd ../app`
+2. `npm run build:web`
+
+Preview the exported bundle from `dist/`:
+
+1. `npm run preview:web`
+
+## Google sign-in on web
+
+For Google sign-in to work in the PWA:
+
+- Configure `EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID` in `.env`.
+- Add your PWA domain to Firebase Authentication authorized domains.
+- Keep `EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN` aligned with your Firebase project.

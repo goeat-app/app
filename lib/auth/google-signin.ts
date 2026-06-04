@@ -4,7 +4,11 @@ import {
   GoogleSignin,
   isSuccessResponse,
 } from '@react-native-google-signin/google-signin';
-import { GoogleAuthProvider, signInWithCredential } from 'firebase/auth';
+import {
+  GoogleAuthProvider,
+  signInWithCredential,
+  signInWithPopup,
+} from 'firebase/auth';
 
 import { getFirebaseAuth } from './firebase-auth';
 
@@ -33,7 +37,14 @@ function configureGoogleSignIn() {
 
 export async function signInWithGoogleCredential() {
   if (Platform.OS === 'web') {
-    throw new Error('Google Sign-In nativo nao esta disponivel no web.');
+    const provider = new GoogleAuthProvider();
+    provider.setCustomParameters({ prompt: 'select_account' });
+
+    const userCredential = await signInWithPopup(getFirebaseAuth(), provider);
+    const accessToken = await userCredential.user.getIdToken(true);
+    const refreshToken = userCredential.user.refreshToken || '';
+
+    return { accessToken, refreshToken };
   }
 
   configureGoogleSignIn();

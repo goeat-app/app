@@ -9,7 +9,7 @@ import { Button } from '@/components/button';
 import { Input } from '@/components/input';
 import { Typography } from '@/components/typography/typography';
 
-import { useStepThreeModel } from './step-three.model';
+import { useStepThreeModel } from '@/features/profile-mapping/step-three.model';
 
 export default function StepThree() {
   const {

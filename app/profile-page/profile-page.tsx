@@ -12,7 +12,7 @@ import { Button } from '@/components/button';
 import { ProfileMenuItem } from '@/components/profile-menu-item/profile-menu-item';
 import { Typography } from '@/components/typography/typography';
 
-import { useProfilePageModel } from './profile-page.model';
+import { useProfilePageModel } from '@/features/profile/profile-page.model';
 
 export default function ProfilePage() {
   const {

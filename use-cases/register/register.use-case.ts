@@ -1,6 +1,6 @@
 import { authService } from 'services/auth-service';
 
-import { FormDataRegister } from '@/app/signup/signup.types';
+import { FormDataRegister } from '@/features/auth/signup.types';
 import { handleError } from '@/lib/utils/error-mapper';
 import { useAuthStore } from '@/store/auth-store';
 

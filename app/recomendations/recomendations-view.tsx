@@ -21,8 +21,7 @@ import { RestaurantFilter } from '@/components/restaurants-filter/restaurant-fil
 import { TabBar } from '@/components/tabBar/tabBar';
 import { TabBarRef } from '@/components/tabBar/tabBar.model';
 import { Typography } from '@/components/typography/typography';
-
-import { useRecomendationsModel } from './recomendations.model';
+import { useRecomendationsModel } from '@/features/recomendations/recomendations.model';
 
 export default function Recomendations() {
   const {

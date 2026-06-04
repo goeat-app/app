@@ -5,11 +5,10 @@ import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 
 import { Button } from '@/components/button';
-
-import { RestaurantContactInfo } from './components/restaurant-contact-info/restaurant-contact-info';
-import { RestaurantHeaderDetails } from './components/restaurant-header-details/restaurant-header-details';
-import { RestaurantInfo } from './components/restaurant-info/restaurant-info';
-import { RestaurantReviews } from './components/restaurant-reviews/restaurant-reviews';
+import { RestaurantContactInfo } from '@/features/restaurant-details/components/restaurant-contact-info/restaurant-contact-info';
+import { RestaurantHeaderDetails } from '@/features/restaurant-details/components/restaurant-header-details/restaurant-header-details';
+import { RestaurantInfo } from '@/features/restaurant-details/components/restaurant-info/restaurant-info';
+import { RestaurantReviews } from '@/features/restaurant-details/components/restaurant-reviews/restaurant-reviews';
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 const IMAGE_HEIGHT = SCREEN_HEIGHT * 0.45;

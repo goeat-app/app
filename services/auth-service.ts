@@ -1,7 +1,7 @@
 import { LoginResult } from 'use-cases/login/signin.types';
 
-import { FormDataLogin } from '@/app/signin/signin.types';
-import { FormDataRegister } from '@/app/signup/signup.types';
+import { FormDataLogin } from '@/features/auth/signin.types';
+import { FormDataRegister } from '@/features/auth/signup.types';
 import { api } from '@/lib/api/api';
 import { UserInfo } from '@/store/types/auth.types';
 

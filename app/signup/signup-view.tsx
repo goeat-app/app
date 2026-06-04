@@ -18,9 +18,8 @@ import { OpenEyeIcon } from '@/assets/icons/open-eye-icon';
 import { Button } from '@/components/button';
 import { Input } from '@/components/input';
 import { Typography } from '@/components/typography/typography';
+import useSignUpModel from '@/features/auth/signup.model';
 import { formatPhoneMask } from '@/lib/utils/format-phone-mask';
-
-import useSignUpModel from './signup.model';
 
 export default function SignUpView() {
   const {

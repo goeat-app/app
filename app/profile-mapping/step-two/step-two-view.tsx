@@ -9,7 +9,7 @@ import { Typography } from '@/components/typography/typography';
 import { getImageSource } from '@/lib/utils/image-mapper';
 import { twMerge } from '@/lib/utils/twMerge';
 
-import { useStepTwoModel } from './step-two.model';
+import { useStepTwoModel } from '@/features/profile-mapping/step-two.model';
 
 export default function StepTwo() {
   const {

@@ -17,8 +17,7 @@ import { router } from 'expo-router';
 import { Button } from '@/components/button';
 import { Input } from '@/components/input';
 import { Typography } from '@/components/typography/typography';
-
-import useSignInModel from './signin.model';
+import useSignInModel from '@/features/auth/signin.model';
 
 export default function SignIn() {
   const {
@@ -44,7 +43,7 @@ export default function SignIn() {
             <Image
               resizeMode="contain"
               source={require('@/assets/images/goat-greeting.png')}
-              className="w-70 h-70 z-10"
+              className="w-60 h-60 z-10"
             />
             <View className="w-full bg-[#FBF3ED] rounded-t-3xl items-center p-4 -mt-20 pt-24">
               <View className="w-full items-center justify-center mb-5">
