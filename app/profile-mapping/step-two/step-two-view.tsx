@@ -22,7 +22,7 @@ export default function StepTwo() {
   } = useStepTwoModel();
 
   return (
-    <View className="flex flex-col w-full h-full items-center justify-between gap-4 p-8 bg-[#FDF6F5]">
+    <View className="flex flex-col w-full h-full items-center justify-between gap-4 p-8 bg-[--primary-bg]">
       <View className="w-full h-2 bg-[#FFC8A6FF] rounded-full mt-2 mb-6 ">
         <View
           className={twMerge(

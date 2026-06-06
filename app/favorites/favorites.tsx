@@ -31,10 +31,10 @@ export default function Favorites() {
   const tabBarRef = useRef<TabBarRef>(null);
 
   return (
-    <View className="flex-1 bg-[#FDF6F5]">
+    <View className="flex-1 bg-[--primary-bg]">
       <Header />
       <StatusBar barStyle="dark-content" backgroundColor="#FDF6F5" />
-      <View className="flex-row items-center justify-between px-4 bg-[#FDF6F5]">
+      <View className="flex-row items-center justify-between px-4 bg-[--primary-bg]">
         <Button onPress={() => router.back()} className="p-2">
           <Ionicons name="chevron-back" size={32} color="#000000" />
         </Button>

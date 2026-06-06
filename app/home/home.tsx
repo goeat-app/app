@@ -23,7 +23,7 @@ export default function Home() {
   const { name } = user;
 
   return (
-    <View className="flex-1 bg-[#FDF6F5] gap-4">
+    <View className="flex-1 bg-[--primary-bg] gap-4">
       <View className="px-4">
         <Header />
       </View>

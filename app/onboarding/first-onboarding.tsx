@@ -12,6 +12,7 @@ import { router } from 'expo-router';
 
 import { Button } from '@/components/button';
 import { Typography } from '@/components/typography/typography';
+import { setOnboardingCompleted } from '@/lib/storage/onboarding-storage';
 
 type OnboardingStep = {
   id: string;
@@ -85,13 +86,15 @@ export default function OnBoardingCarousel() {
     );
   }
 
-  const handleSkip = () => {
+  const handleSkip = async () => {
+    await setOnboardingCompleted();
     router.push('/signin/signin-view');
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     const nextIndex = activeIndex + 1;
     if (nextIndex >= onboardingSteps.length) {
+      await setOnboardingCompleted();
       router.push('/signin/signin-view');
     } else {
       FlatListRef.current?.scrollToIndex({ index: nextIndex, animated: true });
@@ -113,7 +116,7 @@ export default function OnBoardingCarousel() {
   }).current;
 
   return (
-    <View className="flex-1 bg-[#FDF6F5]">
+    <View className="flex-1 bg-[--primary-bg]">
       <View className="flex-4 items-center justify-center">
         <FlatList
           ref={FlatListRef}

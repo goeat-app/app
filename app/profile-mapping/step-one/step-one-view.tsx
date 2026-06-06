@@ -22,7 +22,7 @@ export default function StepOne() {
   console.log('foodCategories = ', foodCategories);
 
   return (
-    <View className="flex flex-col w-full h-full items-center justify-between p-8 bg-[#FDF6F5]">
+    <View className="flex flex-col w-full h-full items-center justify-between p-8 bg-[--primary-bg]">
       <ScrollView
         contentContainerStyle={{ gap: 24 }}
         showsVerticalScrollIndicator={false}

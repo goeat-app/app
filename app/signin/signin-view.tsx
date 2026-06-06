@@ -30,7 +30,7 @@ export default function SignIn() {
   } = useSignInModel();
 
   return (
-    <View className="flex-1 bg-[#FDF6F5]">
+    <View className="flex-1 bg-[--primary-bg]">
       <KeyboardAwareScrollView
         contentContainerStyle={{ flexGrow: 1 }}
         keyboardShouldPersistTaps="always"

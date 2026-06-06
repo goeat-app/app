@@ -1,7 +1,7 @@
 import { authService } from 'services/auth-service';
 
-import { handleError } from '@/lib/utils/error-mapper';
 import { signInWithGoogleCredential } from '@/lib/auth/google-signin';
+import { handleError } from '@/lib/utils/error-mapper';
 import { useAuthStore } from '@/store/auth-store';
 
 import { LoginResult } from './signin.types';

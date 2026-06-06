@@ -44,7 +44,7 @@ export default function RestaurantDetails() {
       >
         <View
           style={{ height: CARD_HEIGHT }}
-          className={`rounded-t-[32px] bg-[#FDF6F5] py-4`}
+          className={`rounded-t-[32px] bg-[--primary-bg] py-4`}
         >
           <View className="p-2">
             <RestaurantHeaderDetails />
