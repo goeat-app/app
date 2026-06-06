@@ -1,6 +1,6 @@
 import { Platform } from 'react-native';
 
-import { Auth, connectAuthEmulator, getAuth } from 'firebase/auth';
+import { Auth, connectAuthEmulator, getAuth, signOut } from 'firebase/auth';
 
 import { getFirebaseApp } from './firebase-config';
 
@@ -54,4 +54,8 @@ export async function getFirebaseIdToken(forceRefresh = false) {
 export function getFirebaseRefreshToken() {
   const user = getFirebaseAuth().currentUser;
   return user?.refreshToken || null;
+}
+
+export async function signOutFromFirebase() {
+  await signOut(getFirebaseAuth());
 }

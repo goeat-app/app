@@ -1,8 +1,11 @@
+export type RegisterResponseData = {
+  accessToken?: string;
+  refreshToken?: string;
+  customToken?: string;
+};
+
 export type RegisterUserResult = {
   success: boolean;
-  data?: {
-    accessToken: string;
-    refreshToken: string;
-  };
+  data?: RegisterResponseData;
   error?: string;
 };
