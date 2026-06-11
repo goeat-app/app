@@ -16,9 +16,11 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.goeat.app",
+      "googleServicesFile": "./GoogleService-Info.plist",
       "infoPlist": {
         "UIViewControllerBasedStatusBarAppearance": false,
-        "UIStatusBarStyle": "UIStatusBarStyleDefault"
+        "UIStatusBarStyle": "UIStatusBarStyleDefault",
+        "ITSAppUsesNonExemptEncryption": false
       },
       "userInterfaceStyle": "light",
       "requireFullScreen": false
@@ -39,10 +41,21 @@
     "plugins": [
       "expo-router",
       "expo-font",
-      "./node_modules/@react-native-google-signin/google-signin/app.plugin.js"
+      [
+        "@react-native-google-signin/google-signin/app.plugin.js",
+        {
+          "iosUrlScheme": "com.googleusercontent.apps.465882690924-sfbsdep69q54edj548jot05mq87rmf6k"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "ff1487c2-580b-4655-900f-9a7188e49145"
+      }
     }
   }
 }
