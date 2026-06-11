@@ -117,7 +117,7 @@ export default function OnBoardingCarousel() {
 
   return (
     <View className="flex-1 bg-[--primary-bg]">
-      <View className="flex-4 items-center justify-center">
+      <View className="flex-1 w-full items-center justify-center">
         <FlatList
           ref={FlatListRef}
           data={onboardingSteps}
@@ -135,7 +135,7 @@ export default function OnBoardingCarousel() {
           contentContainerStyle={{ alignItems: 'center' }}
         />
       </View>
-      <View className="flex-1 w-full gap-6 px-4 justify-center">
+      <View className="w-full gap-6 p-4 justify-center">
         <Button
           onPress={handleNext}
           className="w-full h-[50px] bg-[#FF6B35] data-[pressed]:bg-[#e85a28] flex items-center justify-center rounded-xl"

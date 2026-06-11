@@ -11,16 +11,20 @@ import { TabBarRef } from '@/components/tabBar/tabBar.model';
 import { Typography } from '@/components/typography/typography';
 import { useHomeModel } from '@/features/home/home.model';
 
+import { useAuth } from '../../hooks/use-auth';
+
 export default function Home() {
   const tabBarRef = useRef<TabBarRef>(null);
-  const { user, restaurants, favoriteList, handleFavorite, scaleAnims } =
+  const { restaurants, favoriteList, handleFavorite, scaleAnims } =
     useHomeModel();
+
+  const { user } = useAuth();
 
   if (!user) {
     return null;
   }
 
-  const { name } = user;
+  const { displayName } = user;
 
   return (
     <View className="flex-1 bg-[--primary-bg] gap-4">
@@ -40,7 +44,7 @@ export default function Home() {
             <Typography
               type="h2"
               className="text-[#003247] font-poppins-medium"
-              text={`Oi, ${name}!`}
+              text={`Oi, ${displayName}!`}
             />
             <Typography
               type="h5"

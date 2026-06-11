@@ -1,7 +1,7 @@
 import { recommenderService } from 'services/recommender-service';
 
+import { getFirebaseAuth } from '@/lib/auth/firebase-auth';
 import { handleError } from '@/lib/utils/error-mapper';
-import { useAuthStore } from '@/store/auth-store';
 import { RestaurantFilters } from '@/store/restaurant-filter-store';
 
 import { RecommenderResult } from './recommender.types';
@@ -10,14 +10,14 @@ export async function getRecommendationsUseCase(
   filters?: RestaurantFilters,
 ): Promise<RecommenderResult> {
   try {
-    const user = useAuthStore.getState().user;
+    const user = getFirebaseAuth().currentUser;
 
     if (!user) {
       throw new Error('Usuário não encontrado.');
     }
 
     const result = await recommenderService.getRecommendations(
-      user.id,
+      user.uid,
       filters,
     );
 

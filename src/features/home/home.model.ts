@@ -10,12 +10,10 @@ import { getRecommendationsUseCase } from 'use-cases/recommender/recommender.use
 
 import { toast } from '@/components/toast/toast';
 import { loadingWrapper } from '@/hooks/loading-wrapper';
-import { useAuthStore } from '@/store/auth-store';
 import { useRecomendationsStore } from '@/store/recommender-store';
 import { useFilterStore } from '@/store/restaurant-filter-store';
 
 export const useHomeModel = () => {
-  const user = useAuthStore(state => state.user);
   const filters = useFilterStore(state => state.filters);
 
   const setRestaurants = useRecomendationsStore(state => state.setRestaurants);
@@ -92,7 +90,6 @@ export const useHomeModel = () => {
   );
 
   return {
-    user,
     restaurants,
     favoriteList,
     handleFavorite,

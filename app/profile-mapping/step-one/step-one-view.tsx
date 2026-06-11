@@ -5,10 +5,9 @@ import { twMerge } from 'lib/utils/twMerge';
 
 import { Button } from '@/components/button';
 import { Typography } from '@/components/typography/typography';
-import { getImageSource } from '@/lib/utils/image-mapper';
-
 import { PROGRESS } from '@/features/profile-mapping/constants';
 import { useStepOneModel } from '@/features/profile-mapping/step-one.model';
+import { getImageSource } from '@/lib/utils/image-mapper';
 
 export default function StepOne() {
   const {
@@ -18,8 +17,6 @@ export default function StepOne() {
     isMaxSelected,
     setSelectedFoodCategories,
   } = useStepOneModel();
-
-  console.log('foodCategories = ', foodCategories);
 
   return (
     <View className="flex flex-col w-full h-full items-center justify-between p-8 bg-[--primary-bg]">

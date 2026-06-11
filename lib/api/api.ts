@@ -2,12 +2,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { router } from 'expo-router';
 
-import {
-  getFirebaseIdToken,
-  getFirebaseRefreshToken,
-} from '@/lib/auth/firebase-auth';
 import { resolveApiBaseUrl } from '@/lib/api/resolve-api-base-url';
-import { useAuthStore } from '@/store/auth-store';
+import { getFirebaseIdToken } from '@/lib/auth/firebase-auth';
 
 export const api = axios.create({
   baseURL: resolveApiBaseUrl(),
@@ -43,12 +39,6 @@ api.interceptors.response.use(
       return Promise.reject(error);
     }
 
-    if (originalRequest.url?.includes('/auth/refresh')) {
-      await useAuthStore.getState().clearAuth();
-      router.replace('/signin/signin-view');
-      return Promise.reject(error);
-    }
-
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
@@ -60,28 +50,8 @@ api.interceptors.response.use(
           return api(originalRequest);
         }
 
-        const refreshToken =
-          getFirebaseRefreshToken() ||
-          (await AsyncStorage.getItem('refreshToken'));
-
-        if (!refreshToken) {
-          throw new Error('No refresh token');
-        }
-
-        const response = await axios.post(
-          `${api.defaults.baseURL}/auth/refresh`,
-          { refreshToken },
-        );
-
-        const { accessToken, refreshToken: newRefreshToken } = response.data;
-
-        await AsyncStorage.setItem('accessToken', accessToken);
-        await AsyncStorage.setItem('refreshToken', newRefreshToken);
-
-        originalRequest.headers.Authorization = `Bearer ${accessToken}`;
-        return api(originalRequest);
+        router.replace('/signin/signin-view');
       } catch (refreshError) {
-        await useAuthStore.getState().clearAuth();
         router.replace('/signin/signin-view');
 
         return Promise.reject(refreshError);

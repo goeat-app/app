@@ -2,16 +2,16 @@ import { useEffect } from 'react';
 
 import { router } from 'expo-router';
 
-import { useAuthStore } from '@/store/auth-store';
+import { useAuth } from './use-auth';
 
 export function useProtectedRoute() {
-  const isAuthenticated = useAuthStore(state => state.isAuthenticated);
+  const { isAuthenticated, isLoading } = useAuth();
 
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (!isLoading && !isAuthenticated) {
       router.replace('/signin/signin-view');
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, isLoading]);
 
   return { isAuthenticated };
 }

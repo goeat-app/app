@@ -1,8 +1,9 @@
-import { authService } from 'services/auth-service';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { updateUserProfileUseCase } from 'use-cases/profile/update-user-profile.use-case';
 
 import { FormDataRegister } from '@/features/auth/signup.types';
+import { getFirebaseAuth } from '@/lib/auth/firebase-auth';
 import { handleError } from '@/lib/utils/error-mapper';
-import { useAuthStore } from '@/store/auth-store';
 
 import { RegisterUserResult } from './register.types';
 
@@ -10,23 +11,25 @@ export async function registerUserUseCase(
   payload: FormDataRegister,
 ): Promise<RegisterUserResult> {
   try {
-    const response = await authService.register(payload);
+    await createUserWithEmailAndPassword(
+      getFirebaseAuth(),
+      payload.email,
+      payload.password,
+    );
 
-    if (!response.data) {
-      throw new Error('Invalid register response');
-    }
-
-    await useAuthStore.getState().setTokens({
-      access: response.data.accessToken,
-      refresh: response.data.refreshToken,
+    // Update user profile with name and phone after successful Firebase registration
+    const profileUpdateResult = await updateUserProfileUseCase({
+      name: payload.name,
+      phone: payload.phone,
     });
 
-    const userResponse = await authService.getMe();
-    useAuthStore.getState().setUser(userResponse);
+    if (!profileUpdateResult.success) {
+      // Log the error but don't fail the registration
+      console.warn('Failed to update user profile:', profileUpdateResult.error);
+    }
 
     return {
       success: true,
-      data: response.data,
     };
   } catch (error) {
     return {

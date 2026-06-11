@@ -1,6 +1,12 @@
 import { Platform } from 'react-native';
 
-import { Auth, connectAuthEmulator, getAuth, signOut } from 'firebase/auth';
+import {
+  Auth,
+  connectAuthEmulator,
+  getAuth,
+  signInWithEmailAndPassword,
+  signOut,
+} from 'firebase/auth';
 
 import { getFirebaseApp } from './firebase-config';
 
@@ -8,7 +14,7 @@ let authInstance: Auth | null = null;
 let emulatorConnected = false;
 
 function isEmulatorEnabled() {
-  return process.env.EXPO_PUBLIC_USE_FIREBASE_AUTH_EMULATOR === 'true';
+  return process.env.EXPO_PUBLIC_FIREBASE_AUTH_EMULATOR_HOST !== undefined;
 }
 
 function resolveEmulatorHost(rawHost: string): string {
@@ -58,4 +64,22 @@ export function getFirebaseRefreshToken() {
 
 export async function signOutFromFirebase() {
   await signOut(getFirebaseAuth());
+}
+
+export async function signInWithEmail(
+  email: string,
+  password: string,
+): Promise<{
+  accessToken: string;
+  refreshToken: string;
+}> {
+  const userCredential = await signInWithEmailAndPassword(
+    getFirebaseAuth(),
+    email,
+    password,
+  );
+  const accessToken = await userCredential.user.getIdToken(true);
+  const refreshToken = userCredential.user.refreshToken || '';
+
+  return { accessToken, refreshToken };
 }

@@ -39,13 +39,13 @@ export default function SignIn() {
         extraScrollHeight={20}
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View className="items-center">
+          <View className="items-center justify-center flex-1">
             <Image
               resizeMode="contain"
               source={require('@/assets/images/goat-greeting.png')}
               className="w-60 h-60 z-10"
             />
-            <View className="w-full bg-[#FBF3ED] rounded-t-3xl items-center p-4 -mt-20 pt-24">
+            <View className="w-full flex-1 bg-[#FBF3ED] rounded-t-3xl items-center justify-center p-4 -mt-20 pt-24">
               <View className="w-full items-center justify-center mb-5">
                 <Typography
                   type="h2"

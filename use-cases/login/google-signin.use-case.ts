@@ -1,22 +1,11 @@
-import { authService } from 'services/auth-service';
-
 import { signInWithGoogleCredential } from '@/lib/auth/google-signin';
 import { handleError } from '@/lib/utils/error-mapper';
-import { useAuthStore } from '@/store/auth-store';
 
 import { LoginResult } from './signin.types';
 
 export async function googleSignInUseCase(): Promise<LoginResult> {
   try {
     const { accessToken, refreshToken } = await signInWithGoogleCredential();
-
-    await useAuthStore.getState().setTokens({
-      access: accessToken,
-      refresh: refreshToken,
-    });
-
-    const userResponse = await authService.getMe();
-    useAuthStore.getState().setUser(userResponse);
 
     return {
       success: true,

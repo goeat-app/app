@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { BackButtonDisplayMode } from 'react-native-screens';
 import Toast from 'react-native-toast-message';
 
 import {
@@ -18,12 +19,13 @@ import {
   Poppins_600SemiBold,
 } from '@expo-google-fonts/poppins';
 import { Ionicons } from '@expo/vector-icons';
+import { NativeStackNavigationOptions } from '@react-navigation/native-stack';
 import { router, Stack, usePathname } from 'expo-router';
 
-import '../global.css';
-
 import Loading from '@/components/loading/loading';
-import { useAuthStore } from '@/store/auth-store';
+import { useAuth } from '@/hooks/use-auth';
+
+import '../global.css';
 
 const PROTECTED_ROUTES = [
   '/recomendations/recomendations-view',
@@ -45,16 +47,8 @@ export default function Layout() {
   });
 
   const pathname = usePathname();
-  const isAuthenticated = useAuthStore(state => state.isAuthenticated);
-  const isHydrated = useAuthStore(state => state._hasHydrated);
-  const isReady = fontsLoaded && isHydrated;
-
-  // const clearAuth = useAuthStore(state => state.clearAuth);
-
-  // useEffect(() => {
-  //   // Descomente para forçar logout na próxima recarga
-  //   clearAuth();
-  // }, []);
+  const { isAuthenticated, isLoading } = useAuth();
+  const isReady = fontsLoaded && !isLoading;
 
   useEffect(() => {
     if (!isReady) {
@@ -73,33 +67,38 @@ export default function Layout() {
     }
   }, [isAuthenticated, pathname, isReady]);
 
-  const screenOptions = useMemo(
+  const screenOptions = useMemo<NativeStackNavigationOptions>(
     () => ({
       title: '',
       headerBackTitleVisible: false,
       headerShadowVisible: false,
-      headerBackVisible: false,
+      headerBackVisible: Platform.OS === 'ios',
+      headerBackButtonDisplayMode: 'minimal' as BackButtonDisplayMode,
       headerStyle: { backgroundColor: '#FDF6F5' },
-      headerLeft: () => (
-        <TouchableOpacity
-          onPress={() => router.back()}
-          style={{ marginLeft: 0 }}
-          activeOpacity={0.7}
-        >
-          <Ionicons
-            name="arrow-back-circle-outline"
-            size={42}
-            color="#FF7947"
-          />
-        </TouchableOpacity>
-      ),
+      headerLeft:
+        Platform.OS === 'ios'
+          ? undefined
+          : prop =>
+              prop.canGoBack && (
+                <TouchableOpacity
+                  onPress={() => router.back()}
+                  style={{ marginLeft: 0 }}
+                  activeOpacity={0.7}
+                >
+                  <Ionicons
+                    name="arrow-back-circle-outline"
+                    size={42}
+                    color="#FF7947"
+                  />
+                </TouchableOpacity>
+              ),
     }),
     [],
   );
 
-  if (!fontsLoaded || !isReady) {
+  if (!fontsLoaded || !isReady || isLoading) {
     return (
-      <View className="flex-1 items-center justify-center bg-[#FDF6F5]">
+      <View className="flex-1 items-center justify-center bg-[--primary-bg]">
         <ActivityIndicator size="large" color="#FF7947" />
         <Text className="mt-4 text-[#FF7947] text-base">Carregando...</Text>
       </View>
@@ -125,7 +124,10 @@ export default function Layout() {
                 }}
               />
 
-              <Stack.Screen name="signin/signin" />
+              <Stack.Screen
+                name="signin/signin"
+                options={{ headerShown: false }}
+              />
               <Stack.Screen name="signup/signup" />
               <Stack.Screen
                 name="profile-mapping/step-one/step-one"

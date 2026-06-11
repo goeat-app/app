@@ -1,8 +1,8 @@
-import { authService } from 'services/auth-service';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 import { FormDataLogin } from '@/features/auth/signin.types';
+import { getFirebaseAuth } from '@/lib/auth/firebase-auth';
 import { handleError } from '@/lib/utils/error-mapper';
-import { useAuthStore } from '@/store/auth-store';
 
 import { LoginResult } from './signin.types';
 
@@ -10,21 +10,18 @@ export async function signInUseCase(
   payload: FormDataLogin,
 ): Promise<LoginResult> {
   try {
-    const response = await authService.login(payload);
+    const userCredential = await signInWithEmailAndPassword(
+      getFirebaseAuth(),
+      payload.email,
+      payload.password,
+    );
 
-    const { accessToken, refreshToken } = response.data;
-
-    await useAuthStore.getState().setTokens({
-      access: accessToken,
-      refresh: refreshToken,
-    });
-
-    const userResponse = await authService.getMe();
-    useAuthStore.getState().setUser(userResponse);
+    const accessToken = await userCredential.user.getIdToken(true);
+    const refreshToken = userCredential.user.refreshToken;
 
     return {
       success: true,
-      data: response.data,
+      data: { accessToken, refreshToken },
     };
   } catch (error) {
     return {
