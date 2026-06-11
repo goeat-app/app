@@ -1,6 +1,8 @@
-import { CashIcon } from '@/assets/icons/cash-icon';
-import { MoneyIconProps } from './money-icon.types';
 import { View } from 'react-native';
+
+import { CashIcon } from '@/assets/icons/cash-icon';
+
+import { MoneyIconProps } from './money-icon.types';
 
 export const MoneyIcon = ({ scale, width, height, color }: MoneyIconProps) => {
   const iconFilled = color ?? '#003247';

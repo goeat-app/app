@@ -7,24 +7,20 @@ import { Header } from '@/components/header/header';
 import { Location } from '@/components/location/location';
 import { MapPreview } from '@/components/map-preview/map-preview';
 import { TabBar } from '@/components/tabBar/tabBar';
-import { Typography } from '@/components/typography/typography';
 import { TabBarRef } from '@/components/tabBar/tabBar.model';
+import { Typography } from '@/components/typography/typography';
+
 import { useHomeModel } from './home.model';
 
 export default function Home() {
   const tabBarRef = useRef<TabBarRef>(null);
-  const {
-    user,
-    restaurants,
-    favoriteList,
-    handleFavorite,
-    scaleAnims,
-  } = useHomeModel();
-  
+  const { user, restaurants, favoriteList, handleFavorite, scaleAnims } =
+    useHomeModel();
+
   if (!user) {
     return null;
   }
-  
+
   const { name } = user;
 
   return (

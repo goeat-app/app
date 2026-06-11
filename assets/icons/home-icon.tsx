@@ -1,12 +1,7 @@
-import Svg, { Path, SvgProps } from "react-native-svg"
+import Svg, { Path, SvgProps } from 'react-native-svg';
 
-export const HomeIcon = ({ width, height, ...props }: SvgProps)=> (
-  <Svg
-    width={width ?? 74}
-    height={height ?? 24}
-    fill="none"
-    {...props}
-  >
+export const HomeIcon = ({ width, height, ...props }: SvgProps) => (
+  <Svg width={width ?? 74} height={height ?? 24} fill="none" {...props}>
     <Path
       fill="#FDF6F5"
       fillRule="evenodd"
@@ -20,4 +15,4 @@ export const HomeIcon = ({ width, height, ...props }: SvgProps)=> (
       clipRule="evenodd"
     />
   </Svg>
-)
+);

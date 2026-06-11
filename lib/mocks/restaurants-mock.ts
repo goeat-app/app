@@ -10,7 +10,6 @@ export const restaurantsMocks = [
     state: 'SP',
     placeType: 'Comemorações, animado',
     foodType: 'Italiana',
-    
   },
   {
     id: '2',
@@ -35,7 +34,6 @@ export const restaurantsMocks = [
     state: 'SP',
     placeType: 'Comemorações, animado',
     foodType: 'Italiana',
-    
   },
   {
     id: '4',

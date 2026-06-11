@@ -1,12 +1,7 @@
-import Svg, { Path, SvgProps } from "react-native-svg"
+import Svg, { Path, SvgProps } from 'react-native-svg';
 
 export const RestaurantsIcon = ({ width, height, ...props }: SvgProps) => (
-  <Svg
-    width={width ?? 24}
-    height={height ?? 24}
-    fill="none"
-    {...props}
-  >
+  <Svg width={width ?? 24} height={height ?? 24} fill="none" {...props}>
     <Path
       stroke="#FFFDF9"
       strokeLinejoin="round"
@@ -19,4 +14,4 @@ export const RestaurantsIcon = ({ width, height, ...props }: SvgProps) => (
       d="m18.75 1.5-3.621 3.621a3 3 0 0 0-.88 2.122v.696a.749.749 0 0 1-.219.531L13.5 9M15 10.5l.53-.53a.75.75 0 0 1 .53-.22h.697a3 3 0 0 0 2.122-.879l3.62-3.62M20.625 3.375l-3.75 3.75M9.375 17.25 4.7 21.95a1.875 1.875 0 0 1-2.652-2.65L6 15.375"
     />
   </Svg>
-)
+);

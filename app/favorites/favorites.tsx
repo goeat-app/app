@@ -9,9 +9,9 @@ import { Header } from '@/components/header/header';
 import { Input } from '@/components/input';
 import { RestaurantCard } from '@/components/recomendation-card/recomendation-card';
 import { TabBar } from '@/components/tabBar/tabBar';
+import { TabBarRef } from '@/components/tabBar/tabBar.model';
 
 import { useFavoritesModel } from './favorites.model';
-import { TabBarRef } from '@/components/tabBar/tabBar.model';
 
 export default function Favorites() {
   const {

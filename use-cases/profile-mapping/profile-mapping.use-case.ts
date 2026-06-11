@@ -1,7 +1,7 @@
 import { profileMappingService } from 'services/profile-mapping-service';
 
+import { getFirebaseAuth } from '@/lib/auth/firebase-auth';
 import { handleError } from '@/lib/utils/error-mapper';
-import { useAuthStore } from '@/store/auth-store';
 import { useProfileMappingStore } from '@/store/profile-mapping';
 
 import {
@@ -18,14 +18,14 @@ export async function createProfileMapping(
     useProfileMappingStore.getState().selectedFoodCategories;
 
   try {
-    const user = useAuthStore.getState().user;
+    const user = getFirebaseAuth().currentUser;
 
     if (!user) {
       throw new Error('Usuário não autenticado.');
     }
 
     const payload = {
-      userId: user.id,
+      userId: user.uid,
       foodTypes: selectedFoodCategories,
       placeTypes: selectedPlaceTypes,
       priceRange: {

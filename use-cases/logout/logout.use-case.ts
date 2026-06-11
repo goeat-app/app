@@ -1,17 +1,13 @@
-import { authService } from 'services/auth-service';
-
+import { signOutFromFirebase } from '@/lib/auth/firebase-auth';
 import { handleError } from '@/lib/utils/error-mapper';
-import { useAuthStore } from '@/store/auth-store';
 import { useRecomendationsStore } from '@/store/recommender-store';
 
 import { LogoutResult } from './logout.types';
 
 export async function logoutUseCase(): Promise<LogoutResult> {
   try {
-    await authService.logout();
+    await signOutFromFirebase();
 
-    await useAuthStore.getState().clearAuth();
-    
     useRecomendationsStore.getState().setRestaurants([]);
 
     return { success: true };

@@ -1,13 +1,7 @@
-import Svg, { G, Path, Defs, ClipPath, SvgProps } from "react-native-svg";
+import Svg, { G, Path, Defs, ClipPath, SvgProps } from 'react-native-svg';
 
 export const SodexoIcon = (props: SvgProps) => (
-  <Svg
-    width={24}
-    height={16}
-    viewBox="0 0 24 16"
-    fill="none"
-    {...props}
-  >
+  <Svg width={24} height={16} viewBox="0 0 24 16" fill="none" {...props}>
     <G clipPath="url(#a)">
       <Path
         fill="#D5DEF6"

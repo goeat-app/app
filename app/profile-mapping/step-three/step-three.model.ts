@@ -13,18 +13,26 @@ export const useStepThreeModel = () => {
   const handleChangePrice = (value: string, type: 'min' | 'max') => {
     const cleanValue = value.replace(/[R$\s]/g, '');
     const numericValue = parseInt(cleanValue, 10);
-    
+
     if (type === 'min') {
       setMinInput(isNaN(numericValue) ? 0 : numericValue);
 
-      if (!isNaN(numericValue) && numericValue >= 20 && numericValue <= range[1]) {
+      if (
+        !isNaN(numericValue) &&
+        numericValue >= 20 &&
+        numericValue <= range[1]
+      ) {
         const roundedValue = Math.round(numericValue / 10) * 10;
         setRange([roundedValue, range[1]]);
       }
     } else {
       setMaxInput(isNaN(numericValue) ? 0 : numericValue);
 
-      if (!isNaN(numericValue) && numericValue <= 300 && numericValue >= range[0]) {
+      if (
+        !isNaN(numericValue) &&
+        numericValue <= 300 &&
+        numericValue >= range[0]
+      ) {
         const roundedValue = Math.round(numericValue / 10) * 10;
         setRange([range[0], roundedValue]);
       }

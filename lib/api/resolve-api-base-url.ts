@@ -1,5 +1,6 @@
-import Constants from 'expo-constants';
 import { Platform } from 'react-native';
+
+import Constants from 'expo-constants';
 
 /** Backend HTTP port (Nest default). */
 const API_PORT = 3000;

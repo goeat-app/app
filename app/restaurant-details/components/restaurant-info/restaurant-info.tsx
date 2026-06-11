@@ -1,3 +1,5 @@
+import { View } from 'react-native';
+
 import { CandleIcon } from '@/assets/icons/env-type/candle-icon';
 import { GlassIcon } from '@/assets/icons/env-type/glass-icon';
 import { ModernPlaceIcon } from '@/assets/icons/env-type/modern-place-icon';
@@ -9,7 +11,6 @@ import { VisaIcon } from '@/assets/icons/payment-methods/visa-icon';
 import { PhotoGallery } from '@/components/photo-gallery/photo-gallery';
 import { Tag } from '@/components/tag';
 import { Typography } from '@/components/typography/typography';
-import { View } from 'react-native';
 
 export const RestaurantInfo = () => {
   //TODO: Remover dados mockados

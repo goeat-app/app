@@ -1,5 +1,6 @@
-import { useLoaderStore } from '@/store/loading';
 import { View, Image } from 'react-native';
+
+import { useLoaderStore } from '@/store/loading';
 
 export default function Loading() {
   const isLoading = useLoaderStore(state => state.isLoading);
