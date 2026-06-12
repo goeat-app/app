@@ -7,8 +7,8 @@ import { FavoriteIcon } from '@/assets/icons/favorites-icon';
 import { HomeIcon } from '@/assets/icons/home-icon';
 import { RestaurantsIcon } from '@/assets/icons/restaurants-icon';
 import { UserIcon } from '@/assets/icons/user-icon';
-
 import { useFilterStore } from '@/store/restaurant-filter-store';
+
 import { TabBarRef, useTabBarModel } from './tabBar.model';
 import { TabItem } from './tabItem';
 

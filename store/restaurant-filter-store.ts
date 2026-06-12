@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+
 import { defaultMinPrice, defaultMaxPrice } from '@/constants/filterConstants';
 
 export interface RestaurantFilters {

@@ -7,12 +7,12 @@ import { ExitIcon } from '@/assets/icons/exit-icon';
 import { PhoneIcon } from '@/assets/icons/phone-icon';
 import { PlacesVisitedIcon } from '@/assets/icons/places-icon';
 import { SettingsIcon } from '@/assets/icons/settings-icon';
+import { StarIcon } from '@/assets/icons/star-icon';
 import { Button } from '@/components/button';
 import { ProfileMenuItem } from '@/components/profile-menu-item/profile-menu-item';
 import { Typography } from '@/components/typography/typography';
 
 import { useProfilePageModel } from './profile-page.model';
-import { StarIcon } from '@/assets/icons/star-icon';
 
 export default function ProfilePage() {
   const {

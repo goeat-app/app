@@ -1,9 +1,9 @@
+import { Image, ScrollView, View } from 'react-native';
+
 import { StarIcon } from '@/assets/icons/star-icon';
 import { Button } from '@/components/button';
-import { PhotoGallery } from '@/components/photo-gallery/photo-gallery';
 import { RatingList } from '@/components/rating-list/rating-list';
 import { Typography } from '@/components/typography/typography';
-import { Image, ScrollView, View } from 'react-native';
 
 export const RestaurantReviews = () => {
   //TODO: Remover dados mockados

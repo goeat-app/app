@@ -7,8 +7,8 @@ import { Button } from '@/components/button';
 import { Typography } from '@/components/typography/typography';
 import { getImageSource } from '@/lib/utils/image-mapper';
 
-import { useStepOneModel } from './step-one.model';
 import { PROGRESS } from './consts/consts';
+import { useStepOneModel } from './step-one.model';
 
 export default function StepOne() {
   const {
@@ -19,7 +19,7 @@ export default function StepOne() {
     setSelectedFoodCategories,
   } = useStepOneModel();
 
-  console.log('foodCategories = ', foodCategories)
+  console.log('foodCategories = ', foodCategories);
 
   return (
     <View className="flex flex-col w-full h-full items-center justify-between p-8 bg-[#FDF6F5]">

@@ -1,5 +1,12 @@
 import { useRef } from 'react';
-import { View, StatusBar, FlatList, ScrollView, Text, StyleSheet } from 'react-native';
+import {
+  View,
+  StatusBar,
+  FlatList,
+  ScrollView,
+  Text,
+  StyleSheet,
+} from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
@@ -12,10 +19,10 @@ import { Input } from '@/components/input';
 import { RestaurantCard } from '@/components/recomendation-card/recomendation-card';
 import { RestaurantFilter } from '@/components/restaurants-filter/restaurant-filter';
 import { TabBar } from '@/components/tabBar/tabBar';
+import { TabBarRef } from '@/components/tabBar/tabBar.model';
 import { Typography } from '@/components/typography/typography';
 
 import { useRecomendationsModel } from './recomendations.model';
-import { TabBarRef } from '@/components/tabBar/tabBar.model';
 
 export default function Recomendations() {
   const {
@@ -76,7 +83,15 @@ export default function Recomendations() {
         </Input.Root>
       </View>
 
-      <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14, paddingVertical: 8, gap: 8 }}>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          paddingHorizontal: 14,
+          paddingVertical: 8,
+          gap: 8,
+        }}
+      >
         <Button
           className="flex flex-row gap-2 h-[35px] bg-[#FF6B35] rounded-full items-center justify-center px-4"
           onPress={openFilter}

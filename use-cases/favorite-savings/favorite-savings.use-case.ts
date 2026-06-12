@@ -1,9 +1,9 @@
-import { handleError } from '@/lib/utils/error-mapper';
-import { useAuthStore } from '@/store/auth-store';
-
 import { favoriteSavingsService } from 'services/favorite-savings-service';
 import { restaurantService } from 'services/restaurant-service';
 import { RecommendedRestaurant } from 'use-cases/recommender/recommender.types';
+
+import { getFirebaseAuth } from '@/lib/auth/firebase-auth';
+import { handleError } from '@/lib/utils/error-mapper';
 
 import {
   FavoriteIdsResult,
@@ -13,13 +13,13 @@ import {
 
 export async function getFavoriteRestaurantIdsUseCase(): Promise<FavoriteIdsResult> {
   try {
-    const user = useAuthStore.getState().user;
+    const user = getFirebaseAuth().currentUser;
 
     if (!user) {
       throw new Error('Usuário não encontrado.');
     }
 
-    const dto = await favoriteSavingsService.getByUserId(user.id);
+    const dto = await favoriteSavingsService.getUserFavorites();
 
     return { success: true, data: dto.restaurantIds };
   } catch (error) {
@@ -32,13 +32,13 @@ export async function getFavoriteRestaurantIdsUseCase(): Promise<FavoriteIdsResu
 
 export async function loadFavoriteRestaurantsUseCase(): Promise<FavoriteRestaurantsResult> {
   try {
-    const user = useAuthStore.getState().user;
+    const user = getFirebaseAuth().currentUser;
 
     if (!user) {
       throw new Error('Usuário não encontrado.');
     }
 
-    const dto = await favoriteSavingsService.getByUserId(user.id);
+    const dto = await favoriteSavingsService.getUserFavorites();
 
     if (dto.restaurantIds.length === 0) {
       return { success: true, data: [] };
@@ -83,19 +83,19 @@ export async function saveFavoriteUseCase(
   restaurantId: string,
 ): Promise<ToggleFavoriteResult> {
   try {
-    const user = useAuthStore.getState().user;
+    const user = getFirebaseAuth().currentUser;
 
     if (!user) {
       throw new Error('Usuário não encontrado.');
     }
 
-    const current = await favoriteSavingsService.getByUserId(user.id);
+    const current = await favoriteSavingsService.getUserFavorites();
     if (current.restaurantIds.includes(restaurantId)) {
       return { success: true };
     }
 
     await favoriteSavingsService.save({
-      userId: user.id,
+      userId: user.uid,
       restaurantIds: [...current.restaurantIds, restaurantId],
     });
 
@@ -112,13 +112,13 @@ export async function removeFavoriteUseCase(
   restaurantId: string,
 ): Promise<ToggleFavoriteResult> {
   try {
-    const user = useAuthStore.getState().user;
+    const user = getFirebaseAuth().currentUser;
 
     if (!user) {
       throw new Error('Usuário não encontrado.');
     }
 
-    await favoriteSavingsService.removeRestaurant(user.id, restaurantId);
+    await favoriteSavingsService.removeRestaurant(user.uid, restaurantId);
 
     return { success: true };
   } catch (error) {

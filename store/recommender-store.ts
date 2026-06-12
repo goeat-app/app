@@ -1,5 +1,5 @@
-import { RecommendedRestaurant } from "use-cases/recommender/recommender.types";
-import { create } from "zustand";
+import { RecommendedRestaurant } from 'use-cases/recommender/recommender.types';
+import { create } from 'zustand';
 
 interface RecomendationsState {
   restaurants: RecommendedRestaurant[];

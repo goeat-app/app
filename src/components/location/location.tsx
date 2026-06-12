@@ -1,6 +1,7 @@
 import { View } from 'react-native';
-import { Typography } from '@/components/typography/typography';
+
 import { LocationIcon } from '@/assets/icons/location';
+import { Typography } from '@/components/typography/typography';
 
 export const Location = () => {
   return (

@@ -1,21 +1,15 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import MultiSlider from '@ptomasroos/react-native-multi-slider';
-import { Input } from '@/components/input';
 
+import { Ionicons } from '@expo/vector-icons';
 import BottomSheet, {
   BottomSheetScrollView,
   BottomSheetBackdrop,
   BottomSheetBackdropProps,
 } from '@gorhom/bottom-sheet';
+import MultiSlider from '@ptomasroos/react-native-multi-slider';
 
-import {
-  defaultFilters,
-  RestaurantFilters,
-  useFilterStore,
-} from '@/store/restaurant-filter-store';
-
+import { Input } from '@/components/input';
 import {
   mealTypes,
   foodTypes,
@@ -26,13 +20,26 @@ import {
   defaultMinPrice,
   defaultMaxPrice,
 } from '@/constants/filterConstants';
+import {
+  defaultFilters,
+  RestaurantFilters,
+  useFilterStore,
+} from '@/store/restaurant-filter-store';
 
-
-function StarRating({ value, onChange }: { value: number; onChange: (v: number) => void }) {
+function StarRating({
+  value,
+  onChange,
+}: {
+  value: number;
+  onChange: (v: number) => void;
+}) {
   return (
     <View style={styles.starRow}>
       {[1, 2, 3, 4, 5].map(star => (
-        <TouchableOpacity key={star} onPress={() => onChange(star === value ? 0 : star)}>
+        <TouchableOpacity
+          key={star}
+          onPress={() => onChange(star === value ? 0 : star)}
+        >
           <Ionicons
             name={star <= value ? 'star' : 'star-outline'}
             size={28}
@@ -63,10 +70,19 @@ function CheckboxList({
             style={styles.checkboxRow}
             onPress={() => onToggle(option)}
           >
-            <View style={[styles.checkbox, isChecked && styles.checkboxChecked]}>
-              {isChecked && <Ionicons name="checkmark" size={13} color="white" />}
+            <View
+              style={[styles.checkbox, isChecked && styles.checkboxChecked]}
+            >
+              {isChecked && (
+                <Ionicons name="checkmark" size={13} color="white" />
+              )}
             </View>
-            <Text style={[styles.checkboxLabel, isChecked && styles.checkboxLabelChecked]}>
+            <Text
+              style={[
+                styles.checkboxLabel,
+                isChecked && styles.checkboxLabelChecked,
+              ]}
+            >
               {option}
             </Text>
           </TouchableOpacity>
@@ -90,7 +106,7 @@ function VoucherSubFilter({
       onChange(isAllSelected ? [] : [...voucherTypes]);
       return;
     }
- 
+
     const updated = selected.includes(option)
       ? selected.filter(v => v !== option)
       : [...selected, option];
@@ -101,19 +117,26 @@ function VoucherSubFilter({
     <View style={styles.voucherContainer}>
       {[voucherAll, ...voucherTypes].map(option => {
         const isChecked =
-          option === voucherAll
-            ? isAllSelected
-            : selected.includes(option);
+          option === voucherAll ? isAllSelected : selected.includes(option);
         return (
           <TouchableOpacity
             key={option}
             style={styles.checkboxRow}
             onPress={() => handleToggle(option)}
           >
-            <View style={[styles.checkbox, isChecked && styles.checkboxChecked]}>
-              {isChecked && <Ionicons name="checkmark" size={13} color="white" />}
+            <View
+              style={[styles.checkbox, isChecked && styles.checkboxChecked]}
+            >
+              {isChecked && (
+                <Ionicons name="checkmark" size={13} color="white" />
+              )}
             </View>
-            <Text style={[styles.checkboxLabel, isChecked && styles.checkboxLabelChecked]}>
+            <Text
+              style={[
+                styles.checkboxLabel,
+                isChecked && styles.checkboxLabelChecked,
+              ]}
+            >
               {option}
             </Text>
           </TouchableOpacity>
@@ -123,7 +146,13 @@ function VoucherSubFilter({
   );
 }
 
-function AccordionSection({ title, children }: { title: string; children: React.ReactNode }) {
+function AccordionSection({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -145,7 +174,8 @@ function AccordionSection({ title, children }: { title: string; children: React.
 }
 
 export const RestaurantFilter = () => {
-  const { isFilterOpen, closeFilter, setFilters, clearFilters, filters } = useFilterStore();
+  const { isFilterOpen, closeFilter, setFilters, clearFilters, filters } =
+    useFilterStore();
   const sheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => ['55%', '92%'], []);
   const [local, setLocal] = useState<RestaurantFilters>(filters);
@@ -163,13 +193,21 @@ export const RestaurantFilter = () => {
     const numericValue = parseInt(cleanValue, 10);
     if (type === 'min') {
       setMinInput(isNaN(numericValue) ? 0 : numericValue);
-      if (!isNaN(numericValue) && numericValue >= defaultMinPrice && numericValue <= local.maxPrice) {
+      if (
+        !isNaN(numericValue) &&
+        numericValue >= defaultMinPrice &&
+        numericValue <= local.maxPrice
+      ) {
         const rounded = Math.round(numericValue / 10) * 10;
         setLocal(prev => ({ ...prev, minPrice: rounded }));
       }
     } else {
       setMaxInput(isNaN(numericValue) ? 0 : numericValue);
-      if (!isNaN(numericValue) && numericValue <= defaultMaxPrice && numericValue >= local.minPrice) {
+      if (
+        !isNaN(numericValue) &&
+        numericValue <= defaultMaxPrice &&
+        numericValue >= local.minPrice
+      ) {
         const rounded = Math.round(numericValue / 10) * 10;
         setLocal(prev => ({ ...prev, maxPrice: rounded }));
       }
@@ -215,11 +253,14 @@ export const RestaurantFilter = () => {
     }
   }, [isFilterOpen]);
 
-  const handleSheetChange = useCallback((index: number) => {
-    if (index === -1) {
-      closeFilter();
-    }
-  }, [closeFilter]);
+  const handleSheetChange = useCallback(
+    (index: number) => {
+      if (index === -1) {
+        closeFilter();
+      }
+    },
+    [closeFilter],
+  );
 
   function toggleItem(field: keyof RestaurantFilters, value: string) {
     const current = local[field] as string[];
@@ -251,8 +292,8 @@ export const RestaurantFilter = () => {
 
   function handleReset() {
     setLocal(defaultFilters);
-    setMinInput(String(defaultFilters.minPrice));
-    setMaxInput(String(defaultFilters.maxPrice));
+    setMinInput(Number(defaultFilters.minPrice));
+    setMaxInput(Number(defaultFilters.maxPrice));
     clearFilters();
   }
 
@@ -283,7 +324,7 @@ export const RestaurantFilter = () => {
       ref={sheetRef}
       index={-1}
       snapPoints={snapPoints}
-      enablePanDownToClose  
+      enablePanDownToClose
       onChange={handleSheetChange}
       backdropComponent={renderBackdrop}
       handleIndicatorStyle={styles.handle}
@@ -376,7 +417,9 @@ export const RestaurantFilter = () => {
           {local.paymentMethods.includes('Vale-refeição') && (
             <VoucherSubFilter
               selected={local.voucherTypes}
-              onChange={updated => setLocal(prev => ({ ...prev, voucherTypes: updated }))}
+              onChange={updated =>
+                setLocal(prev => ({ ...prev, voucherTypes: updated }))
+              }
             />
           )}
         </AccordionSection>
@@ -430,7 +473,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: 'PoppinsMedium',
   },
-    starRow: {
+  starRow: {
     flexDirection: 'row',
     gap: 8,
     paddingHorizontal: 16,

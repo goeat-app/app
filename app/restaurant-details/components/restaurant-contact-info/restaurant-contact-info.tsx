@@ -1,3 +1,5 @@
+import { View } from 'react-native';
+
 import { LocationIcon } from '@/assets/icons/location-icon';
 import { PhoneContactIcon } from '@/assets/icons/phone-contact-icon';
 import { RouteIcon } from '@/assets/icons/route-icon';
@@ -5,7 +7,6 @@ import { WhatsappIcon } from '@/assets/icons/whatsapp-icon';
 import { Button } from '@/components/button';
 import { MoneyIcon } from '@/components/money-icon/money-icon';
 import { Typography } from '@/components/typography/typography';
-import { View } from 'react-native';
 
 //TODO: Remover dados mockados
 

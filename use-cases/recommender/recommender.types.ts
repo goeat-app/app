@@ -1,4 +1,3 @@
-
 export interface RecommendedRestaurant {
   id: string;
   name: string;
@@ -21,6 +20,5 @@ export interface RecommenderError {
   success: false;
   error: string;
 }
-
 
 export type RecommenderResult = RecommenderSuccess | RecommenderError;

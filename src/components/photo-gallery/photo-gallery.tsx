@@ -1,15 +1,7 @@
+import { FlatList, Image, Modal, Pressable, Text, View } from 'react-native';
+
 import { Typography } from '@/components/typography/typography';
-import { useRef, useState } from 'react';
-import {
-  Dimensions,
-  FlatList,
-  Image,
-  ImageSourcePropType,
-  Modal,
-  Pressable,
-  Text,
-  View,
-} from 'react-native';
+
 import { usePhotoGallery } from './photo-gallery.model';
 import { PhotoGalleryProps } from './photo-gallery.types';
 

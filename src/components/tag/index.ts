@@ -1,7 +1,7 @@
-import { Root } from "./root/root";
-import { Title } from "./title/title";
+import { Root } from './root/root';
+import { Title } from './title/title';
 
 export const Tag = {
   Root,
-  Title
+  Title,
 };

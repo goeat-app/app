@@ -1,7 +1,9 @@
-import { TextInput, View } from 'react-native';
-import { twMerge } from 'lib/utils/twMerge';
-import { ContentProps, FieldProps } from '../input.types';
 import React from 'react';
+import { TextInput, View } from 'react-native';
+
+import { twMerge } from 'lib/utils/twMerge';
+
+import { ContentProps, FieldProps } from '../input.types';
 
 const ContentLeft = ({ children, className }: ContentProps) => {
   return (
@@ -23,14 +25,14 @@ const Field = ({
   onBlur,
   ...props
 }: FieldProps) => {
-  const childrenArray = React.Children.toArray(children);
+  const childrenArray = React.Children.toArray(
+    children,
+  ) as React.ReactElement[];
 
-  const leftContent = childrenArray.find(
-    (child: any) => child?.type === ContentLeft,
-  );
+  const leftContent = childrenArray.find(child => child?.type === ContentLeft);
 
   const rightContent = childrenArray.find(
-    (child: any) => child?.type === ContentRight,
+    child => child?.type === ContentRight,
   );
 
   return (

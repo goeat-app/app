@@ -19,7 +19,7 @@ const IMAGE_MAP: Record<string, ImageSourcePropType> = {
   'fast-food-env': require('@/assets/images/environments/fast-food-env.png'),
   'cafe-env': require('@/assets/images/environments/cafe-env.png'),
   'rodizio-env': require('@/assets/images/environments/rodizio-env.png'),
-  
+
   'goat-eating': require('@/assets/images/goat-eating.png'),
 };
 

@@ -1,11 +1,11 @@
 import { Animated, FlatList, Pressable, View } from 'react-native';
 
 import { router } from 'expo-router';
+import { RecommendedRestaurant } from 'use-cases/recommender/recommender.types';
 
 import { Typography } from '@/components/typography/typography';
 
 import { RestaurantCard } from './restaurantCard';
-import { RecommendedRestaurant } from 'use-cases/recommender/recommender.types';
 
 interface CarouselProps {
   restaurants: RecommendedRestaurant[];

@@ -1,6 +1,6 @@
-import { api } from '@/lib/api/api';
-
 import { RecommendedRestaurant } from 'use-cases/recommender/recommender.types';
+
+import { api } from '@/lib/api/api';
 
 export const restaurantService = {
   async getById(restaurantId: string): Promise<RecommendedRestaurant> {

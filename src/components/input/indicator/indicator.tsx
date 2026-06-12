@@ -1,14 +1,17 @@
-import { twMerge } from "lib/utils/twMerge"
-import { View } from "react-native"
-import { IndicatorProps } from "../input.types"
+import { View } from 'react-native';
 
-export const Indicator = ({ children, className, ...props}: IndicatorProps) => {
+import { twMerge } from 'lib/utils/twMerge';
+
+import { IndicatorProps } from '../input.types';
+
+export const Indicator = ({
+  children,
+  className,
+  ...props
+}: IndicatorProps) => {
   return (
-    <View
-      className={twMerge(className)}
-      {...props}  
-    >
+    <View className={twMerge(className)} {...props}>
       {children}
     </View>
-  )
-}
+  );
+};

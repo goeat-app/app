@@ -2,18 +2,18 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Animated } from 'react-native';
 
 import { useRouter } from 'expo-router';
-
-import { toast } from '@/components/toast/toast';
-import { loadingWrapper } from '@/hooks/loading-wrapper';
 import {
   getFavoriteRestaurantIdsUseCase,
   removeFavoriteUseCase,
   saveFavoriteUseCase,
 } from 'use-cases/favorite-savings/favorite-savings.use-case';
 import { getRecommendationsUseCase } from 'use-cases/recommender/recommender.use-case';
+
+import { toast } from '@/components/toast/toast';
+import { defaultMinPrice, defaultMaxPrice } from '@/constants/filterConstants';
+import { loadingWrapper } from '@/hooks/loading-wrapper';
 import { useRecomendationsStore } from '@/store/recommender-store';
 import { useFilterStore } from '@/store/restaurant-filter-store';
-import { defaultMinPrice, defaultMaxPrice } from '@/constants/filterConstants';
 
 export const useRecomendationsModel = () => {
   const [searchValue, setSearchValue] = useState('');
@@ -27,7 +27,9 @@ export const useRecomendationsModel = () => {
   const openFilter = useFilterStore(state => state.openFilter);
 
   async function loadRecommendations(currentFilters?: typeof filters) {
-    const result = await loadingWrapper(() => getRecommendationsUseCase(currentFilters));
+    const result = await loadingWrapper(() =>
+      getRecommendationsUseCase(currentFilters),
+    );
 
     if (result.success) {
       setRestaurants(result.data);
@@ -97,15 +99,20 @@ export const useRecomendationsModel = () => {
     [favoriteList, scaleAnims],
   );
 
-  const activeFilterCount = useMemo(() => [
-    filters.minRating > 0,
-    filters.foodTypes.length > 0,
-    filters.restaurantStyles.length > 0,
-    filters.mealTypes.length > 0,
-    filters.paymentMethods.length > 0,
-    filters.voucherTypes.length > 0,
-    filters.minPrice !== defaultMinPrice || filters.maxPrice !== defaultMaxPrice,
-  ].filter(Boolean).length, [filters]);
+  const activeFilterCount = useMemo(
+    () =>
+      [
+        filters.minRating > 0,
+        filters.foodTypes.length > 0,
+        filters.restaurantStyles.length > 0,
+        filters.mealTypes.length > 0,
+        filters.paymentMethods.length > 0,
+        filters.voucherTypes.length > 0,
+        filters.minPrice !== defaultMinPrice ||
+          filters.maxPrice !== defaultMaxPrice,
+      ].filter(Boolean).length,
+    [filters],
+  );
 
   return {
     searchValue,

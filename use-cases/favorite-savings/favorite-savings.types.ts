@@ -5,7 +5,6 @@ import { RecommendedRestaurant } from 'use-cases/recommender/recommender.types';
  * GET includes full `restaurants` (same shape as recommendations).
  */
 export interface FavoriteSavingsResponseDto {
-  userId: string;
   restaurantIds: string[];
   restaurants?: RecommendedRestaurant[];
 }
@@ -34,6 +33,4 @@ export type FavoriteRestaurantsResult =
   | FavoriteSavingsSuccess<RecommendedRestaurant[]>
   | FavoriteSavingsError;
 
-export type ToggleFavoriteResult =
-  | { success: true }
-  | FavoriteSavingsError;
+export type ToggleFavoriteResult = { success: true } | FavoriteSavingsError;
