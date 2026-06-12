@@ -10,7 +10,7 @@ const BASE = '/favorite-savings';
 export const favoriteSavingsService = {
   async getByUserId(userId: string): Promise<FavoriteSavingsResponseDto> {
     const response = await api.get<FavoriteSavingsResponseDto | string[]>(
-      `${BASE}/${userId}`,
+      `${BASE}`,
     );
     const data = response.data;
     if (Array.isArray(data)) {

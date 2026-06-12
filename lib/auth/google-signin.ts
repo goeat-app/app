@@ -7,7 +7,7 @@ import {
 import {
   GoogleAuthProvider,
   signInWithCredential,
-  signInWithPopup,
+  // signInWithPopup,
 } from 'firebase/auth';
 
 import { getFirebaseAuth } from './firebase-auth';
@@ -40,11 +40,12 @@ export async function signInWithGoogleCredential() {
     const provider = new GoogleAuthProvider();
     provider.setCustomParameters({ prompt: 'select_account' });
 
-    const userCredential = await signInWithPopup(getFirebaseAuth(), provider);
-    const accessToken = await userCredential.user.getIdToken(true);
-    const refreshToken = userCredential.user.refreshToken || '';
+    // TODO fix for PWA
+    // const userCredential = await signInWithPopup(getFirebaseAuth(), provider);
+    // const accessToken = await userCredential.user.getIdToken(true);
+    // const refreshToken = userCredential.user.refreshToken || '';
 
-    return { accessToken, refreshToken };
+    // return { accessToken, refreshToken };
   }
 
   configureGoogleSignIn();

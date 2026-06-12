@@ -1,11 +1,14 @@
 import { Platform } from 'react-native';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   Auth,
   connectAuthEmulator,
   getAuth,
+  initializeAuth,
   signInWithEmailAndPassword,
   signOut,
+  getReactNativePersistence,
 } from 'firebase/auth';
 
 import { getFirebaseApp } from './firebase-config';
@@ -31,14 +34,22 @@ export function getFirebaseAuth(): Auth {
   }
 
   const firebaseApp = getFirebaseApp();
-  authInstance = getAuth(firebaseApp);
+
+  // Initialize auth with AsyncStorage persistence
+  try {
+    authInstance = initializeAuth(firebaseApp, {
+      persistence: getReactNativePersistence(AsyncStorage),
+    });
+  } catch (error) {
+    // If already initialized, get the existing instance
+    authInstance = getAuth(firebaseApp);
+  }
 
   if (isEmulatorEnabled() && !emulatorConnected) {
     const emulatorHost = resolveEmulatorHost(
       process.env.EXPO_PUBLIC_FIREBASE_AUTH_EMULATOR_HOST || 'localhost:9099',
     );
 
-    console.log(`Connecting to Firebase Auth emulator at ${emulatorHost}`);
     connectAuthEmulator(authInstance, `http://${emulatorHost}`, {
       disableWarnings: true,
     });

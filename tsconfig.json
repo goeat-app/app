@@ -15,7 +15,8 @@
       "@/lib/*": ["lib/*"],
       "@/components/*": ["src/components/*"],
       "@/hooks/*": ["hooks/*"],
-      "@/store/*": ["store/*"]
+      "@/store/*": ["store/*"],
+      "@firebase/auth": ["./node_modules/@firebase/auth/dist/index.rn.d.ts"]
     },
     "jsx": "react-jsx"
   },
