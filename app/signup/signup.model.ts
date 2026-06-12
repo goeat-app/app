@@ -31,7 +31,10 @@ export default function useSignUpModel() {
       toast({ type: 'success', text1: 'Usuário registrado com sucesso!' });
       router.replace('/profile-mapping/step-one/step-one-view');
     } else {
-      toast({ type: 'error', text1: result.error });
+      toast({
+        type: 'error',
+        text1: result.error || 'Erro ao registrar usuário',
+      });
     }
   };
 
