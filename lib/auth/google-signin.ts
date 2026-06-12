@@ -46,6 +46,7 @@ export async function signInWithGoogleCredential() {
     // const refreshToken = userCredential.user.refreshToken || '';
 
     // return { accessToken, refreshToken };
+    throw new Error('Google Sign-In is not yet supported on web.');
   }
 
   configureGoogleSignIn();

@@ -44,7 +44,7 @@ export default function Home() {
             <Typography
               type="h2"
               className="text-[#003247] font-poppins-medium"
-              text={`Oi, ${displayName}!`}
+              text={`Oi${displayName ? `, ${displayName}` : ''}!`}
             />
             <Typography
               type="h5"

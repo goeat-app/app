@@ -8,16 +8,16 @@ import { api } from '@/lib/api/api';
 const BASE = '/favorite-savings';
 
 export const favoriteSavingsService = {
-  async getByUserId(userId: string): Promise<FavoriteSavingsResponseDto> {
+  async getUserFavorites(): Promise<FavoriteSavingsResponseDto> {
     const response = await api.get<FavoriteSavingsResponseDto | string[]>(
       `${BASE}`,
     );
     const data = response.data;
     if (Array.isArray(data)) {
-      return { userId, restaurantIds: data, restaurants: [] };
+      return { restaurantIds: data, restaurants: [] };
     }
+
     return {
-      userId: data.userId ?? userId,
       restaurantIds: data.restaurantIds ?? [],
       restaurants: data.restaurants ?? [],
     };

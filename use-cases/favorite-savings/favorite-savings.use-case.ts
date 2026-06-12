@@ -19,7 +19,7 @@ export async function getFavoriteRestaurantIdsUseCase(): Promise<FavoriteIdsResu
       throw new Error('Usuário não encontrado.');
     }
 
-    const dto = await favoriteSavingsService.getByUserId(user.uid);
+    const dto = await favoriteSavingsService.getUserFavorites();
 
     return { success: true, data: dto.restaurantIds };
   } catch (error) {
@@ -38,7 +38,7 @@ export async function loadFavoriteRestaurantsUseCase(): Promise<FavoriteRestaura
       throw new Error('Usuário não encontrado.');
     }
 
-    const dto = await favoriteSavingsService.getByUserId(user.uid);
+    const dto = await favoriteSavingsService.getUserFavorites();
 
     if (dto.restaurantIds.length === 0) {
       return { success: true, data: [] };
@@ -89,7 +89,7 @@ export async function saveFavoriteUseCase(
       throw new Error('Usuário não encontrado.');
     }
 
-    const current = await favoriteSavingsService.getByUserId(user.uid);
+    const current = await favoriteSavingsService.getUserFavorites();
     if (current.restaurantIds.includes(restaurantId)) {
       return { success: true };
     }
