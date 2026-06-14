@@ -1,7 +1,9 @@
-import { TextProps } from "react-native";
+import { TextProps } from 'react-native';
+
+import { tag } from './constants';
 
 export type ITextProps = TextProps & {
   text: string;
-  type: string;
+  type: keyof typeof tag;
   className?: string;
-}
+};

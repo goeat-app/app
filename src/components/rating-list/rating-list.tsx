@@ -1,4 +1,5 @@
 import { View } from 'react-native';
+
 import { RatingProps } from './rating-list.types';
 
 export const RatingList = ({

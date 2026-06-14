@@ -1,27 +1,25 @@
-import { useState } from 'react';
 import { View } from 'react-native';
 
 import { ChipButton } from '@/components/chips/chipsButton';
-
-const options = ['Breakfast', 'Lunch', 'Dinner', 'Brunch', 'Dessert'];
+import { mealTypes } from '@/constants/filterConstants';
+import { useFilterStore } from '@/store/restaurant-filter-store';
 
 export const Chips = () => {
-  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+  const filters = useFilterStore(state => state.filters);
+  const setFilters = useFilterStore(state => state.setFilters);
 
   const handleChipPress = (option: string) => {
-    setSelectedOptions(prevSelected => {
-      if (prevSelected.includes(option)) {
-        return prevSelected.filter(item => item !== option);
-      } else {
-        return [...prevSelected, option];
-      }
-    });
+    const current = filters.mealTypes;
+    const updated = current.includes(option)
+      ? current.filter(item => item !== option)
+      : [...current, option];
+    setFilters({ ...filters, mealTypes: updated });
   };
 
   return (
     <View className="flex-row items-center gap-1">
-      {options.map(option => {
-        const isSelected = selectedOptions.includes(option);
+      {mealTypes.map(option => {
+        const isSelected = filters.mealTypes.includes(option);
         return (
           <ChipButton
             key={option}

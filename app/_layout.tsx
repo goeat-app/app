@@ -7,7 +7,9 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { BackButtonDisplayMode } from 'react-native-screens';
 import Toast from 'react-native-toast-message';
 
 import {
@@ -27,12 +29,13 @@ import {
   Poppins_600SemiBold,
 } from '@expo-google-fonts/poppins';
 import { Ionicons } from '@expo/vector-icons';
+import { NativeStackNavigationOptions } from '@react-navigation/native-stack';
 import { router, Stack, usePathname } from 'expo-router';
 
-import '../global.css';
-
 import Loading from '@/components/loading/loading';
-import { useAuthStore } from '@/store/auth-store';
+import { useAuth } from '@/hooks/use-auth';
+
+import '../global.css';
 
 const PROTECTED_ROUTES = [
   '/recomendations/recomendations-view',
@@ -61,16 +64,8 @@ export default function Layout() {
   });
 
   const pathname = usePathname();
-  const isAuthenticated = useAuthStore(state => state.isAuthenticated);
-  const isHydrated = useAuthStore(state => state._hasHydrated);
-  const isReady = fontsLoaded && isHydrated;
-
-  const clearAuth = useAuthStore(state => state.clearAuth);
-
-  useEffect(() => {
-    // Descomente para forçar logout na próxima recarga
-    clearAuth();
-  }, []);
+  const { isAuthenticated, isLoading } = useAuth();
+  const isReady = fontsLoaded && !isLoading;
 
   useEffect(() => {
     if (!isReady) {
@@ -89,33 +84,38 @@ export default function Layout() {
     }
   }, [isAuthenticated, pathname, isReady]);
 
-  const screenOptions = useMemo(
+  const screenOptions = useMemo<NativeStackNavigationOptions>(
     () => ({
       title: '',
       headerBackTitleVisible: false,
       headerShadowVisible: false,
-      headerBackVisible: false,
+      headerBackVisible: Platform.OS === 'ios',
+      headerBackButtonDisplayMode: 'minimal' as BackButtonDisplayMode,
       headerStyle: { backgroundColor: '#FDF6F5' },
-      headerLeft: () => (
-        <TouchableOpacity
-          onPress={() => router.back()}
-          style={{ marginLeft: 0 }}
-          activeOpacity={0.7}
-        >
-          <Ionicons
-            name="arrow-back-circle-outline"
-            size={42}
-            color="#FF7947"
-          />
-        </TouchableOpacity>
-      ),
+      headerLeft:
+        Platform.OS === 'ios'
+          ? undefined
+          : prop =>
+              prop.canGoBack && (
+                <TouchableOpacity
+                  onPress={() => router.back()}
+                  style={{ marginLeft: 0 }}
+                  activeOpacity={0.7}
+                >
+                  <Ionicons
+                    name="arrow-back-circle-outline"
+                    size={42}
+                    color="#FF7947"
+                  />
+                </TouchableOpacity>
+              ),
     }),
     [],
   );
 
-  if (!fontsLoaded || !isReady) {
+  if (!fontsLoaded || !isReady || isLoading) {
     return (
-      <View className="flex-1 items-center justify-center bg-[#FDF6F5]">
+      <View className="flex-1 items-center justify-center bg-[--primary-bg]">
         <ActivityIndicator size="large" color="#FF7947" />
         <Text className="mt-4 text-[#FF7947] text-base">Carregando...</Text>
       </View>
@@ -123,81 +123,77 @@ export default function Layout() {
   }
 
   return (
-    <SafeAreaProvider>
-      <SafeAreaView
-        className="flex-1 bg-[#FDF6F5]"
-        edges={['top', 'right', 'bottom', 'left']}
-      >
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          className="flex-1"
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <SafeAreaProvider>
+        <SafeAreaView
+          className="flex-1 bg-[#FDF6F5]"
+          edges={['top', 'right', 'bottom', 'left']}
         >
-          <Stack screenOptions={screenOptions}>
-            <Stack.Screen
-              name="onboarding/first-onboarding"
-              options={{
-                headerShown: false,
-              }}
-            />
+          <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            className="flex-1"
+          >
+            <Stack screenOptions={screenOptions}>
+              <Stack.Screen
+                name="onboarding/first-onboarding"
+                options={{
+                  headerShown: false,
+                }}
+              />
 
-            <Stack.Screen name="signin/signin-view" />
-            <Stack.Screen name="signup/signup-view" />
-            <Stack.Screen
-              name="profile-mapping/step-one/step-one-view"
-              options={{
-                headerShown: false,
-              }}
-            />
-            <Stack.Screen name="profile-mapping/step-two/step-two-view" />
-            <Stack.Screen name="profile-mapping/step-three/step-three-view" />
-            <Stack.Screen
-              name="recomendations/recomendations-view"
-              options={{
-                headerShown: false,
-              }}
-            />
-            <Stack.Screen
-              name="home/home"
-              options={{
-                headerShown: false,
-              }}
-            />
-            <Stack.Screen
-              name="favorites/favorites"
-              options={{
-                headerShown: false,
-              }}
-            />
-            <Stack.Screen
-              name="profile-page/profile-page"
-              options={{
-                headerShown: false,
-              }}
-            />
-            <Stack.Screen
-              name="edit-profile/edit-profile"
-              options={{
-                headerShown: false,
-              }}
-            />
-            <Stack.Screen
-              name="restaurant-details/restaurant-details"
-              options={{
-                headerShown: false,
-              }}
-            />
-            <Stack.Screen
-              name="recommendations-map/recommendations-map"
-              options={{
-                headerShown: false,
-              }}
-            />
-          </Stack>
+              <Stack.Screen name="signin/signin" />
+              <Stack.Screen name="signup/signup" />
+              <Stack.Screen
+                name="profile-mapping/step-one/step-one"
+                options={{
+                  headerShown: false,
+                }}
+              />
+              <Stack.Screen name="profile-mapping/step-two/step-two" />
+              <Stack.Screen name="profile-mapping/step-three/step-three" />
+              <Stack.Screen
+                name="recomendations/recomendations-view"
+                options={{
+                  headerShown: false,
+                }}
+              />
+              <Stack.Screen
+                name="home/home"
+                options={{
+                  headerShown: false,
+                }}
+              />
+              <Stack.Screen
+                name="favorites/favorites"
+                options={{
+                  headerShown: false,
+                }}
+              />
+              <Stack.Screen
+                name="profile-page/profile-page"
+                options={{
+                  headerShown: false,
+                }}
+              />
+              <Stack.Screen
+                name="edit-profile/edit-profile"
+                options={{
+                  headerShown: false,
+                }}
+              />
+              <Stack.Screen
+                name="restaurant-details/restaurant-details"
+                options={{
+                  headerShown: false,
+                }}
+              />
+            </Stack>
 
-          <Loading />
-          <Toast />
-        </KeyboardAvoidingView>
-      </SafeAreaView>
-    </SafeAreaProvider>
+            <Loading />
+            <Toast />
+          </KeyboardAvoidingView>
+        </SafeAreaView>
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
   );
 }

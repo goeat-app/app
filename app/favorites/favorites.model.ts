@@ -1,36 +1,62 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Animated } from 'react-native';
 
 import { useRouter } from 'expo-router';
+import {
+  loadFavoriteRestaurantsUseCase,
+  removeFavoriteUseCase,
+  saveFavoriteUseCase,
+} from 'use-cases/favorite-savings/favorite-savings.use-case';
+import { RecommendedRestaurant } from 'use-cases/recommender/recommender.types';
 
-import { restaurantsMocks } from '@/lib/mocks/restaurants-mock';
+import { toast } from '@/components/toast/toast';
+import { loadingWrapper } from '@/hooks/loading-wrapper';
 
 export const useFavoritesModel = () => {
   const [searchValue, setSearchValue] = useState('');
-  const [favoriteList, setFavoriteList] = useState<string[]>(['1', '3', '4']);
+  const [restaurants, setRestaurants] = useState<RecommendedRestaurant[]>([]);
   const router = useRouter();
 
-  const scaleAnims = useRef<Record<string, Animated.Value>>(
-    restaurantsMocks.reduce(
-      (acc, item) => {
-        acc[item.id] = new Animated.Value(1);
-        return acc;
-      },
-      {} as Record<number, Animated.Value>,
-    ),
-  ).current;
+  const favoriteList = useMemo(() => restaurants.map(r => r.id), [restaurants]);
+
+  async function loadFavorites() {
+    const result = await loadingWrapper(() => loadFavoriteRestaurantsUseCase());
+
+    if (result.success === true) {
+      setRestaurants(result.data);
+    } else {
+      toast({ type: 'error', text1: result.error });
+    }
+  }
+
+  useEffect(() => {
+    loadFavorites();
+  }, []);
+
+  const scaleAnims = useMemo(
+    () =>
+      restaurants.reduce(
+        (acc, item) => {
+          acc[item.id] = new Animated.Value(1);
+          return acc;
+        },
+        {} as Record<string, Animated.Value>,
+      ),
+    [restaurants],
+  );
 
   const handleClearSearch = () => {
     setSearchValue('');
   };
 
   const handleFavorite = useCallback(
-    (id: string) => {
+    async (id: string) => {
       const isFavorited = favoriteList.includes(id);
+      const prevRestaurants = restaurants;
 
-      setFavoriteList(prev =>
-        isFavorited ? prev.filter(itemId => itemId !== id) : [...prev, id],
-      );
+      if (isFavorited) {
+        setRestaurants(prev => prev.filter(r => r.id !== id));
+      }
 
       Animated.spring(scaleAnims[id], {
         toValue: isFavorited ? 1 : 1.3,
@@ -38,15 +64,38 @@ export const useFavoritesModel = () => {
         tension: 120,
         useNativeDriver: true,
       }).start();
+
+      const result = isFavorited
+        ? await removeFavoriteUseCase(id)
+        : await saveFavoriteUseCase(id);
+
+      if (result.success === false) {
+        setRestaurants(prevRestaurants);
+        toast({ type: 'error', text1: result.error });
+      }
     },
-    [favoriteList, scaleAnims],
+    [favoriteList, restaurants, scaleAnims],
   );
+
+  const displayedRestaurants = useMemo(() => {
+    const q = searchValue.trim().toLowerCase();
+    if (!q) {
+      return restaurants;
+    }
+    return restaurants.filter(
+      r =>
+        r.name.toLowerCase().includes(q) ||
+        r.city.toLowerCase().includes(q) ||
+        r.foodType.toLowerCase().includes(q) ||
+        r.placeType.toLowerCase().includes(q),
+    );
+  }, [restaurants, searchValue]);
 
   return {
     searchValue,
     setSearchValue,
     handleClearSearch,
-    restaurantsMocks,
+    restaurants: displayedRestaurants,
     favoriteList,
     handleFavorite,
     scaleAnims,

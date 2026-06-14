@@ -1,11 +1,14 @@
-import { Button } from '@/components/button';
-import { Ionicons } from '@expo/vector-icons';
-import { router } from 'expo-router';
 import { Dimensions, Image, ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+import { Ionicons } from '@expo/vector-icons';
+import { router } from 'expo-router';
+
+import { Button } from '@/components/button';
+
+import { RestaurantContactInfo } from './components/restaurant-contact-info/restaurant-contact-info';
 import { RestaurantHeaderDetails } from './components/restaurant-header-details/restaurant-header-details';
 import { RestaurantInfo } from './components/restaurant-info/restaurant-info';
-import { RestaurantContactInfo } from './components/restaurant-contact-info/restaurant-contact-info';
 import { RestaurantReviews } from './components/restaurant-reviews/restaurant-reviews';
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');

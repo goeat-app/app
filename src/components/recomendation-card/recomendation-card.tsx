@@ -1,10 +1,6 @@
-import {
-  View,
-  ImageBackground,
-  Animated,
-  ImageSourcePropType,
-  StyleSheet,
-} from 'react-native';
+import { View, ImageBackground, Animated, StyleSheet } from 'react-native';
+
+import { RecommendedRestaurant } from 'use-cases/recommender/recommender.types';
 
 import { EnvironmentIcon } from '@/assets/icons/environment-icon';
 import { FavoriteIcon } from '@/assets/icons/favorite-icon';
@@ -12,7 +8,6 @@ import { LocationIcon } from '@/assets/icons/location-icon';
 import { Button } from '@/components/button';
 import { MoneyIcon } from '@/components/money-icon/money-icon';
 import { Typography } from '@/components/typography/typography';
-import { RecommendedRestaurant } from 'use-cases/recommender/recommender.types';
 import { getImageSource } from '@/lib/utils/image-mapper';
 
 type RestaurantCardProps = {

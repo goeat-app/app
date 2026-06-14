@@ -7,6 +7,7 @@ import { FavoriteIcon } from '@/assets/icons/favorites-icon';
 import { HomeIcon } from '@/assets/icons/home-icon';
 import { RestaurantsIcon } from '@/assets/icons/restaurants-icon';
 import { UserIcon } from '@/assets/icons/user-icon';
+import { useFilterStore } from '@/store/restaurant-filter-store';
 
 import { TabBarRef, useTabBarModel } from './tabBar.model';
 import { TabItem } from './tabItem';
@@ -26,6 +27,10 @@ export const TabBar = forwardRef<TabBarRef, TabBarProps>(
     } = useTabBarModel({ hideValue, ref });
 
     const pathname = usePathname();
+    const isFilterOpen = useFilterStore(state => state.isFilterOpen);
+
+    if (isFilterOpen) return null;
+
     return (
       <Animated.View
         className="absolute bottom-4 left-4 right-4"

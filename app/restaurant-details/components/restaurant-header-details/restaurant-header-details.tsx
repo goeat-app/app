@@ -1,8 +1,9 @@
+import { View } from 'react-native';
+
 import { FavoriteIcon } from '@/assets/icons/favorite-icon';
 import { StarIcon } from '@/assets/icons/star-icon';
 import { Button } from '@/components/button';
 import { Typography } from '@/components/typography/typography';
-import { View } from 'react-native';
 
 //TODO: Remover dados mockados
 

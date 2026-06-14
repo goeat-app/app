@@ -1,6 +1,6 @@
-import { Label } from './label/label';
-import { Indicator } from './indicator/indicator';
 import { Field, ContentLeft, ContentRight } from './field/field';
+import { Indicator } from './indicator/indicator';
+import { Label } from './label/label';
 import { Root } from './root/root';
 
 export const Input = {
@@ -9,6 +9,5 @@ export const Input = {
   ContentLeft,
   ContentRight,
   Indicator,
-  Label
+  Label,
 };
-

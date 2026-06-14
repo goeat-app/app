@@ -1,23 +1,23 @@
-import { useState } from 'react';
+import { Controller } from 'react-hook-form';
 import {
-  Text,
   View,
   Image,
   TouchableWithoutFeedback,
   Keyboard,
   TouchableOpacity,
 } from 'react-native';
-import { EmailIcon } from 'assets/icons/email-icon';
-import { Input } from '@/components/input';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+
+import { ClosedEyeIcon } from 'assets/icons/closed-eye-icon';
+import { EmailIcon } from 'assets/icons/email-icon';
 import { KeyIcon } from 'assets/icons/key-icon';
 import { OpenEyeIcon } from 'assets/icons/open-eye-icon';
-import { ClosedEyeIcon } from 'assets/icons/closed-eye-icon';
-import { Button } from '@/components/button';
-
-import { Controller } from 'react-hook-form';
 import { router } from 'expo-router';
+
+import { Button } from '@/components/button';
+import { Input } from '@/components/input';
 import { Typography } from '@/components/typography/typography';
+
 import useSignInModel from './signin.model';
 
 export default function SignIn() {
@@ -83,7 +83,10 @@ export default function SignIn() {
                           <Typography
                             type="span"
                             className="text-[#FF6B35] font-poppins-semi-bold ml-1"
-                            text={errors.email.message}
+                            text={
+                              errors.email?.message ??
+                              'O campo email é obrigatório.'
+                            }
                           />
                         )}
                       </Input.Root>
@@ -124,7 +127,10 @@ export default function SignIn() {
                           <Typography
                             type="span"
                             className="text-[#FF6B35] font-poppins-semi-bold ml-1"
-                            text={errors.password.message}
+                            text={
+                              errors.password?.message ??
+                              'O campo senha é obrigatório.'
+                            }
                           />
                         )}
                       </Input.Root>

@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { FormDataLogin } from './signin.types';
-import { loadingWrapper } from '@/hooks/loading-wrapper';
-import { signInUseCase } from 'use-cases/login/signin.use-case';
+
 import { router } from 'expo-router';
+import { signInUseCase } from 'use-cases/login/signin.use-case';
+
 import { toast } from '@/components/toast/toast';
+import { loadingWrapper } from '@/hooks/loading-wrapper';
+
+import { FormDataLogin } from './signin.types';
 
 export default function useSignInModel() {
   const {
@@ -25,7 +28,12 @@ export default function useSignInModel() {
     if (result.success) {
       router.replace('/home/home');
     } else {
-      toast({ type: 'error', text1: result.error });
+      toast({
+        type: 'error',
+        text1:
+          result.error ||
+          'Erro ao fazer login. Verifique suas credenciais e tente novamente.',
+      });
     }
   };
 
