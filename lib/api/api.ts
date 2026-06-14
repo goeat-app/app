@@ -4,8 +4,10 @@ import { router } from 'expo-router';
 
 import { useAuthStore } from '@/store/auth-store';
 
+const ip = window.location.hostname;
+
 export const api = axios.create({
-  baseURL: 'https://backend-ij1x.onrender.com',
+  baseURL: `http://${ip}:3000`,
   timeout: 10000,
 });
 

@@ -1,8 +1,10 @@
-import { loadingWrapper } from "@/hooks/loading-wrapper";
-import { useAuthStore } from "@/store/auth-store";
-import { useRecomendationsStore } from "@/store/recommender-store";
-import { useEffect } from "react";
-import { getRecommendationsUseCase } from "use-cases/recommender/recommender.use-case";
+import { useEffect } from 'react';
+
+import { getRecommendationsUseCase } from 'use-cases/recommender/recommender.use-case';
+
+import { loadingWrapper } from '@/hooks/loading-wrapper';
+import { useAuthStore } from '@/store/auth-store';
+import { useRecomendationsStore } from '@/store/recommender-store';
 
 export const useHomeModel = () => {
   const user = useAuthStore(state => state.user);
@@ -24,6 +26,6 @@ export const useHomeModel = () => {
 
   return {
     user,
-    restaurants
-  }
+    restaurants,
+  };
 };

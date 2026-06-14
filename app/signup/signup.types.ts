@@ -4,4 +4,6 @@ export interface FormDataRegister {
   name: string;
   password: string;
   phone: string;
+  latitude: number;
+  longitude: number;
 }

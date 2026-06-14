@@ -10,6 +10,8 @@ export interface RecommendedRestaurant {
   city: string;
   state: string;
   avgRating: number;
+  latitude: number;
+  longitude: number;
 }
 
 export interface RecommenderSuccess {

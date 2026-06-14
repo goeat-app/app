@@ -53,7 +53,7 @@ export default function RestaurantDetails() {
             nestedScrollEnabled
             contentContainerStyle={{
               paddingHorizontal: 16,
-              paddingBottom: 120,
+              paddingBottom: 12,
             }}
           >
             <View className="gap-12">
