@@ -35,13 +35,11 @@ export function getFirebaseAuth(): Auth {
 
   const firebaseApp = getFirebaseApp();
 
-  // Initialize auth with AsyncStorage persistence
   try {
     authInstance = initializeAuth(firebaseApp, {
       persistence: getReactNativePersistence(AsyncStorage),
     });
   } catch (error) {
-    // If already initialized, get the existing instance
     authInstance = getAuth(firebaseApp);
   }
 
@@ -76,6 +74,10 @@ export function getFirebaseRefreshToken() {
 
 export async function signOutFromFirebase() {
   await signOut(getFirebaseAuth());
+}
+
+export async function waitForAuthReady(): Promise<void> {
+  await getFirebaseAuth().authStateReady();
 }
 
 export async function signInWithEmail(

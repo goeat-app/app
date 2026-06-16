@@ -1,21 +1,28 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { router } from 'expo-router';
 
 import { resolveApiBaseUrl } from '@/lib/api/resolve-api-base-url';
-import { getFirebaseIdToken } from '@/lib/auth/firebase-auth';
-
-const ip = window.location.hostname;
+import {
+  getFirebaseIdToken,
+  signOutFromFirebase,
+  waitForAuthReady,
+} from '@/lib/auth/firebase-auth';
 
 export const api = axios.create({
   baseURL: resolveApiBaseUrl(),
   timeout: 10000,
 });
 
+let authReady: Promise<void> | null = null;
+
 api.interceptors.request.use(
   async config => {
-    const firebaseToken = await getFirebaseIdToken();
-    const token = firebaseToken || (await AsyncStorage.getItem('accessToken'));
+    if (!authReady) {
+      authReady = waitForAuthReady();
+    }
+    await authReady;
+
+    const token = await getFirebaseIdToken();
 
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -35,19 +42,19 @@ api.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        const firebaseToken = await getFirebaseIdToken(true);
-        if (firebaseToken) {
-          await AsyncStorage.setItem('accessToken', firebaseToken);
-          originalRequest.headers.Authorization = `Bearer ${firebaseToken}`;
-          return api(originalRequest);
+        const token = await getFirebaseIdToken(true);
+
+        if (token) {
+          originalRequest.headers.Authorization = `Bearer ${token}`;
+          const retryResponse = await api(originalRequest);
+          return retryResponse;
         }
-
-        router.replace('/signin/signin-view');
-      } catch (refreshError) {
-        router.replace('/signin/signin-view');
-
-        return Promise.reject(refreshError);
+      } catch {
+        //token refresh failed
       }
+
+      await signOutFromFirebase();
+      router.replace('/signin/signin-view');
     }
 
     return Promise.reject(error);

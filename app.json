@@ -43,6 +43,7 @@
     "plugins": [
       "expo-router",
       "expo-font",
+      "expo-location",
       "./node_modules/@react-native-google-signin/google-signin/app.plugin.js",
       [
         "expo-build-properties",

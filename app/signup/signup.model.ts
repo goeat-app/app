@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { router } from 'expo-router';
 import * as Location from 'expo-location';
+import { router } from 'expo-router';
 import { registerUserUseCase } from 'use-cases/register/register.use-case';
 
 import { toast } from '@/components/toast/toast';
@@ -11,7 +11,7 @@ import { cleanPhoneMask } from '@/lib/utils/format-phone-mask';
 
 import { FormDataRegister } from './signup.types';
 
-async function getUserLocation(): Promise<{
+export async function getUserLocation(): Promise<{
   latitude: number;
   longitude: number;
 }> {
