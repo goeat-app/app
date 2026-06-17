@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import MapView from 'react-native-maps';
 
-import { router } from 'expo-router';
 import { mapRestaurantsService } from 'services/map-restaurants-service';
 import { RecommendedRestaurant } from 'use-cases/recommender/recommender.types';
 
@@ -116,10 +115,6 @@ export function useRecommendationsMapModel() {
     return getRegionForCoordinates(coords);
   }, [restaurantCoordinates, userLocation]);
 
-  const navigateToRestaurantDetails = useCallback(() => {
-    router.push('/restaurant-details/restaurant-details');
-  }, []);
-
   const fitMapToMarkers = useCallback(() => {
     if (!mapRef.current || restaurantCoordinates.length === 0) return;
 
@@ -155,6 +150,5 @@ export function useRecommendationsMapModel() {
     fitMapToMarkers,
     selectedRestaurantId,
     setSelectedRestaurantId,
-    navigateToRestaurantDetails,
   };
 }

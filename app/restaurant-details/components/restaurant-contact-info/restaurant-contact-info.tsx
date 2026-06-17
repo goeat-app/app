@@ -1,5 +1,7 @@
 import { View } from 'react-native';
 
+import { RecommendedRestaurant } from 'use-cases/recommender/recommender.types';
+
 import { LocationIcon } from '@/assets/icons/location-icon';
 import { PhoneContactIcon } from '@/assets/icons/phone-contact-icon';
 import { RouteIcon } from '@/assets/icons/route-icon';
@@ -8,9 +10,7 @@ import { Button } from '@/components/button';
 import { MoneyIcon } from '@/components/money-icon/money-icon';
 import { Typography } from '@/components/typography/typography';
 
-//TODO: Remover dados mockados
-
-export const RestaurantContactInfo = () => {
+export const RestaurantContactInfo = (restaurant: RecommendedRestaurant) => {
   return (
     <View className="flex flex-col justify-around gap-4">
       <View className="flex flex-row w-full gap-2 -m-1 my-2">
@@ -18,7 +18,7 @@ export const RestaurantContactInfo = () => {
         <Typography
           type="span"
           className="text-[#4B5563] "
-          text="Gasto médio de 80 reais por pessoa"
+          text="Gasto médio de 80 reais por pessoa" // TODO: remover mock
         />
       </View>
 
@@ -28,7 +28,7 @@ export const RestaurantContactInfo = () => {
           <Typography
             type="span"
             className="text-[#4B5563] break-all"
-            text="Rua Haddock Lobo, 1636 - Jardins, São Paulo - SP"
+            text={restaurant.address}
           />
         </View>
 
@@ -57,7 +57,7 @@ export const RestaurantContactInfo = () => {
           <Typography
             type="span"
             className="text-[#4B5563] "
-            text="(11) 4002-8922"
+            text="(11) 4002-8922" //TODO: remover mock
           />
         </View>
 
@@ -66,7 +66,7 @@ export const RestaurantContactInfo = () => {
           <Typography
             type="span"
             className="text-[#4B5563] "
-            text="(11) 94913-8922"
+            text="(11) 94913-8922" //TODO: remover mock
           />
         </View>
       </View>
