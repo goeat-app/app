@@ -1,21 +1,21 @@
 import { View } from 'react-native';
 
+import { RecommendedRestaurant } from 'use-cases/recommender/recommender.types';
+
 import { FavoriteIcon } from '@/assets/icons/favorite-icon';
 import { StarIcon } from '@/assets/icons/star-icon';
 import { Button } from '@/components/button';
 import { Typography } from '@/components/typography/typography';
 
-//TODO: Remover dados mockados
-
-export const RestaurantHeaderDetails = () => {
+export const RestaurantHeaderDetails = (restaurant: RecommendedRestaurant) => {
   return (
     <View className="p-2 flex gap-4 items-center justify-between">
-      <View className="flex flex-row h-[50px] w-full justify-between items-center">
+      <View className="flex flex-row h-auto w-full justify-between items-center">
         <View className="w-[90%]">
           <Typography
             type="h3"
             className="text-[#5E5959] font-poppins-semi-bold break-all"
-            text="GIUGIU RESTAURANTE"
+            text={restaurant.name}
           />
         </View>
 
@@ -31,7 +31,7 @@ export const RestaurantHeaderDetails = () => {
           <Typography
             type="span"
             className="text-lg text-[#5E5959] font-poppins-medium leading-tight"
-            text="4.6"
+            text={`${restaurant.avgRating}`}
           />
           <StarIcon width={20} height={20} color="#FB9506" />
         </View>

@@ -2,6 +2,7 @@ import { Image, View } from 'react-native';
 import MapView from 'react-native-maps';
 
 import { Ionicons } from '@expo/vector-icons';
+import { router } from 'expo-router';
 
 import { StarIcon } from '@/assets/icons/star-icon';
 import { Button } from '@/components/button';
@@ -23,7 +24,6 @@ export default function RecommendationsMap() {
     fitMapToMarkers,
     selectedRestaurantId,
     setSelectedRestaurantId,
-    navigateToRestaurantDetails,
   } = useRecommendationsMapModel();
 
   if (isLoading || !mapRegion) {
@@ -138,7 +138,13 @@ export default function RecommendationsMap() {
                     </View>
 
                     <Button
-                      onPress={navigateToRestaurantDetails}
+                      onPress={() =>
+                        router.push({
+                          pathname:
+                            '/restaurant-details/restaurant-details/[id]',
+                          params: { id: restaurant.id },
+                        })
+                      }
                       className="flex flex-row items-center justify-center"
                     >
                       <Typography
