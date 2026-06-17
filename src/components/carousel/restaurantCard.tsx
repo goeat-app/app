@@ -8,7 +8,7 @@ import { StarIcon } from '@/assets/icons/star-icon';
 import { Button } from '@/components/button';
 import { MoneyIcon } from '@/components/money-icon/money-icon';
 import { Typography } from '@/components/typography/typography';
-import { getImageSource } from '@/lib/utils/image-mapper';
+import { getRestaurantImageSource } from '@/lib/utils/restaurant-image';
 
 type CarouselRestaurantCardProps = {
   item: RecommendedRestaurant;
@@ -30,7 +30,7 @@ export const RestaurantCard = ({
     >
       <View className="relative">
         <Image
-          source={getImageSource(item.slug)}
+          source={getRestaurantImageSource(item)}
           className="w-full h-48 rounded-lg"
           resizeMode="cover"
         />

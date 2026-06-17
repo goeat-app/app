@@ -187,6 +187,12 @@ export default function Layout() {
                   headerShown: false,
                 }}
               />
+              <Stack.Screen
+                name="recommendations-map/recommendations-map"
+                options={{
+                  headerShown: false,
+                }}
+              />
             </Stack>
 
             <Loading />

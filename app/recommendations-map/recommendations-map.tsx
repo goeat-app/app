@@ -1,5 +1,5 @@
 import { Image, View } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
+import MapView from 'react-native-maps';
 
 import { Ionicons } from '@expo/vector-icons';
 
@@ -7,46 +7,70 @@ import { StarIcon } from '@/assets/icons/star-icon';
 import { Button } from '@/components/button';
 import { Typography } from '@/components/typography/typography';
 import BottomSheet from '@/components/ui/bottom-sheet/bottom-sheet';
+import { getRestaurantImageSource } from '@/lib/utils/restaurant-image';
 
+import { RestaurantMarker } from './components/restaurant-marker/restaurant-marker';
 import { useRecommendationsMapModel } from './recommendations-map.model';
 
 export default function RecommendationsMap() {
-  const { recommendations } = useRecommendationsMapModel();
+  const {
+    mapRef,
+    restaurants,
+    isLoading,
+    setIsMapReady,
+    mapRegion,
+    toCoordinate,
+    fitMapToMarkers,
+    selectedRestaurantId,
+    setSelectedRestaurantId,
+    navigateToRestaurantDetails,
+  } = useRecommendationsMapModel();
+
+  if (isLoading || !mapRegion) {
+    return (
+      <View className="flex-1 items-center justify-center">
+        <Typography type="span" text="Carregando mapa..." />
+      </View>
+    );
+  }
+
+  const sortedRestaurants = [...restaurants].sort((a, b) =>
+    a.id === selectedRestaurantId ? -1 : b.id === selectedRestaurantId ? 1 : 0,
+  );
 
   return (
     <View className="flex-1">
       <MapView
+        ref={mapRef}
         style={{ flex: 1 }}
-        initialRegion={{
-          latitude: -22.9,
-          longitude: -47.06,
-          latitudeDelta: 0.05,
-          longitudeDelta: 0.05,
+        showsUserLocation={true}
+        showsMyLocationButton={true}
+        initialRegion={mapRegion}
+        onMapReady={() => {
+          setIsMapReady(true);
+          fitMapToMarkers();
         }}
       >
-        {recommendations.map(recommendation => (
-          <Marker
-            key={recommendation.id}
-            coordinate={{
-              latitude: recommendation.latitude,
-              longitude: recommendation.longitude,
-            }}
-            title={recommendation.name}
-          >
-            <Image
-              resizeMode="cover"
-              source={require('@/assets/images/goat-logo.png')}
-              className="w-[30px] h-[30px] rounded-full"
+        {restaurants.map(restaurant => {
+          const coordinate = toCoordinate(restaurant);
+          if (!coordinate) return null;
+
+          return (
+            <RestaurantMarker
+              key={restaurant.id}
+              coordinate={coordinate}
+              title={restaurant.name}
+              onPress={() => setSelectedRestaurantId(restaurant.id)}
             />
-          </Marker>
-        ))}
+          );
+        })}
       </MapView>
       <BottomSheet>
-        <View className="flex gap-10">
+        <View className="flex gap-4">
           <View className="flex flex-col gap-4">
             <Typography
               type="span"
-              text={'Recomendados para você'.toUpperCase()}
+              text={'Perto de você'.toUpperCase()}
               className="text-sm font-be-vietnam-pro-semi-bold text-[#E86D17]"
             />
 
@@ -56,51 +80,83 @@ export default function RecommendationsMap() {
               className="font-plus-jakarta-semi-bold"
             />
           </View>
-          <View className="flex flex-row  p-2 h-28 w-full bg-[#F1F0F5] rounded-2xl gap-4">
-            <View className="flex items-center justify-center">
-              <Image
-                resizeMode="cover"
-                className="rounded-xl w-[80px] h-[80px]"
-                source={require('@/assets/images/details/mock-restaurant-details.png')}
-              />
-            </View>
-
-            <View className="flex items-start gap-2">
-              <Typography
-                type="h4"
-                text="The Golden Roll"
-                className="font-plus-jakarta-sans"
-              />
-
-              <View className="flex-row gap-4">
-                <View className="flex flex-row gap-2 items-center justify-center">
-                  <Typography
-                    type="span"
-                    className="text-lg text-[#E86D17] font-plus-jakarta-sans leading-tight"
-                    text="4.8"
+          {restaurants.length === 0 ? (
+            <Typography
+              type="span"
+              text="Nenhum restaurante com localização disponível."
+              className="text-[#474747]"
+            />
+          ) : (
+            sortedRestaurants.map(restaurant => (
+              <View
+                key={restaurant.restaurantSlug || restaurant.id}
+                className="flex flex-row p-2 h-30 w-full rounded-2xl gap-4"
+                style={{
+                  backgroundColor:
+                    selectedRestaurantId === restaurant.id
+                      ? '#FFE8D6'
+                      : '#F1F0F5',
+                  borderWidth: selectedRestaurantId === restaurant.id ? 2 : 0,
+                  borderColor:
+                    selectedRestaurantId === restaurant.id
+                      ? '#E86D17'
+                      : 'transparent',
+                }}
+              >
+                <View className="flex items-center justify-center">
+                  <Image
+                    resizeMode="cover"
+                    className="rounded-xl w-[80px] h-[80px]"
+                    source={getRestaurantImageSource(restaurant)}
                   />
-                  <StarIcon width={18} height={18} color="#E86D17" />
                 </View>
 
-                <View className="flex items-center justify-center">
+                <View className="flex flex-1 items-start gap-1 overflow-hidden">
                   <Typography
-                    type="span"
-                    text="● 1.5km de você"
-                    className="text-[#474747] font-be-vietnam-pro-medium"
+                    type="h2"
+                    text={restaurant.name}
+                    className="font-plus-jakarta-sans text-base"
                   />
+
+                  <View className="flex items-start gap-2">
+                    <View className="flex flex-row gap-1 items-center justify-center">
+                      <Typography
+                        type="span"
+                        className="text-sm text-[#E86D17] font-plus-jakarta-sans leading-tight"
+                        text={`${restaurant.avgRating}`}
+                      />
+                      <StarIcon width={14} height={14} color="#E86D17" />
+                    </View>
+
+                    <View className="flex items-center justify-center overflow-hidden">
+                      <Typography
+                        type="span"
+                        text={`${restaurant.address}`}
+                        className="text-xs text-[#474747] font-be-vietnam-pro-medium"
+                        numberOfLines={1}
+                      />
+                    </View>
+
+                    <Button
+                      onPress={navigateToRestaurantDetails}
+                      className="flex flex-row items-center justify-center"
+                    >
+                      <Typography
+                        type="span"
+                        text={'Ver detalhes'.toUpperCase()}
+                        className="text-[10px] font-be-vietnam-pro-semi-bold text-[#E86D17]"
+                      />
+                      <Ionicons
+                        name="chevron-forward"
+                        size={14}
+                        color="#FF7947"
+                      />
+                    </Button>
+                  </View>
                 </View>
               </View>
-
-              <Button className="flex flex-row items-center justify-center">
-                <Typography
-                  type="span"
-                  text={'Ver detalhes'.toUpperCase()}
-                  className="text-[10px] font-be-vietnam-pro-semi-bold text-[#E86D17]"
-                />
-                <Ionicons name="chevron-forward" size={14} color="#FF7947" />
-              </Button>
-            </View>
-          </View>
+            ))
+          )}
         </View>
       </BottomSheet>
     </View>

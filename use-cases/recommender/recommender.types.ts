@@ -3,6 +3,7 @@ export interface RecommendedRestaurant {
   name: string;
   placeType: string;
   slug: string;
+  restaurantSlug: string;
   foodType: string;
   priceLevel: number;
   address: string;
@@ -11,6 +12,7 @@ export interface RecommendedRestaurant {
   avgRating: number;
   latitude: number;
   longitude: number;
+  imageUrl: string | null;
 }
 
 export interface RecommenderSuccess {

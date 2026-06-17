@@ -6,18 +6,17 @@ import {
   removeFavoriteUseCase,
   saveFavoriteUseCase,
 } from 'use-cases/favorite-savings/favorite-savings.use-case';
+import { RecommendedRestaurant } from 'use-cases/recommender/recommender.types';
 import { getRecommendationsUseCase } from 'use-cases/recommender/recommender.use-case';
 
 import { toast } from '@/components/toast/toast';
 import { loadingWrapper } from '@/hooks/loading-wrapper';
-import { useRecomendationsStore } from '@/store/recommender-store';
 import { useFilterStore } from '@/store/restaurant-filter-store';
 
 export const useHomeModel = () => {
   const filters = useFilterStore(state => state.filters);
 
-  const setRestaurants = useRecomendationsStore(state => state.setRestaurants);
-  const restaurants = useRecomendationsStore(state => state.restaurants);
+  const [restaurants, setRestaurants] = useState<RecommendedRestaurant[]>([]);
   const [favoriteList, setFavoriteList] = useState<string[]>([]);
 
   async function loadRecommendations(currentFilters?: typeof filters) {
