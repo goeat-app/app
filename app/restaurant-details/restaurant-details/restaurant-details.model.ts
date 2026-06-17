@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { restaurantDetailsService } from 'services/restaurant-details-service';
-import { RecommendedRestaurant } from 'use-cases/recommender/recommender.types';
+import { RestaurantDetails } from 'use-cases/recommender/recommender.types';
 
 import { loadingWrapper } from '@/hooks/loading-wrapper';
 
@@ -12,7 +12,7 @@ interface UseRestaurantDetailsModelProps {
 export const useRestaurantDetailsModel = ({
   restaurantId,
 }: UseRestaurantDetailsModelProps) => {
-  const [restaurant, setRestaurant] = useState<RecommendedRestaurant>();
+  const [restaurant, setRestaurant] = useState<RestaurantDetails>();
 
   useEffect(() => {
     let cancelled = false;

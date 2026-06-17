@@ -15,6 +15,15 @@ export interface RecommendedRestaurant {
   imageUrl: string | null;
 }
 
+export interface RestaurantDetails extends RecommendedRestaurant {
+  averagePrice: number;
+  description: string | null;
+  phone: string | null;
+  whatsapp: string | null;
+  photos: string[];
+  isActive: boolean;
+}
+
 export interface RecommenderSuccess {
   success: true;
   data: RecommendedRestaurant[];

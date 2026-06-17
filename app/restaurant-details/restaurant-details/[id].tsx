@@ -1,79 +1,143 @@
-import { Dimensions, Image, ScrollView, View } from 'react-native';
+import {
+  Image,
+  ImageSourcePropType,
+  Pressable,
+  ScrollView,
+  View,
+} from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Ionicons } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
 
-import { Button } from '@/components/button';
+import { getRestaurantImageSource } from '@/lib/utils/restaurant-image';
 
 import { RestaurantContactInfo } from '../components/restaurant-contact-info/restaurant-contact-info';
 import { RestaurantHeaderDetails } from '../components/restaurant-header-details/restaurant-header-details';
 import { RestaurantInfo } from '../components/restaurant-info/restaurant-info';
 import { RestaurantReviews } from '../components/restaurant-reviews/restaurant-reviews';
+import { IMAGE_HEIGHT, SHEET_OVERLAP } from '../consts/measures';
 import { useRestaurantDetailsModel } from './restaurant-details.model';
 
-const { height: SCREEN_HEIGHT } = Dimensions.get('window');
-const IMAGE_HEIGHT = SCREEN_HEIGHT * 0.45;
-const BACK_BUTTON_PADDING = 124;
+const HEADER_HEIGHT = 56;
+
+function getHeroResizeMode(
+  restaurant: { imageUrl: string | null },
+  source: ImageSourcePropType,
+): 'cover' | 'contain' {
+  if (restaurant.imageUrl) return 'cover';
+  if (typeof source === 'object' && source !== null && 'uri' in source) {
+    return 'cover';
+  }
+  return 'contain';
+}
+
+function handleGoBack() {
+  if (router.canGoBack()) {
+    router.back();
+    return;
+  }
+
+  router.replace('/home/home');
+}
 
 export default function RestaurantDetails() {
-  const { top: statusBarHeight } = useSafeAreaInsets();
-  const MIN_VISIBLE_IMAGE = statusBarHeight + BACK_BUTTON_PADDING;
-  const CARD_HEIGHT = SCREEN_HEIGHT - MIN_VISIBLE_IMAGE;
-
+  const { top: statusBarHeight, bottom: bottomInset } = useSafeAreaInsets();
   const { id } = useLocalSearchParams<{ id: string }>();
-
   const { restaurant } = useRestaurantDetailsModel({ restaurantId: id });
+
+  const sheetTop = IMAGE_HEIGHT - SHEET_OVERLAP;
+  const heroHeight = IMAGE_HEIGHT + statusBarHeight;
 
   if (!restaurant) return null;
 
-  return (
-    <View className="flex-1">
-      <Image
-        source={require('@/assets/images/details/mock-restaurant-details.png')} //TODO: Remover dados mockados
-        style={{ width: '100%', height: IMAGE_HEIGHT, position: 'absolute' }}
-        resizeMode="cover"
-      />
+  const imageSource = getRestaurantImageSource(restaurant);
 
-      <View className="p-2 absolute">
-        <Button onPress={() => router.back()}>
+  return (
+    <View className="flex-1 bg-[#FDF6F5]">
+      <View
+        pointerEvents="none"
+        style={{
+          position: 'absolute',
+          top: -statusBarHeight,
+          left: 0,
+          right: 0,
+          width: '100%',
+          height: heroHeight,
+          overflow: 'hidden',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: '#E8E0DF',
+        }}
+      >
+        <Image
+          source={imageSource}
+          style={{ width: '100%', height: '100%' }}
+          resizeMode={getHeroResizeMode(restaurant, imageSource)}
+        />
+      </View>
+
+      <View
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 20,
+          elevation: 20,
+          height: HEADER_HEIGHT,
+          justifyContent: 'center',
+          paddingHorizontal: 8,
+        }}
+      >
+        <Pressable
+          onPress={handleGoBack}
+          hitSlop={12}
+          accessibilityRole="button"
+          accessibilityLabel="Voltar"
+          className="self-start"
+        >
           <Ionicons
             name="arrow-back-circle-outline"
             size={42}
             color="#FF7947"
           />
-        </Button>
+        </Pressable>
       </View>
 
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingTop: IMAGE_HEIGHT - 80 }}
-        nestedScrollEnabled
+      <View
+        className="overflow-hidden rounded-t-[32px] bg-[#FDF6F5]"
+        style={{
+          position: 'absolute',
+          top: sheetTop,
+          left: 0,
+          right: 0,
+          bottom: 0,
+        }}
       >
-        <View
-          style={{ height: CARD_HEIGHT }}
-          className={`rounded-t-[32px] bg-[#FDF6F5] py-4`}
-        >
-          <View className="p-2">
-            <RestaurantHeaderDetails {...restaurant} />
-          </View>
+        <View className="px-2 pt-4">
+          <RestaurantHeaderDetails {...restaurant} />
+        </View>
 
+        <View style={{ flex: 1, minHeight: 0 }}>
           <ScrollView
+            style={{ flex: 1 }}
             showsVerticalScrollIndicator={false}
             nestedScrollEnabled
             contentContainerStyle={{
               paddingHorizontal: 16,
-              paddingBottom: 12,
+              paddingTop: 16,
+              paddingBottom: bottomInset + 24,
             }}
           >
             <View className="gap-12">
               <RestaurantContactInfo {...restaurant} />
-              <RestaurantInfo />
+              <RestaurantInfo restaurant={restaurant} />
               <RestaurantReviews />
             </View>
           </ScrollView>
         </View>
-      </ScrollView>
+      </View>
     </View>
   );
 }
