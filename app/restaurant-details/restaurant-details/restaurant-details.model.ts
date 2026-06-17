@@ -15,11 +15,17 @@ export const useRestaurantDetailsModel = ({
   const [restaurant, setRestaurant] = useState<RecommendedRestaurant>();
 
   useEffect(() => {
-    if (!restaurantId) return;
+    let cancelled = false;
 
     loadingWrapper(() => restaurantDetailsService.getById(restaurantId)).then(
-      setRestaurant,
+      data => {
+        if (!cancelled) setRestaurant(data);
+      },
     );
+
+    return () => {
+      cancelled = true;
+    };
   }, [restaurantId]);
 
   return { restaurant };

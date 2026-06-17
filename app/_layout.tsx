@@ -48,6 +48,7 @@ const PROTECTED_ROUTES = [
   'profile-mapping/step-two/step-two',
   'profile-mapping/step-three/step-three',
   'recommendations-map/recommendations-map',
+  'reviews/reviews',
 ];
 
 export default function Layout() {

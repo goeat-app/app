@@ -31,7 +31,7 @@ export default function RestaurantDetails() {
     <View className="flex-1">
       <Image
         source={require('@/assets/images/details/mock-restaurant-details.png')} //TODO: Remover dados mockados
-        className={`w-full h-[${IMAGE_HEIGHT}px] absolute`}
+        style={{ width: '100%', height: IMAGE_HEIGHT, position: 'absolute' }}
         resizeMode="cover"
       />
 
