@@ -13,6 +13,16 @@ import { BackButtonDisplayMode } from 'react-native-screens';
 import Toast from 'react-native-toast-message';
 
 import {
+  BeVietnamPro_400Regular,
+  BeVietnamPro_500Medium,
+  BeVietnamPro_600SemiBold,
+} from '@expo-google-fonts/be-vietnam-pro';
+import {
+  PlusJakartaSans_400Regular,
+  PlusJakartaSans_500Medium,
+  PlusJakartaSans_600SemiBold,
+} from '@expo-google-fonts/plus-jakarta-sans';
+import {
   useFonts,
   Poppins_400Regular,
   Poppins_500Medium,
@@ -37,6 +47,7 @@ const PROTECTED_ROUTES = [
   'profile-mapping/step-one/step-one',
   'profile-mapping/step-two/step-two',
   'profile-mapping/step-three/step-three',
+  'recommendations-map/recommendations-map',
 ];
 
 export default function Layout() {
@@ -44,6 +55,12 @@ export default function Layout() {
     PoppinsRegular: Poppins_400Regular,
     PoppinsMedium: Poppins_500Medium,
     PoppinsSemiBold: Poppins_600SemiBold,
+    PlusJakartaRegular: PlusJakartaSans_400Regular,
+    PlusJakartaMedium: PlusJakartaSans_500Medium,
+    PlusJakartaSemiBold: PlusJakartaSans_600SemiBold,
+    BeVietnamProRegular: BeVietnamPro_400Regular,
+    BeVietnamProMedium: BeVietnamPro_500Medium,
+    BeVietnamProSemiBold: BeVietnamPro_600SemiBold,
   });
 
   const pathname = usePathname();
@@ -166,6 +183,12 @@ export default function Layout() {
               />
               <Stack.Screen
                 name="restaurant-details/restaurant-details"
+                options={{
+                  headerShown: false,
+                }}
+              />
+              <Stack.Screen
+                name="recommendations-map/recommendations-map"
                 options={{
                   headerShown: false,
                 }}

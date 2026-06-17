@@ -10,18 +10,14 @@ export async function signInUseCase(
   payload: FormDataLogin,
 ): Promise<LoginResult> {
   try {
-    const userCredential = await signInWithEmailAndPassword(
+    await signInWithEmailAndPassword(
       getFirebaseAuth(),
       payload.email,
       payload.password,
     );
 
-    const accessToken = await userCredential.user.getIdToken(true);
-    const refreshToken = userCredential.user.refreshToken;
-
     return {
       success: true,
-      data: { accessToken, refreshToken },
     };
   } catch (error) {
     return {

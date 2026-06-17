@@ -3,6 +3,7 @@ import { View, Image, TouchableOpacity } from 'react-native';
 
 import { ExpandIcon } from '@/assets/icons/expand-icon';
 import { Typography } from '@/components/typography/typography';
+import { router } from 'expo-router';
 
 export const MapPreview = () => {
   return (
@@ -13,7 +14,11 @@ export const MapPreview = () => {
           className="font-poppins-medium text-[#003247]"
           text="Perto de você"
         />
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() =>
+            router.push('/recommendations-map/recommendations-map')
+          }
+        >
           <ExpandIcon width={16} height={17} />
         </TouchableOpacity>
       </View>

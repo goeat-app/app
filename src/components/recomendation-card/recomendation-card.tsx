@@ -8,7 +8,7 @@ import { LocationIcon } from '@/assets/icons/location-icon';
 import { Button } from '@/components/button';
 import { MoneyIcon } from '@/components/money-icon/money-icon';
 import { Typography } from '@/components/typography/typography';
-import { getImageSource } from '@/lib/utils/image-mapper';
+import { getRestaurantImageSource } from '@/lib/utils/restaurant-image';
 
 type RestaurantCardProps = {
   item: RecommendedRestaurant;
@@ -31,7 +31,7 @@ export function RestaurantCard({
         <ImageBackground
           className="w-full h-full flex items-end p-2"
           resizeMode="cover"
-          source={getImageSource(item.slug)}
+          source={getRestaurantImageSource(item)}
           imageStyle={{ borderTopLeftRadius: 16, borderTopRightRadius: 16 }}
         >
           <View style={styles.bottomOverlay} pointerEvents="none" />
