@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import * as Location from 'expo-location';
 import { router } from 'expo-router';
+import { locationService } from 'services/location-service';
 import { registerUserUseCase } from 'use-cases/register/register.use-case';
 
 import { toast } from '@/components/toast/toast';
@@ -10,27 +10,6 @@ import { loadingWrapper } from '@/hooks/loading-wrapper';
 import { cleanPhoneMask } from '@/lib/utils/format-phone-mask';
 
 import { FormDataRegister } from './signup.types';
-
-export async function getUserLocation(): Promise<{
-  latitude: number;
-  longitude: number;
-}> {
-  try {
-    const { status } = await Location.requestForegroundPermissionsAsync();
-
-    if (status !== 'granted') {
-      return { latitude: 0, longitude: 0 };
-    }
-
-    const location = await Location.getCurrentPositionAsync({});
-    return {
-      latitude: location.coords.latitude,
-      longitude: location.coords.longitude,
-    };
-  } catch {
-    return { latitude: 0, longitude: 0 };
-  }
-}
 
 export default function useSignUpModel() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -42,7 +21,7 @@ export default function useSignUpModel() {
   } = useForm<FormDataRegister>({ mode: 'onChange' });
 
   const onSubmit = async (data: FormDataRegister) => {
-    const { latitude, longitude } = await getUserLocation();
+    const { latitude, longitude } = await locationService.getCoordinates();
 
     const payload = {
       ...data,

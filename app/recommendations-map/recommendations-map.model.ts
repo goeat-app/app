@@ -3,11 +3,10 @@ import MapView from 'react-native-maps';
 
 import { mapRestaurantsService } from 'services/map-restaurants-service';
 import { RecommendedRestaurant } from 'use-cases/recommender/recommender.types';
+import { ensureUserLocationUseCase } from 'use-cases/user-location/ensure-user-location.use-case';
 
 import { loadingWrapper } from '@/hooks/loading-wrapper';
 import { useUserStore } from '@/store/user';
-
-import { getUserLocation } from '../signup/signup.model';
 
 export type MapCoordinate = {
   latitude: number;
@@ -60,7 +59,6 @@ export function useRecommendationsMapModel() {
   >(null);
 
   const userLocation = useUserStore(state => state.userLocation);
-  const setUserLocation = useUserStore(state => state.setUserLocation);
 
   const loadMapRestaurants = useCallback(
     async (latitude?: number, longitude?: number) => {
@@ -81,18 +79,15 @@ export function useRecommendationsMapModel() {
 
   useEffect(() => {
     async function init() {
-      const location = await getUserLocation();
+      await ensureUserLocationUseCase();
 
-      if (location.latitude !== 0 || location.longitude !== 0) {
-        setUserLocation(location);
-      }
-
+      const { userLocation: location } = useUserStore.getState();
       await loadMapRestaurants(location.latitude, location.longitude);
       setIsLoading(false);
     }
 
     init();
-  }, [loadMapRestaurants, setUserLocation]);
+  }, [loadMapRestaurants]);
 
   const restaurantCoordinates = useMemo(
     () =>

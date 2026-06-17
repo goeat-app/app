@@ -11,6 +11,7 @@ import { StarIcon } from '@/assets/icons/star-icon';
 import { Button } from '@/components/button';
 import { ProfileMenuItem } from '@/components/profile-menu-item/profile-menu-item';
 import { Typography } from '@/components/typography/typography';
+import { useAuth } from '@/hooks/use-auth';
 
 import { useProfilePageModel } from './profile-page.model';
 
@@ -25,6 +26,14 @@ export default function ProfilePage() {
     navigateFaq,
     logout,
   } = useProfilePageModel();
+
+  const user = useAuth().user;
+
+  if (!user) {
+    return null;
+  }
+
+  const { displayName } = user;
 
   return (
     <View className="flex-1 bg-[#FF6B35]">
@@ -54,7 +63,7 @@ export default function ProfilePage() {
             <Typography
               type="h2"
               className="text-[#003247] font-poppins-medium text-center"
-              text="Fulano de tal"
+              text={displayName as string}
             />
             <TouchableOpacity>
               <Typography

@@ -15,12 +15,21 @@ import { CameraIcon } from '@/assets/icons/camera-icon';
 import { Button } from '@/components/button';
 import { Input } from '@/components/input';
 import { Typography } from '@/components/typography/typography';
+import { useAuth } from '@/hooks/use-auth';
 
 import { useEditProfileModel } from './edit-profile.model';
 
 export default function EditProfileFloating() {
   const { windowHeight, avatarHalfSize, isKeyboardVisible, handleGoBack } =
     useEditProfileModel();
+
+  const user = useAuth().user;
+
+  if (!user) {
+    return null;
+  }
+
+  const { displayName } = user;
 
   return (
     <View className="flex-1 bg-white">
@@ -92,7 +101,7 @@ export default function EditProfileFloating() {
                 <Input.Root>
                   <Input.Label text="Nome completo" />
                   <Input.Field
-                    placeholder="Fulano de tal"
+                    placeholder={displayName as string}
                     className="border border-gray-300 rounded-3xl h-[50px] px-4"
                   />
                 </Input.Root>
