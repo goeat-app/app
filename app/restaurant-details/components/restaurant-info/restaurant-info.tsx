@@ -1,9 +1,9 @@
 import { View } from 'react-native';
 
+import { RestaurantDetails } from 'use-cases/recommender/recommender.types';
+
 import { CandleIcon } from '@/assets/icons/env-type/candle-icon';
-import { GlassIcon } from '@/assets/icons/env-type/glass-icon';
 import { ModernPlaceIcon } from '@/assets/icons/env-type/modern-place-icon';
-import { NatureVeganIcon } from '@/assets/icons/env-type/nature-vegan-icon';
 import { EloIcon } from '@/assets/icons/payment-methods/elo-icon';
 import { MastercardIcon } from '@/assets/icons/payment-methods/mastercard-icon';
 import { SodexoIcon } from '@/assets/icons/payment-methods/sodexo-icon';
@@ -12,34 +12,24 @@ import { PhotoGallery } from '@/components/photo-gallery/photo-gallery';
 import { Tag } from '@/components/tag';
 import { Typography } from '@/components/typography/typography';
 
-export const RestaurantInfo = () => {
-  //TODO: Remover dados mockados
-  const tags = [
-    {
-      icon: CandleIcon,
-      text: 'Intimista',
-    },
-    {
-      icon: NatureVeganIcon,
-      text: 'Vegano',
-    },
-    {
-      icon: GlassIcon,
-      text: 'Drinks',
-    },
-    {
-      icon: ModernPlaceIcon,
-      text: 'Moderno',
-    },
-  ];
+type RestaurantInfoProps = {
+  restaurant: RestaurantDetails;
+};
 
-  //TODO: Remover dados mockados
-  const photos = [
-    require('@/assets/images/photo-restaurant/photo-restaurant-mock-1.png'),
-    require('@/assets/images/photo-restaurant/photo-restaurant-mock-2.png'),
-    require('@/assets/images/photo-restaurant/photo-restaurant-mock-3.png'),
-    require('@/assets/images/photo-restaurant/restaurant-mock-1.png'),
-  ];
+const DEFAULT_ICON = ModernPlaceIcon;
+
+function buildTags(restaurant: RestaurantDetails) {
+  return [
+    { icon: DEFAULT_ICON, text: restaurant.foodType },
+    { icon: CandleIcon, text: restaurant.placeType },
+  ].filter(tag => tag.text);
+}
+
+export const RestaurantInfo = ({ restaurant }: RestaurantInfoProps) => {
+  const tags = buildTags(restaurant);
+  const photos = restaurant.photos.map(uri => ({ uri }));
+  const description =
+    restaurant.description ?? 'Descrição não disponível para este restaurante.';
 
   return (
     <View className="flex gap-12">
@@ -53,7 +43,7 @@ export const RestaurantInfo = () => {
         <Typography
           type="p"
           className="text-justify text-[#5E5959]"
-          text="Nosso restaurante oferece um ambiente aconchegante, com iluminação suave e decoração charmosa, ideal para momentos especiais. O cardápio traz sabores caseiros com um toque especial, sempre preparados com ingredientes frescos. Aqui, cada detalhe é pensado para que você se sinta em casa e viva uma experiência gastronômica única."
+          text={description}
         />
       </View>
 
@@ -66,8 +56,7 @@ export const RestaurantInfo = () => {
         ))}
       </View>
 
-      {/* Galeria de fotos */}
-      <PhotoGallery photos={photos} />
+      {photos.length > 0 && <PhotoGallery photos={photos} />}
 
       <View className="flex gap-2">
         <Typography
