@@ -1,9 +1,10 @@
 import React from 'react';
 import { View, Image, TouchableOpacity } from 'react-native';
 
+import { router } from 'expo-router';
+
 import { ExpandIcon } from '@/assets/icons/expand-icon';
 import { Typography } from '@/components/typography/typography';
-import { router } from 'expo-router';
 
 export const MapPreview = () => {
   return (
