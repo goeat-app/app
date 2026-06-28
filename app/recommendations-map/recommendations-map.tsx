@@ -1,5 +1,5 @@
-import { Image, View } from 'react-native';
-import MapView from 'react-native-maps';
+import { lazy } from 'react';
+import { Image, Platform, View } from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
@@ -10,7 +10,6 @@ import { Typography } from '@/components/typography/typography';
 import BottomSheet from '@/components/ui/bottom-sheet/bottom-sheet';
 import { getRestaurantImageSource } from '@/lib/utils/restaurant-image';
 
-import { RestaurantMarker } from './components/restaurant-marker/restaurant-marker';
 import { useRecommendationsMapModel } from './recommendations-map.model';
 
 export default function RecommendationsMap() {
@@ -40,31 +39,51 @@ export default function RecommendationsMap() {
 
   return (
     <View className="flex-1">
-      <MapView
-        ref={mapRef}
-        style={{ flex: 1 }}
-        showsUserLocation={true}
-        showsMyLocationButton={true}
-        initialRegion={mapRegion}
-        onMapReady={() => {
-          setIsMapReady(true);
-          fitMapToMarkers();
-        }}
-      >
-        {restaurants.map(restaurant => {
-          const coordinate = toCoordinate(restaurant);
-          if (!coordinate) return null;
+      {Platform.OS !== 'web' &&
+        (() => {
+          const MapView = lazy(() =>
+            import('react-native-maps').then(module => ({
+              default: module.default,
+            })),
+          );
+
+          const RestaurantMarker = lazy(() =>
+            import('./components/restaurant-marker/restaurant-marker').then(
+              module => ({
+                default: module.RestaurantMarker,
+              }),
+            ),
+          );
 
           return (
-            <RestaurantMarker
-              key={restaurant.id}
-              coordinate={coordinate}
-              title={restaurant.name}
-              onPress={() => setSelectedRestaurantId(restaurant.id)}
-            />
+            <MapView
+              ref={mapRef}
+              style={{ flex: 1 }}
+              showsUserLocation={true}
+              showsMyLocationButton={true}
+              initialRegion={mapRegion}
+              onMapReady={() => {
+                setIsMapReady(true);
+                fitMapToMarkers();
+              }}
+            >
+              {restaurants.map(restaurant => {
+                const coordinate = toCoordinate(restaurant);
+                if (!coordinate) return null;
+
+                return (
+                  <RestaurantMarker
+                    key={restaurant.id}
+                    coordinate={coordinate}
+                    title={restaurant.name}
+                    onPress={() => setSelectedRestaurantId(restaurant.id)}
+                  />
+                );
+              })}
+            </MapView>
           );
-        })}
-      </MapView>
+        })()}
+
       <BottomSheet>
         <View className="flex gap-4">
           <View className="flex flex-col gap-4">

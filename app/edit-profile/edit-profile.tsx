@@ -1,11 +1,4 @@
-import {
-  View,
-  Image,
-  TouchableOpacity,
-  StatusBar,
-  TouchableWithoutFeedback,
-  Keyboard,
-} from 'react-native';
+import { View, Image, TouchableOpacity, StatusBar } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import { Ionicons } from '@expo/vector-icons';
@@ -14,6 +7,7 @@ import { CalendarIcon } from '@/assets/icons/calendar-icon';
 import { CameraIcon } from '@/assets/icons/camera-icon';
 import { Button } from '@/components/button';
 import { Input } from '@/components/input';
+import { KeyboardDismissWrapper } from '@/components/keyboard-dismiss-wrapper';
 import { Typography } from '@/components/typography/typography';
 import { useAuth } from '@/hooks/use-auth';
 
@@ -67,7 +61,7 @@ export default function EditProfileFloating() {
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="always"
       >
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <KeyboardDismissWrapper>
           <View
             className="items-center"
             style={{ minHeight: windowHeight, justifyContent: 'center' }}
@@ -143,7 +137,7 @@ export default function EditProfileFloating() {
               </Button>
             </View>
           </View>
-        </TouchableWithoutFeedback>
+        </KeyboardDismissWrapper>
       </KeyboardAwareScrollView>
     </View>
   );

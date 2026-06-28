@@ -5,7 +5,7 @@ import { PhotoGalleryProps } from './photo-gallery.types';
 
 export const usePhotoGallery = ({
   photos,
-  title,
+  title: _title,
   visibleCount,
 }: PhotoGalleryProps) => {
   const { width: SCREEN_WIDTH } = Dimensions.get('window');

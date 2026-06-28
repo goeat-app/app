@@ -1,11 +1,5 @@
 import { Controller } from 'react-hook-form';
-import {
-  View,
-  Image,
-  TouchableWithoutFeedback,
-  Keyboard,
-  TouchableOpacity,
-} from 'react-native';
+import { View, Image, Keyboard, TouchableOpacity } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import { ClosedEyeIcon } from 'assets/icons/closed-eye-icon';
@@ -16,6 +10,7 @@ import { router } from 'expo-router';
 
 import { Button } from '@/components/button';
 import { Input } from '@/components/input';
+import { KeyboardDismissWrapper } from '@/components/keyboard-dismiss-wrapper';
 import { Typography } from '@/components/typography/typography';
 
 import useSignInModel from './signin.model';
@@ -38,7 +33,7 @@ export default function SignIn() {
         enableOnAndroid={true}
         extraScrollHeight={20}
       >
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <KeyboardDismissWrapper onPress={Keyboard.dismiss}>
           <View className="items-center">
             <Image
               resizeMode="contain"
@@ -195,7 +190,7 @@ export default function SignIn() {
               </View>
             </View>
           </View>
-        </TouchableWithoutFeedback>
+        </KeyboardDismissWrapper>
       </KeyboardAwareScrollView>
     </View>
   );

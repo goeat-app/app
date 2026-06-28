@@ -1,5 +1,5 @@
 import React from 'react';
-import { Keyboard, TouchableWithoutFeedback, View } from 'react-native';
+import { Keyboard, View } from 'react-native';
 import { Text } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
@@ -7,6 +7,7 @@ import MultiSlider from '@ptomasroos/react-native-multi-slider';
 
 import { Button } from '@/components/button';
 import { Input } from '@/components/input';
+import { KeyboardDismissWrapper } from '@/components/keyboard-dismiss-wrapper';
 import { Typography } from '@/components/typography/typography';
 
 import { useStepThreeModel } from './step-three.model';
@@ -31,7 +32,7 @@ export default function StepThree() {
       enableOnAndroid={true}
       extraScrollHeight={100}
     >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <KeyboardDismissWrapper onPress={Keyboard.dismiss}>
         <View className="flex flex-col w-full h-full items-center justify-between p-8 bg-[#FDF6F5]">
           <View className="w-full h-2 bg-[#FFC8A6FF] rounded-full mt-2 mb-6 ">
             <View className="h-2 bg-[#FF7A00] rounded-full w-[100%]" />
@@ -144,7 +145,7 @@ export default function StepThree() {
             </Button>
           </View>
         </View>
-      </TouchableWithoutFeedback>
+      </KeyboardDismissWrapper>
     </KeyboardAwareScrollView>
   );
 }
