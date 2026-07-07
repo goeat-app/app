@@ -34,13 +34,14 @@ export default function SignIn() {
         extraScrollHeight={20}
       >
         <KeyboardDismissWrapper onPress={Keyboard.dismiss}>
-          <View className="items-center">
+          <View className="items-center flex-1">
             <Image
               resizeMode="contain"
               source={require('@/assets/images/goat-greeting.png')}
-              className="w-70 h-70 z-10"
+              className="z-10"
+              style={{ height: 180, width: '100%' }}
             />
-            <View className="w-full bg-[#FBF3ED] rounded-t-3xl items-center p-4 -mt-20 pt-24">
+            <View className="w-full bg-[#FBF3ED] rounded-t-3xl items-center p-4 -mt-20 pt-24 flex-1 justify-end">
               <View className="w-full items-center justify-center mb-5">
                 <Typography
                   type="h2"

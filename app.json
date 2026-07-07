@@ -38,7 +38,15 @@
     },
     "web": {
       "bundler": "metro",
-      "favicon": "./assets/images/favicon.png"
+      "name": "GoEat",
+      "shortName": "GoEat",
+      "lang": "pt-BR",
+      "themeColor": "#FDF6F5",
+      "backgroundColor": "#FDF6F5",
+      "display": "standalone",
+      "orientation": "portrait",
+      "favicon": "./assets/images/favicon.png",
+      "output": "single"
     },
     "plugins": [
       "expo-router",

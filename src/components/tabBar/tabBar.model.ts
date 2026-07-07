@@ -30,7 +30,7 @@ export function useTabBarModel({
   const navigateHome = () => router.push('/home/home');
   const navigateFavorites = () => router.push('/favorites/favorites');
   const navigateRestaurants = () =>
-    router.push('/recomendations/recomendations-view');
+    router.push('/recommendations/recommendations-view');
   const navigateProfile = () => router.push('/profile-page/profile-page');
 
   useImperativeHandle(ref, () => ({

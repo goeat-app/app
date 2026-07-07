@@ -1,0 +1,13 @@
+{
+  "hosting": {
+    "site": "goeat-c0750-9b6de",
+    "public": "dist",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

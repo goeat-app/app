@@ -1,6 +1,7 @@
 import { Image, Platform, View } from 'react-native';
 
 import { RestaurantMarkerProps } from './restaurant-marker.types';
+import { lazy } from 'react';
 
 const MARKER_SIZE = 32;
 
@@ -13,8 +14,10 @@ export function RestaurantMarker({
     <>
       {Platform.OS !== 'web' ? (
         (async () => {
-          const Marker = await import('react-native-maps').then(
-            module => module.Marker,
+          const Marker = lazy(() =>
+            import('react-native-maps').then(module => ({
+              default: module.Marker,
+            })),
           );
 
           return (

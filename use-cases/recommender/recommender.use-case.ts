@@ -8,6 +8,8 @@ import { RecommenderResult } from './recommender.types';
 
 export async function getRecommendationsUseCase(
   filters?: RestaurantFilters,
+  latitude?: number,
+  longitude?: number,
 ): Promise<RecommenderResult> {
   try {
     const user = getFirebaseAuth().currentUser;
@@ -18,6 +20,8 @@ export async function getRecommendationsUseCase(
 
     const result = await recommenderService.getRecommendations(
       user.uid,
+      latitude,
+      longitude,
       filters,
     );
 

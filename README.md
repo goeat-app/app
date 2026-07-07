@@ -203,6 +203,20 @@ yarn web
 yarn test
 ```
 
+### Build the Installable PWA
+
+The web app includes a manifest, app icons, iOS install metadata, an offline
+fallback page, and a service worker that caches the app shell and same-origin
+assets.
+
+```bash
+# Create the production web bundle in dist/
+yarn build:web"
+```
+
+Serve the exported `dist/` folder over HTTPS in production. For a local PWA
+check, serve `dist/` from `localhost` so the service worker can register.
+
 ---
 
 ## Backend Setup

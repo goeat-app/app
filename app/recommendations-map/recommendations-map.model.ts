@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import MapView from 'react-native-maps';
+import type MapView from 'react-native-maps';
 
 import { mapRestaurantsService } from 'services/map-restaurants-service';
 import { RecommendedRestaurant } from 'use-cases/recommender/recommender.types';

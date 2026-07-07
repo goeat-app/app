@@ -38,17 +38,17 @@ import { useAuth } from '@/hooks/use-auth';
 import '../global.css';
 
 const PROTECTED_ROUTES = [
-  '/recomendations/recomendations-view',
+  '/recommendations/recommendations-view',
   '/home/home',
   '/favorites/favorites',
   '/profile-page/profile-page',
   '/edit-profile/edit-profile',
   '/restaurant-details/restaurant-details/[id]',
-  'profile-mapping/step-one/step-one',
-  'profile-mapping/step-two/step-two',
-  'profile-mapping/step-three/step-three',
-  'recommendations-map/recommendations-map',
-  'reviews/reviews',
+  '/profile-mapping/step-one/step-one-view',
+  '/profile-mapping/step-two/step-two-view',
+  '/profile-mapping/step-three/step-three-view',
+  '/recommendations-map/recommendations-map',
+  '/reviews/reviews',
 ];
 
 export default function Layout() {
@@ -142,18 +142,18 @@ export default function Layout() {
                 }}
               />
 
-              <Stack.Screen name="signin/signin" />
-              <Stack.Screen name="signup/signup" />
+              <Stack.Screen name="signin/signin-view" />
+              <Stack.Screen name="signup/signup-view" />
               <Stack.Screen
-                name="profile-mapping/step-one/step-one"
+                name="profile-mapping/step-one/step-one-view"
                 options={{
                   headerShown: false,
                 }}
               />
-              <Stack.Screen name="profile-mapping/step-two/step-two" />
-              <Stack.Screen name="profile-mapping/step-three/step-three" />
+              <Stack.Screen name="profile-mapping/step-two/step-two-view" />
+              <Stack.Screen name="profile-mapping/step-three/step-three-view" />
               <Stack.Screen
-                name="recomendations/recomendations-view"
+                name="recommendations/recommendations-view"
                 options={{
                   headerShown: false,
                 }}
