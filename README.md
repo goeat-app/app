@@ -211,7 +211,7 @@ assets.
 
 ```bash
 # Create the production web bundle in dist/
-yarn build:web"
+yarn build:web
 ```
 
 Serve the exported `dist/` folder over HTTPS in production. For a local PWA
