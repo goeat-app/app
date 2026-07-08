@@ -32,11 +32,11 @@ export default function Index() {
   }
 
   if (isOnboardingCompleted) {
-    return <Redirect href="./signin/signin-view" />;
+    return <Redirect href="/signin/signin-view" />;
   }
 
   console.log(
     'Onboarding not completed, redirecting to first onboarding screen',
   );
-  return <Redirect href="./onboarding/first-onboarding" />;
+  return <Redirect href="/onboarding/first-onboarding" />;
 }

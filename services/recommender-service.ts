@@ -7,14 +7,9 @@ import { RestaurantFilters } from '@/store/restaurant-filter-store';
 export const recommenderService = {
   async getRecommendations(
     userId: string,
-    latitude: number | undefined,
-    longitude: number | undefined,
     filters: RestaurantFilters | undefined,
   ): Promise<RecommendedRestaurant[]> {
     const params: Record<string, string> = { userId };
-
-    if (latitude !== undefined) params.latitude = String(latitude);
-    if (longitude !== undefined) params.longitude = String(longitude);
 
     if (filters) {
       if (filters.minRating > 0) params.minRating = String(filters.minRating);
