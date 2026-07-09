@@ -1,4 +1,4 @@
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 
 import type { RecommendationsMapModel } from '@/app/recommendations-map/recommendations-map.model';
 
@@ -7,5 +7,9 @@ export default function RecommendationMapView(
     mapRegion: NonNullable<RecommendationsMapModel['mapRegion']>;
   },
 ) {
-  return <View>Restaurant Map</View>;
+  return (
+    <View>
+      <Text>Restaurant Map</Text>
+    </View>
+  );
 }
