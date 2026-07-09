@@ -1,9 +1,12 @@
 import { useEffect } from 'react';
 import { View, Text } from 'react-native';
+
 import { router } from 'expo-router';
-import { useAuth } from '../hooks/use-auth';
-import { Typography } from '@/components/typography/typography';
+
 import { Button } from '@/components/button/button';
+import { Typography } from '@/components/typography/typography';
+
+import { useAuth } from '../hooks/use-auth';
 
 export default function NotFound() {
   const { isAuthenticated } = useAuth();

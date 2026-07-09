@@ -1,5 +1,7 @@
 import MapView from 'react-native-maps';
+
 import type { RecommendationsMapModel } from '@/app/recommendations-map/recommendations-map.model';
+
 import { RestaurantMarker } from '../restaurant-marker/restaurant-marker';
 
 export default function RecommendationMapView({

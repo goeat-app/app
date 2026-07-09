@@ -1,7 +1,7 @@
 import { Image, View } from 'react-native';
+import { Marker } from 'react-native-maps';
 
 import { RestaurantMarkerProps } from './restaurant-marker.types';
-import { Marker } from 'react-native-maps';
 
 const MARKER_SIZE = 32;
 

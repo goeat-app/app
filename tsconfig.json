@@ -16,7 +16,9 @@
       "@/components/*": ["src/components/*"],
       "@/hooks/*": ["hooks/*"],
       "@/store/*": ["store/*"],
-      "@firebase/auth": ["./node_modules/@firebase/auth/dist/index.rn.d.ts"]
+      "@react-native-firebase/auth": [
+        "./node_modules/@react-native-firebase/auth/dist/index.rn.d.ts"
+      ]
     },
     "jsx": "react-jsx"
   },

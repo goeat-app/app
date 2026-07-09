@@ -3,12 +3,12 @@ import {
   View,
   Image,
   Pressable,
-  ScrollView,
   useWindowDimensions,
   ImageSourcePropType,
   NativeScrollEvent,
   NativeSyntheticEvent,
 } from 'react-native';
+import { FlatList } from 'react-native-gesture-handler';
 
 import { router } from 'expo-router';
 
@@ -18,7 +18,6 @@ import {
   setOnboardingCompleted,
   hasCompletedOnboarding,
 } from '@/lib/storage/onboarding-storage';
-import { FlatList } from 'react-native-gesture-handler';
 
 type OnboardingStep = {
   id: string;

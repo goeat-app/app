@@ -1,7 +1,5 @@
-import { signInWithEmailAndPassword } from 'firebase/auth';
-
 import { FormDataLogin } from '@/app/signin/signin.types';
-import { getFirebaseAuth } from '@/lib/auth/firebase-auth';
+import { authService } from '@/lib/auth/firebase-auth';
 import { handleError } from '@/lib/utils/error-mapper';
 
 import { LoginResult } from './signin.types';
@@ -10,11 +8,7 @@ export async function signInUseCase(
   payload: FormDataLogin,
 ): Promise<LoginResult> {
   try {
-    await signInWithEmailAndPassword(
-      getFirebaseAuth(),
-      payload.email,
-      payload.password,
-    );
+    await authService.signInWithEmailPassword(payload.email, payload.password);
 
     return {
       success: true,

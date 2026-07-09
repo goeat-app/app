@@ -1,5 +1,6 @@
-import type { RecommendationsMapModel } from '@/app/recommendations-map/recommendations-map.model';
 import { View } from 'react-native';
+
+import type { RecommendationsMapModel } from '@/app/recommendations-map/recommendations-map.model';
 
 export default function RecommendationMapView(
   _: RecommendationsMapModel & {

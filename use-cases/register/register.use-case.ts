@@ -1,8 +1,7 @@
-import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { updateUserProfileUseCase } from 'use-cases/profile/update-user-profile.use-case';
 
 import { FormDataRegister } from '@/app/signup/signup.types';
-import { getFirebaseAuth } from '@/lib/auth/firebase-auth';
+import { authService } from '@/lib/auth/firebase-auth';
 import { handleError } from '@/lib/utils/error-mapper';
 
 import { RegisterUserResult } from './register.types';
@@ -11,15 +10,11 @@ export async function registerUserUseCase(
   payload: FormDataRegister,
 ): Promise<RegisterUserResult> {
   try {
-    const userCredential = await createUserWithEmailAndPassword(
-      getFirebaseAuth(),
+    await authService.signUpWithEmailPassword(
       payload.email,
       payload.password,
+      payload.name,
     );
-
-    await updateProfile(userCredential.user, {
-      displayName: payload.name,
-    });
 
     // Update user profile with name and phone after successful Firebase registration
     const profileUpdateResult = await updateUserProfileUseCase({
