@@ -9,19 +9,15 @@ import { Typography } from '@/components/typography/typography';
 import { useAuth } from '../hooks/use-auth';
 
 export default function NotFound() {
-  const { isAuthenticated } = useAuth();
-
-  const handleGoHome = () => {
-    if (isAuthenticated) {
-      router.replace('/home/home');
-    } else {
-      router.replace('/signin/signin-view');
-    }
-  };
+  const { isAuthenticated, isLoading } = useAuth();
 
   useEffect(() => {
-    handleGoHome();
-  }, []);
+    if (isLoading) {
+      return;
+    }
+
+    router.replace(isAuthenticated ? '/home/home' : '/signin/signin-view');
+  }, [isAuthenticated, isLoading]);
 
   return (
     <View className="flex-1 bg-[#FDF6F5] justify-center items-center px-6">
