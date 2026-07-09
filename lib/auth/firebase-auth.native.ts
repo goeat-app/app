@@ -76,14 +76,16 @@ export const authService = {
     return toAuthResult(credential.user);
   },
 
-  async signUpWithEmailPassword(email: string, password: string) {
+  async signUpWithEmailPassword(email: string, password: string, name: string) {
     const credential = await auth().createUserWithEmailAndPassword(
       email,
       password,
     );
 
+    await credential.user.updateProfile({ displayName: name });
+
     return toAuthResult(credential.user);
-  },
+  }
 
   async signOut() {
     await Promise.allSettled([auth().signOut(), GoogleSignin.signOut()]);
