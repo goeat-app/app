@@ -13,6 +13,7 @@ import { Input } from '@/components/input';
 import { KeyboardDismissWrapper } from '@/components/keyboard-dismiss-wrapper';
 import { Typography } from '@/components/typography/typography';
 
+import { authService } from '../../lib/auth/firebase-auth';
 import useSignInModel from './signin.model';
 
 export default function SignIn() {
@@ -173,7 +174,11 @@ export default function SignIn() {
                       type="small"
                       text="Ou continue com"
                     />
-                    <TouchableOpacity onPress={() => {}}>
+                    <TouchableOpacity
+                      onPress={() => {
+                        void authService.signInWithGoogle();
+                      }}
+                    >
                       <Image
                         resizeMode="contain"
                         source={require('@/assets/images/google-icon.png')}

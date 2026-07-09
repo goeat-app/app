@@ -1,4 +1,10 @@
-import { View, Image, TouchableOpacity, StatusBar } from 'react-native';
+import {
+  View,
+  Image,
+  TouchableOpacity,
+  StatusBar,
+  Keyboard,
+} from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import { Ionicons } from '@expo/vector-icons';
@@ -61,7 +67,7 @@ export default function EditProfileFloating() {
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="always"
       >
-        <KeyboardDismissWrapper>
+        <KeyboardDismissWrapper onPress={Keyboard.dismiss}>
           <View
             className="items-center"
             style={{ minHeight: windowHeight, justifyContent: 'center' }}
