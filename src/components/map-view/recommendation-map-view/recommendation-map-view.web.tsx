@@ -7,5 +7,5 @@ export default function RecommendationMapView(
     mapRegion: NonNullable<RecommendationsMapModel['mapRegion']>;
   },
 ) {
-  return <View>text</View>;
+  return <View>Restaurant Map</View>;
 }
