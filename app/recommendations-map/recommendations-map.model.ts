@@ -8,6 +8,10 @@ import { ensureUserLocationUseCase } from 'use-cases/user-location/ensure-user-l
 import { loadingWrapper } from '@/hooks/loading-wrapper';
 import { useUserStore } from '@/store/user';
 
+export type RecommendationsMapModel = ReturnType<
+  typeof useRecommendationsMapModel
+>;
+
 export type MapCoordinate = {
   latitude: number;
   longitude: number;

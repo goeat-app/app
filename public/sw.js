@@ -1,14 +1,7 @@
-const STATIC_CACHE = 'goeat-static-v2';
-const RUNTIME_CACHE = 'goeat-runtime-v2';
+const STATIC_CACHE = 'goeat-static-v3';
+const RUNTIME_CACHE = 'goeat-runtime-v3';
 const OFFLINE_URL = '/offline.html';
-const PRECACHE_URLS = [
-  '/',
-  OFFLINE_URL,
-  '/manifest.json',
-  '/icons/icon-192.png',
-  '/icons/icon-512.png',
-  '/icons/apple-touch-icon.png',
-];
+const PRECACHE_URLS = [OFFLINE_URL, '/manifest.json'];
 const STATIC_ASSET_PATTERN =
   /\.(?:js|css|png|jpg|jpeg|gif|webp|svg|ico|woff2?|ttf|otf)$/i;
 
@@ -51,16 +44,22 @@ self.addEventListener('fetch', event => {
   }
 
   if (isDocumentRequest) {
+    // Network first for document requests with Firebase rewrites
+    // Firebase rewrites all requests to index.html, so network should always succeed
     event.respondWith(
       fetch(event.request)
         .then(response => {
-          const responseClone = response.clone();
-          caches
-            .open(RUNTIME_CACHE)
-            .then(cache => cache.put(event.request, responseClone));
+          // Cache the response from index.html (via Firebase rewrite)
+          if (response && response.status === 200) {
+            const responseClone = response.clone();
+            caches
+              .open(RUNTIME_CACHE)
+              .then(cache => cache.put(event.request, responseClone));
+          }
           return response;
         })
         .catch(async () => {
+          // Only use cache or offline page if network fails
           const cache = await caches.open(RUNTIME_CACHE);
           const cachedResponse = await cache.match(event.request);
           return cachedResponse || caches.match(OFFLINE_URL);

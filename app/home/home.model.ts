@@ -12,7 +12,6 @@ import { getRecommendationsUseCase } from 'use-cases/recommender/recommender.use
 import { toast } from '@/components/toast/toast';
 import { loadingWrapper } from '@/hooks/loading-wrapper';
 import { useFilterStore } from '@/store/restaurant-filter-store';
-import { locationService } from 'services/location-service';
 
 export const useHomeModel = () => {
   const filters = useFilterStore(state => state.filters);
@@ -21,10 +20,8 @@ export const useHomeModel = () => {
   const [favoriteList, setFavoriteList] = useState<string[]>([]);
 
   async function loadRecommendations(currentFilters?: typeof filters) {
-    const { latitude, longitude } = await locationService.getCoordinates();
-
     const result = await loadingWrapper(() =>
-      getRecommendationsUseCase(currentFilters, latitude, longitude),
+      getRecommendationsUseCase(currentFilters),
     );
 
     if (result.success === true) {
