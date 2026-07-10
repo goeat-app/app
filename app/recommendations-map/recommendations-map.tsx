@@ -1,14 +1,13 @@
-import { lazy } from 'react';
-import { Image, Platform, View } from 'react-native';
+import { Image, View } from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 
 import { StarIcon } from '@/assets/icons/star-icon';
 import { Button } from '@/components/button';
+import RecommendationMapView from '@/components/map-view/recommendation-map-view/recommendation-map-view';
 import { Typography } from '@/components/typography/typography';
 import BottomSheet from '@/components/ui/bottom-sheet/bottom-sheet';
-import RecommendationMapView from '@/components/map-view/recommendation-map-view/recommendation-map-view';
 import { getRestaurantImageSource } from '@/lib/utils/restaurant-image';
 
 import { useRecommendationsMapModel } from './recommendations-map.model';

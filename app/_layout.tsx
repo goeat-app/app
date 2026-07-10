@@ -142,7 +142,10 @@ export default function Layout() {
                 }}
               />
 
-              <Stack.Screen name="signin/signin-view" />
+              <Stack.Screen
+                name="signin/signin-view"
+                options={{ headerShown: false }}
+              />
               <Stack.Screen name="signup/signup-view" />
               <Stack.Screen
                 name="profile-mapping/step-one/step-one-view"

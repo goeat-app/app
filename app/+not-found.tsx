@@ -1,12 +1,15 @@
 import { useEffect } from 'react';
 import { View, Text } from 'react-native';
+
 import { router } from 'expo-router';
-import { useAuth } from '../hooks/use-auth';
-import { Typography } from '@/components/typography/typography';
+
 import { Button } from '@/components/button/button';
+import { Typography } from '@/components/typography/typography';
+
+import { useAuth } from '../hooks/use-auth';
 
 export default function NotFound() {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isLoading } = useAuth();
 
   const handleGoHome = () => {
     if (isAuthenticated) {
@@ -17,8 +20,16 @@ export default function NotFound() {
   };
 
   useEffect(() => {
-    handleGoHome();
-  }, []);
+    if (isLoading) {
+      return;
+    }
+
+    if (isAuthenticated) {
+      router.replace('/home/home');
+    } else {
+      router.replace('/signin/signin-view');
+    }
+  }, [isLoading, isAuthenticated]);
 
   return (
     <View className="flex-1 bg-[#FDF6F5] justify-center items-center px-6">

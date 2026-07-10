@@ -39,7 +39,7 @@ export function getFirebaseAuth(): Auth {
     authInstance = initializeAuth(firebaseApp, {
       persistence: getReactNativePersistence(AsyncStorage),
     });
-  } catch (error) {
+  } catch (_error) {
     authInstance = getAuth(firebaseApp);
   }
 

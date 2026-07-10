@@ -1,11 +1,14 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Platform } from 'react-native';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ONBOARDING_COMPLETED_KEY = 'onboardingCompleted';
 
 export async function hasCompletedOnboarding(): Promise<boolean> {
   if (Platform.OS === 'web') {
-    return globalThis.localStorage?.getItem(ONBOARDING_COMPLETED_KEY) === 'true';
+    return (
+      globalThis.localStorage?.getItem(ONBOARDING_COMPLETED_KEY) === 'true'
+    );
   }
 
   const value = await AsyncStorage.getItem(ONBOARDING_COMPLETED_KEY);
