@@ -1,7 +1,7 @@
 {
   "name": "GoEat",
   "short_name": "GoEat",
-  "description": "Descubra restaurantes e personalize suas recomendacoes no GoEat.",
+  "description": "Descubra restaurantes e personalize suas recomendações no GoEat.",
   "id": "/",
   "start_url": "/?source=pwa",
   "scope": "/",
