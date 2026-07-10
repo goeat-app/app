@@ -33,6 +33,6 @@ Resolved items are intentionally omitted from this risk map, including the recom
 ## Assumptions
 
 - Web map target is an interactive map using `leaflet`/`react-leaflet` with OpenStreetMap tiles and no new paid map key.
-- `yarn build:web` is the canonical production PWA build command.
+- `yarn web:build` is the canonical production PWA build command.
 - Web replacements should be platform wrappers or platform-specific files, not broad rewrites of shared business logic.
 - Native behavior must remain unchanged unless a current bug directly blocks shared functionality.
