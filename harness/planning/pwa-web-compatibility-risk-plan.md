@@ -24,7 +24,7 @@ Resolved items are intentionally omitted from this risk map, including the recom
 
 ## Test Plan
 
-- Run static checks: `yarn typecheck`, `yarn lint`, and `yarn build:web`.
+- Run static checks: `yarn typecheck`, `yarn lint`, and `yarn web:build`.
 - Run PWA installability checks on local preview: manifest loads, service worker registers, icons appear, app is installable, and offline behavior works.
 - Run browser smoke flows in Chrome mobile viewport and desktop: onboarding redirect, email/password sign-in, Google sign-in, home, recommendations, filters, favorites, map, restaurant details, profile, and logout.
 - Run native regression checks on iOS/Android for map, location, auth persistence, bottom sheets, filters, and tab navigation.
