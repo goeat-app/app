@@ -69,6 +69,16 @@ export default function Layout() {
   const isReady = fontsLoaded && !isLoading;
 
   useEffect(() => {
+    if (Platform.OS !== 'web' || __DEV__ || !('serviceWorker' in navigator)) {
+      return;
+    }
+
+    void navigator.serviceWorker.register('/sw.js').catch(error => {
+      console.warn('Service worker registration failed.', error);
+    });
+  }, []);
+
+  useEffect(() => {
     if (!isReady) {
       return;
     }
