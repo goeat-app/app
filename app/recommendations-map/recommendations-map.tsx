@@ -1,30 +1,23 @@
 import { Image, View } from 'react-native';
-import MapView from 'react-native-maps';
 
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 
 import { StarIcon } from '@/assets/icons/star-icon';
 import { Button } from '@/components/button';
+import RecommendationMapView from '@/components/map-view/recommendation-map-view/recommendation-map-view';
 import { Typography } from '@/components/typography/typography';
 import BottomSheet from '@/components/ui/bottom-sheet/bottom-sheet';
 import { getRestaurantImageSource } from '@/lib/utils/restaurant-image';
 
-import { RestaurantMarker } from './components/restaurant-marker/restaurant-marker';
 import { useRecommendationsMapModel } from './recommendations-map.model';
 
 export default function RecommendationsMap() {
-  const {
-    mapRef,
-    restaurants,
-    isLoading,
-    setIsMapReady,
-    mapRegion,
-    toCoordinate,
-    fitMapToMarkers,
-    selectedRestaurantId,
-    setSelectedRestaurantId,
-  } = useRecommendationsMapModel();
+  const { mapRegion, ...recommendationsMapModel } =
+    useRecommendationsMapModel();
+
+  const { restaurants, selectedRestaurantId, isLoading } =
+    recommendationsMapModel;
 
   if (isLoading || !mapRegion) {
     return (
@@ -40,31 +33,11 @@ export default function RecommendationsMap() {
 
   return (
     <View className="flex-1">
-      <MapView
-        ref={mapRef}
-        style={{ flex: 1 }}
-        showsUserLocation={true}
-        showsMyLocationButton={true}
-        initialRegion={mapRegion}
-        onMapReady={() => {
-          setIsMapReady(true);
-          fitMapToMarkers();
-        }}
-      >
-        {restaurants.map(restaurant => {
-          const coordinate = toCoordinate(restaurant);
-          if (!coordinate) return null;
+      <RecommendationMapView
+        mapRegion={mapRegion}
+        {...recommendationsMapModel}
+      />
 
-          return (
-            <RestaurantMarker
-              key={restaurant.id}
-              coordinate={coordinate}
-              title={restaurant.name}
-              onPress={() => setSelectedRestaurantId(restaurant.id)}
-            />
-          );
-        })}
-      </MapView>
       <BottomSheet>
         <View className="flex gap-4">
           <View className="flex flex-col gap-4">

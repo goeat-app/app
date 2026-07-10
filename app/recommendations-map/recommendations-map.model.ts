@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import MapView from 'react-native-maps';
+import type MapView from 'react-native-maps';
 
 import { mapRestaurantsService } from 'services/map-restaurants-service';
 import { RecommendedRestaurant } from 'use-cases/recommender/recommender.types';
@@ -7,6 +7,10 @@ import { ensureUserLocationUseCase } from 'use-cases/user-location/ensure-user-l
 
 import { loadingWrapper } from '@/hooks/loading-wrapper';
 import { useUserStore } from '@/store/user';
+
+export type RecommendationsMapModel = ReturnType<
+  typeof useRecommendationsMapModel
+>;
 
 export type MapCoordinate = {
   latitude: number;

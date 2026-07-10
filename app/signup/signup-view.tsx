@@ -1,5 +1,5 @@
 import { Controller } from 'react-hook-form';
-import { View, Image, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { View, Image, Keyboard } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import Feather from '@expo/vector-icons/Feather';
@@ -11,6 +11,7 @@ import { ProfileIcon } from 'assets/icons/profile-icon';
 import { OpenEyeIcon } from '@/assets/icons/open-eye-icon';
 import { Button } from '@/components/button';
 import { Input } from '@/components/input';
+import { KeyboardDismissWrapper } from '@/components/keyboard-dismiss-wrapper';
 import { Typography } from '@/components/typography/typography';
 import { formatPhoneMask } from '@/lib/utils/format-phone-mask';
 
@@ -36,7 +37,7 @@ export default function SignUpView() {
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <KeyboardDismissWrapper onPress={Keyboard.dismiss}>
           <View className="flex-1 w-full items-center">
             <View className="flex-1 w-full items-center justify-center">
               <Image
@@ -284,7 +285,7 @@ export default function SignUpView() {
               />
             </View>
           </View>
-        </TouchableWithoutFeedback>
+        </KeyboardDismissWrapper>
       </KeyboardAwareScrollView>
     </View>
   );

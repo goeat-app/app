@@ -22,7 +22,7 @@ import { TabBar } from '@/components/tabBar/tabBar';
 import { TabBarRef } from '@/components/tabBar/tabBar.model';
 import { Typography } from '@/components/typography/typography';
 
-import { useRecomendationsModel } from './recomendations.model';
+import { useRecomendationsModel } from './recommendations.model';
 
 export default function Recomendations() {
   const {

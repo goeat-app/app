@@ -38,17 +38,17 @@ import { useAuth } from '@/hooks/use-auth';
 import '../global.css';
 
 const PROTECTED_ROUTES = [
-  '/recomendations/recomendations-view',
+  '/recommendations/recommendations-view',
   '/home/home',
   '/favorites/favorites',
   '/profile-page/profile-page',
   '/edit-profile/edit-profile',
   '/restaurant-details/restaurant-details/[id]',
-  'profile-mapping/step-one/step-one',
-  'profile-mapping/step-two/step-two',
-  'profile-mapping/step-three/step-three',
-  'recommendations-map/recommendations-map',
-  'reviews/reviews',
+  '/profile-mapping/step-one/step-one-view',
+  '/profile-mapping/step-two/step-two-view',
+  '/profile-mapping/step-three/step-three-view',
+  '/recommendations-map/recommendations-map',
+  '/reviews/reviews',
 ];
 
 export default function Layout() {
@@ -67,6 +67,16 @@ export default function Layout() {
   const pathname = usePathname();
   const { isAuthenticated, isLoading } = useAuth();
   const isReady = fontsLoaded && !isLoading;
+
+  useEffect(() => {
+    if (Platform.OS !== 'web' || __DEV__ || !('serviceWorker' in navigator)) {
+      return;
+    }
+
+    void navigator.serviceWorker.register('/sw.js').catch(error => {
+      console.warn('Service worker registration failed.', error);
+    });
+  }, []);
 
   useEffect(() => {
     if (!isReady) {
@@ -142,18 +152,21 @@ export default function Layout() {
                 }}
               />
 
-              <Stack.Screen name="signin/signin" />
-              <Stack.Screen name="signup/signup" />
               <Stack.Screen
-                name="profile-mapping/step-one/step-one"
+                name="signin/signin-view"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen name="signup/signup-view" />
+              <Stack.Screen
+                name="profile-mapping/step-one/step-one-view"
                 options={{
                   headerShown: false,
                 }}
               />
-              <Stack.Screen name="profile-mapping/step-two/step-two" />
-              <Stack.Screen name="profile-mapping/step-three/step-three" />
+              <Stack.Screen name="profile-mapping/step-two/step-two-view" />
+              <Stack.Screen name="profile-mapping/step-three/step-three-view" />
               <Stack.Screen
-                name="recomendations/recomendations-view"
+                name="recommendations/recommendations-view"
                 options={{
                   headerShown: false,
                 }}

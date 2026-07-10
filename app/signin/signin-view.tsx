@@ -1,11 +1,5 @@
 import { Controller } from 'react-hook-form';
-import {
-  View,
-  Image,
-  TouchableWithoutFeedback,
-  Keyboard,
-  TouchableOpacity,
-} from 'react-native';
+import { View, Image, Keyboard, TouchableOpacity } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import { ClosedEyeIcon } from 'assets/icons/closed-eye-icon';
@@ -16,6 +10,7 @@ import { router } from 'expo-router';
 
 import { Button } from '@/components/button';
 import { Input } from '@/components/input';
+import { KeyboardDismissWrapper } from '@/components/keyboard-dismiss-wrapper';
 import { Typography } from '@/components/typography/typography';
 
 import useSignInModel from './signin.model';
@@ -38,14 +33,15 @@ export default function SignIn() {
         enableOnAndroid={true}
         extraScrollHeight={20}
       >
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View className="items-center">
+        <KeyboardDismissWrapper onPress={Keyboard.dismiss}>
+          <View className="items-center flex-1">
             <Image
               resizeMode="contain"
               source={require('@/assets/images/goat-greeting.png')}
-              className="w-70 h-70 z-10"
+              className="z-10"
+              style={{ height: 180, width: '100%' }}
             />
-            <View className="w-full bg-[#FBF3ED] rounded-t-3xl items-center p-4 -mt-20 pt-24">
+            <View className="w-full bg-[#FBF3ED] rounded-t-3xl items-center p-4 -mt-20 pt-24 flex-1 justify-end">
               <View className="w-full items-center justify-center mb-5">
                 <Typography
                   type="h2"
@@ -195,7 +191,7 @@ export default function SignIn() {
               </View>
             </View>
           </View>
-        </TouchableWithoutFeedback>
+        </KeyboardDismissWrapper>
       </KeyboardAwareScrollView>
     </View>
   );

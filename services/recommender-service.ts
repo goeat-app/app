@@ -7,7 +7,7 @@ import { RestaurantFilters } from '@/store/restaurant-filter-store';
 export const recommenderService = {
   async getRecommendations(
     userId: string,
-    filters?: RestaurantFilters,
+    filters: RestaurantFilters | undefined,
   ): Promise<RecommendedRestaurant[]> {
     const params: Record<string, string> = { userId };
 

@@ -25,7 +25,7 @@ export default function Favorites() {
     handleFavorite,
   } = useFavoritesModel();
 
-  const handleViewDetails = (itemId: string) => {
+  const handleViewDetails = (_itemId: string) => {
     // router.push(`/restaurant/${itemId}`);
   };
 

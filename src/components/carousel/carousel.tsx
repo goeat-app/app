@@ -29,7 +29,7 @@ export const Carousel = ({
           text="Recomendados"
         />
         <Pressable
-          onPress={() => router.push('/recomendations/recomendations-view')}
+          onPress={() => router.push('/recommendations/recommendations-view')}
         >
           <Typography
             type="body"
