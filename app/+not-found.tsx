@@ -11,13 +11,25 @@ import { useAuth } from '../hooks/use-auth';
 export default function NotFound() {
   const { isAuthenticated, isLoading } = useAuth();
 
+  const handleGoHome = () => {
+    if (isAuthenticated) {
+      router.replace('/home/home');
+    } else {
+      router.replace('/signin/signin-view');
+    }
+  };
+
   useEffect(() => {
     if (isLoading) {
       return;
     }
 
-    router.replace(isAuthenticated ? '/home/home' : '/signin/signin-view');
-  }, [isAuthenticated, isLoading]);
+    if (isAuthenticated) {
+      router.replace('/home/home');
+    } else {
+      router.replace('/signin/signin-view');
+    }
+  }, [isLoading, isAuthenticated]);
 
   return (
     <View className="flex-1 bg-[#FDF6F5] justify-center items-center px-6">

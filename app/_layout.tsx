@@ -69,6 +69,16 @@ export default function Layout() {
   const isReady = fontsLoaded && !isLoading;
 
   useEffect(() => {
+    if (Platform.OS !== 'web' || __DEV__ || !('serviceWorker' in navigator)) {
+      return;
+    }
+
+    void navigator.serviceWorker.register('/sw.js').catch(error => {
+      console.warn('Service worker registration failed.', error);
+    });
+  }, []);
+
+  useEffect(() => {
     if (!isReady) {
       return;
     }
@@ -142,7 +152,10 @@ export default function Layout() {
                 }}
               />
 
-              <Stack.Screen name="signin/signin-view" />
+              <Stack.Screen
+                name="signin/signin-view"
+                options={{ headerShown: false }}
+              />
               <Stack.Screen name="signup/signup-view" />
               <Stack.Screen
                 name="profile-mapping/step-one/step-one-view"
