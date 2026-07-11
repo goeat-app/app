@@ -26,7 +26,8 @@ export const locationService = {
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
       };
-    } catch {
+    } catch (error) {
+      console.error('Error getting user coordinates:', error);
       return EMPTY_COORDINATES;
     }
   },

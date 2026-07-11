@@ -6,28 +6,43 @@ import {
   statusCodes,
 } from '@react-native-google-signin/google-signin';
 
+import { AuthResult, AuthService } from './auth.types';
+
 GoogleSignin.configure({
   webClientId: process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID,
   iosClientId: process.env.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID,
   offlineAccess: false,
 });
 
-async function toAuthResult(user: FirebaseAuthTypes.User) {
+async function toAuthResult(user: FirebaseAuthTypes.User): Promise<AuthResult> {
   return {
-    user,
+    user: {
+      displayName: user.displayName,
+      email: user.email,
+      photoURL: user.photoURL,
+      uid: user.uid,
+    },
     idToken: await user.getIdToken(),
   };
 }
 
-export const authService = {
-  getCurrentUser() {
-    return auth().currentUser;
-  },
+class NativeAuthServiceImpl implements AuthService {
+  public getCurrentUser() {
+    const user = auth().currentUser;
+    return user
+      ? {
+          displayName: user.displayName,
+          email: user.email,
+          photoURL: user.photoURL,
+          uid: user.uid,
+        }
+      : null;
+  }
 
   async getIdToken() {
     const user = auth().currentUser;
     return user ? user.getIdToken() : null;
-  },
+  }
 
   async signInWithGoogle() {
     try {
@@ -37,15 +52,16 @@ export const authService = {
         });
       }
 
-      const signInResult = await GoogleSignin.signIn();
-
-      const idToken = signInResult.data?.idToken;
-
+      await GoogleSignin.signIn();
+      const { idToken, accessToken } = await GoogleSignin.getTokens();
       if (!idToken) {
         throw new Error('Google sign-in did not return an idToken.');
       }
 
-      const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+      const googleCredential = auth.GoogleAuthProvider.credential(
+        idToken,
+        accessToken,
+      );
 
       const credential = await auth().signInWithCredential(googleCredential);
 
@@ -68,13 +84,13 @@ export const authService = {
 
       throw error;
     }
-  },
+  }
 
   async signInWithEmailPassword(email: string, password: string) {
     const credential = await auth().signInWithEmailAndPassword(email, password);
 
     return toAuthResult(credential.user);
-  },
+  }
 
   async signUpWithEmailPassword(email: string, password: string, name: string) {
     const credential = await auth().createUserWithEmailAndPassword(
@@ -89,10 +105,12 @@ export const authService = {
 
   async signOut() {
     await Promise.allSettled([auth().signOut(), GoogleSignin.signOut()]);
-  },
+  }
 
   onAuthStateChanged(callback: (user: FirebaseAuthTypes.User | null) => void) {
     const unsubscribe = auth().onAuthStateChanged(callback);
     return unsubscribe;
-  },
-};
+  }
+}
+
+export const authService: AuthService = new NativeAuthServiceImpl();

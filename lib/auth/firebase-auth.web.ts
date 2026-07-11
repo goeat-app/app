@@ -12,145 +12,164 @@ import {
   signInWithPopup,
   signOut,
   updateProfile,
+  User,
 } from 'firebase/auth';
 
-import { AuthService } from './auth.types';
+import { AppUser, AuthResult, AuthService } from './auth.types';
 import { getFirebaseApp } from './firebase-config';
 
-let authInstance: Auth | null = null;
-let emulatorConnected = false;
-const warningKeys = new Set<string>();
+class WebAuthServiceImpl implements AuthService {
+  private authInstance: Auth | null = null;
+  private emulatorConnected = false;
+  private warningKeys = new Set<string>();
 
-function isEmulatorEnabled() {
-  return process.env.EXPO_PUBLIC_FIREBASE_AUTH_EMULATOR_HOST !== undefined;
-}
+  private getFirebaseAuth(): Auth {
+    if (this.authInstance) {
+      return this.authInstance;
+    }
 
-function resolveEmulatorHost(rawHost: string): string {
-  if (Platform.OS === 'android' && rawHost.startsWith('localhost:')) {
-    return rawHost.replace('localhost', '10.0.2.2');
-  }
+    const firebaseApp = getFirebaseApp();
+    this.authInstance = getAuth(firebaseApp);
 
-  return rawHost;
-}
-
-function warnOnce(key: string, message: string) {
-  if (process.env.NODE_ENV === 'production' || warningKeys.has(key)) {
-    return;
-  }
-
-  warningKeys.add(key);
-  console.warn(message);
-}
-
-function getFirebaseAuth(): Auth {
-  if (authInstance) {
-    return authInstance;
-  }
-
-  const firebaseApp = getFirebaseApp();
-  authInstance = getAuth(firebaseApp);
-
-  void setPersistence(authInstance, browserLocalPersistence).catch(() => {
-    warnOnce(
-      'firebase-auth-persistence-failed',
-      'Firebase Auth persistence setup failed. The browser default persistence will be used.',
-    );
-  });
-
-  if (isEmulatorEnabled() && !emulatorConnected) {
-    const emulatorHost = resolveEmulatorHost(
-      process.env.EXPO_PUBLIC_FIREBASE_AUTH_EMULATOR_HOST || 'localhost:9099',
+    void setPersistence(this.authInstance, browserLocalPersistence).catch(
+      () => {
+        this.warnOnce(
+          'firebase-auth-persistence-failed',
+          'Firebase Auth persistence setup failed. The browser default persistence will be used.',
+        );
+      },
     );
 
-    connectAuthEmulator(authInstance, `http://${emulatorHost}`, {
-      disableWarnings: true,
+    if (this.isEmulatorEnabled() && !this.emulatorConnected) {
+      const emulatorHost = this.resolveEmulatorHost(
+        process.env.EXPO_PUBLIC_FIREBASE_AUTH_EMULATOR_HOST || 'localhost:9099',
+      );
+
+      connectAuthEmulator(this.authInstance, `http://${emulatorHost}`, {
+        disableWarnings: true,
+      });
+
+      this.emulatorConnected = true;
+    }
+
+    return this.authInstance;
+  }
+
+  getCurrentUser(): AppUser | null {
+    const user = this.getFirebaseAuth().currentUser;
+    return user ? this.userToAppUser(user) : null;
+  }
+
+  async getIdToken(forceRefresh = false) {
+    await this.waitForAuthReady();
+    const user = this.getFirebaseAuth().currentUser;
+    if (!user) {
+      return null;
+    }
+
+    return user.getIdToken(forceRefresh);
+  }
+
+  async signOut() {
+    await signOut(this.getFirebaseAuth());
+  }
+
+  async waitForAuthReady(): Promise<void> {
+    await this.getFirebaseAuth().authStateReady();
+  }
+
+  async signInWithEmailPassword(
+    email: string,
+    password: string,
+  ): Promise<AuthResult> {
+    const userCredential = await signInWithEmailAndPassword(
+      this.getFirebaseAuth(),
+      email,
+      password,
+    );
+    const accessToken = await userCredential.user.getIdToken(true);
+
+    return {
+      user: this.userToAppUser(userCredential.user)!,
+      idToken: accessToken,
+    };
+  }
+
+  async signInWithGoogle(): Promise<AuthResult> {
+    const provider = new GoogleAuthProvider();
+    provider.setCustomParameters({ prompt: 'select_account' });
+
+    const userCredential = await signInWithPopup(
+      this.getFirebaseAuth(),
+      provider,
+    );
+    const accessToken = await userCredential.user.getIdToken(true);
+
+    return {
+      user: this.userToAppUser(userCredential.user)!,
+      idToken: accessToken,
+    };
+  }
+
+  async signUpWithEmailPassword(
+    email: string,
+    password: string,
+    name: string,
+  ): Promise<AuthResult> {
+    const userCredential = await createUserWithEmailAndPassword(
+      this.getFirebaseAuth(),
+      email,
+      password,
+    );
+
+    await updateProfile(userCredential.user, {
+      displayName: name,
     });
+    const accessToken = await userCredential.user.getIdToken(true);
 
-    emulatorConnected = true;
+    return {
+      user: this.userToAppUser(userCredential.user)!,
+      idToken: accessToken,
+    };
   }
 
-  return authInstance;
-}
-
-async function getFirebaseIdToken(forceRefresh = false) {
-  await waitForAuthReady();
-  const user = getFirebaseAuth().currentUser;
-  if (!user) {
-    return null;
-  }
-
-  return user.getIdToken(forceRefresh);
-}
-
-async function signOutFromFirebase() {
-  await signOut(getFirebaseAuth());
-}
-
-async function waitForAuthReady(): Promise<void> {
-  await getFirebaseAuth().authStateReady();
-}
-
-async function signInWithEmail(
-  email: string,
-  password: string,
-): Promise<{
-  accessToken: string;
-  refreshToken: string;
-}> {
-  const userCredential = await signInWithEmailAndPassword(
-    getFirebaseAuth(),
-    email,
-    password,
-  );
-  const accessToken = await userCredential.user.getIdToken(true);
-  const refreshToken = userCredential.user.refreshToken || '';
-
-  return { accessToken, refreshToken };
-}
-
-async function signInWithGoogleCredential() {
-  const provider = new GoogleAuthProvider();
-  provider.setCustomParameters({ prompt: 'select_account' });
-
-  const userCredential = await signInWithPopup(getFirebaseAuth(), provider);
-  const accessToken = await userCredential.user.getIdToken(true);
-  const refreshToken = userCredential.user.refreshToken || '';
-
-  return { accessToken, refreshToken };
-}
-
-async function signUpWithEmail(
-  email: string,
-  password: string,
-  name: string,
-): Promise<{
-  accessToken: string;
-  refreshToken: string;
-}> {
-  const userCredential = await createUserWithEmailAndPassword(
-    getFirebaseAuth(),
-    email,
-    password,
-  );
-
-  await updateProfile(userCredential.user, {
-    displayName: name,
-  });
-  const accessToken = await userCredential.user.getIdToken(true);
-  const refreshToken = userCredential.user.refreshToken || '';
-
-  return { accessToken, refreshToken };
-}
-
-export const authService: AuthService = {
-  getCurrentUser: () => getFirebaseAuth().currentUser,
-  getIdToken: (forceRefresh = false) => getFirebaseIdToken(forceRefresh),
-  signOut: () => signOutFromFirebase(),
-  signInWithEmailPassword: signInWithEmail,
-  signUpWithEmailPassword: signUpWithEmail,
-  signInWithGoogle: signInWithGoogleCredential,
-  onAuthStateChanged: callback => {
-    const unsubscribe = getFirebaseAuth().onAuthStateChanged(callback);
+  onAuthStateChanged(callback: (user: AppUser | null) => void): () => void {
+    const unsubscribe = this.getFirebaseAuth().onAuthStateChanged(callback);
     return unsubscribe;
-  },
-};
+  }
+
+  private userToAppUser(user: User | null): AppUser | null {
+    if (!user) {
+      return null;
+    }
+    return {
+      uid: user.uid,
+      email: user.email,
+      displayName: user.displayName,
+      photoURL: user.photoURL,
+    };
+  }
+
+  private isEmulatorEnabled() {
+    return process.env.EXPO_PUBLIC_FIREBASE_AUTH_EMULATOR_HOST !== undefined;
+  }
+
+  private resolveEmulatorHost(rawHost: string): string {
+    if (Platform.OS === 'android' && rawHost.startsWith('localhost:')) {
+      return rawHost.replace('localhost', '10.0.2.2');
+    }
+
+    return rawHost;
+  }
+
+  private warnOnce(key: string, message: string) {
+    if (process.env.NODE_ENV === 'production' || this.warningKeys.has(key)) {
+      return;
+    }
+
+    this.warningKeys.add(key);
+    console.warn(message);
+  }
+}
+
+export const authService: AuthService = new WebAuthServiceImpl();

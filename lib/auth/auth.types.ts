@@ -1,35 +1,28 @@
-import { User } from 'firebase/auth';
+export type AppUser = {
+  uid: string;
+  email: string | null;
+  displayName: string | null;
+  photoURL: string | null;
+};
 
 export type AuthResult = {
-  user: User;
+  user: AppUser;
   idToken: string;
 };
 
-export type AuthService = {
-  getCurrentUser(): User | null;
+export interface AuthService {
+  getCurrentUser(): AppUser | null;
   getIdToken(): Promise<string | null>;
 
-  signInWithGoogle(): Promise<{
-    accessToken: string;
-    refreshToken: string;
-  }>;
-  signInWithEmailPassword(
-    email: string,
-    password: string,
-  ): Promise<{
-    accessToken: string;
-    refreshToken: string;
-  }>;
+  signInWithGoogle(): Promise<AuthResult>;
+  signInWithEmailPassword(email: string, password: string): Promise<AuthResult>;
   signUpWithEmailPassword(
     email: string,
     password: string,
     name: string,
-  ): Promise<{
-    accessToken: string;
-    refreshToken: string;
-  }>;
+  ): Promise<AuthResult>;
 
   signOut(): Promise<void>;
 
-  onAuthStateChanged(callback: (user: User | null) => void): () => void;
-};
+  onAuthStateChanged(callback: (user: AppUser | null) => void): () => void;
+}
