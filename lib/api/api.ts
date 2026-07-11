@@ -31,7 +31,7 @@ api.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        const token = await authService.getIdToken();
+        const token = await authService.getIdToken(true);
 
         if (token) {
           originalRequest.headers.Authorization = `Bearer ${token}`;

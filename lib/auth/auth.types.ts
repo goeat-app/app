@@ -12,7 +12,7 @@ export type AuthResult = {
 
 export interface AuthService {
   getCurrentUser(): AppUser | null;
-  getIdToken(): Promise<string | null>;
+  getIdToken(forceRefresh?: boolean): Promise<string | null>;
 
   signInWithGoogle(): Promise<AuthResult>;
   signInWithEmailPassword(email: string, password: string): Promise<AuthResult>;

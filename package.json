@@ -16,7 +16,16 @@
     "web:preview": "npx serve dist"
   },
   "jest": {
-    "preset": "jest-expo"
+    "preset": "jest-expo",
+    "moduleNameMapper": {
+      "^@/app/(.*)$": "<rootDir>/app/$1",
+      "^@/assets/(.*)$": "<rootDir>/assets/$1",
+      "^@/components/(.*)$": "<rootDir>/src/components/$1",
+      "^@/hooks/(.*)$": "<rootDir>/hooks/$1",
+      "^@/lib/(.*)$": "<rootDir>/lib/$1",
+      "^@/store/(.*)$": "<rootDir>/store/$1",
+      "^@/(.*)$": "<rootDir>/src/$1"
+    }
   },
   "dependencies": {
     "@expo-google-fonts/be-vietnam-pro": "^0.4.1",

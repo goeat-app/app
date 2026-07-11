@@ -26,6 +26,30 @@ async function toAuthResult(user: FirebaseAuthTypes.User): Promise<AuthResult> {
   };
 }
 
+function toAppUser(user: FirebaseAuthTypes.User) {
+  return {
+    displayName: user.displayName,
+    email: user.email,
+    photoURL: user.photoURL,
+    uid: user.uid,
+  };
+}
+
+let authReadyPromise: Promise<void> | null = null;
+
+function waitForAuthReady(): Promise<void> {
+  if (!authReadyPromise) {
+    authReadyPromise = new Promise(resolve => {
+      const unsubscribe = auth().onAuthStateChanged(() => {
+        unsubscribe();
+        resolve();
+      });
+    });
+  }
+
+  return authReadyPromise;
+}
+
 class NativeAuthServiceImpl implements AuthService {
   public getCurrentUser() {
     const user = auth().currentUser;
@@ -39,9 +63,10 @@ class NativeAuthServiceImpl implements AuthService {
       : null;
   }
 
-  async getIdToken() {
+  async getIdToken(forceRefresh = false) {
+    await waitForAuthReady();
     const user = auth().currentUser;
-    return user ? user.getIdToken() : null;
+    return user ? user.getIdToken(forceRefresh) : null;
   }
 
   async signInWithGoogle() {
@@ -104,12 +129,16 @@ class NativeAuthServiceImpl implements AuthService {
   }
 
   async signOut() {
-    await Promise.allSettled([auth().signOut(), GoogleSignin.signOut()]);
+    await auth().signOut();
+    await GoogleSignin.signOut().catch(() => undefined);
   }
 
-  onAuthStateChanged(callback: (user: FirebaseAuthTypes.User | null) => void) {
-    const unsubscribe = auth().onAuthStateChanged(callback);
-    return unsubscribe;
+  onAuthStateChanged(
+    callback: (user: ReturnType<typeof toAppUser> | null) => void,
+  ) {
+    return auth().onAuthStateChanged(user => {
+      callback(user ? toAppUser(user) : null);
+    });
   }
 }
 

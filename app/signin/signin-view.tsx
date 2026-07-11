@@ -13,7 +13,6 @@ import { Input } from '@/components/input';
 import { KeyboardDismissWrapper } from '@/components/keyboard-dismiss-wrapper';
 import { Typography } from '@/components/typography/typography';
 
-import { authService } from '../../lib/auth/firebase-auth';
 import useSignInModel from './signin.model';
 
 export default function SignIn() {
@@ -23,6 +22,8 @@ export default function SignIn() {
     isPasswordVisible,
     togglePasswordVisibility,
     errors,
+    isGoogleSignInLoading,
+    onGoogleSignIn,
   } = useSignInModel();
 
   return (
@@ -175,9 +176,10 @@ export default function SignIn() {
                       text="Ou continue com"
                     />
                     <TouchableOpacity
-                      onPress={() => {
-                        void authService.signInWithGoogle();
-                      }}
+                      accessibilityLabel="Entrar com Google"
+                      accessibilityRole="button"
+                      disabled={isGoogleSignInLoading}
+                      onPress={() => void onGoogleSignIn()}
                     >
                       <Image
                         resizeMode="contain"
