@@ -56,8 +56,8 @@ export default function RestaurantDetails() {
   return (
     <View className="flex-1 bg-[#FDF6F5]">
       <View
-        pointerEvents="none"
         style={{
+          pointerEvents: 'none',
           position: 'absolute',
           top: -statusBarHeight,
           left: 0,

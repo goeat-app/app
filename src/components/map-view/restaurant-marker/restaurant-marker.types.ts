@@ -7,4 +7,5 @@ export interface RestaurantMarkerProps {
   coordinate: Coordinate;
   title: string;
   onPress: () => void;
+  selected?: boolean;
 }

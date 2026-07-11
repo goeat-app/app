@@ -92,6 +92,10 @@ Environment variables are read from `.env` using Expo's `EXPO_PUBLIC_*` prefix (
 | `EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID` | Firebase messaging ID                  | `fake-sender-id`             |
 | `EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID`         | Google OAuth (Web)                     | (optional)                   |
 | `EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID`         | Google OAuth (iOS)                     | (optional)                   |
+| `EXPO_PUBLIC_GOOGLE_MAPS_API_KEY`          | Google Maps JavaScript API key         | (required for web map)       |
+| `EXPO_PUBLIC_GOOGLE_MAPS_MAP_ID`           | Google Maps ID for Advanced Markers    | (required for web map)       |
+
+The Google Maps web key is bundled into the client. Use a separate key with HTTP referrer restrictions for the web origins that host the app, and enable the Maps JavaScript API and Advanced Markers for its Google Cloud project.
 
 ### Mode 1: Local Development (Recommended)
 
