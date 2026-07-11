@@ -66,8 +66,16 @@
           "ios": {
             "useFrameworks": "static",
             "forceStaticLinking": [
+              "RNFBAnalytics",
               "RNFBApp",
-              "RNFBAuth"
+              "RNFBAppCheck",
+              "RNFBAuth",
+              "RNFBCrashlytics",
+              "RNFBFirestore",
+              "RNFBMessaging",
+              "RNFBRemoteConfig",
+              "RNFBStorage",
+              "RNFBSomeOtherRNFBModuleYouAreUsing"
             ]
           }
         }
