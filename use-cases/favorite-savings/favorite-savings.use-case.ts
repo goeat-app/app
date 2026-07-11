@@ -2,7 +2,7 @@ import { favoriteSavingsService } from 'services/favorite-savings-service';
 import { restaurantService } from 'services/restaurant-service';
 import { RecommendedRestaurant } from 'use-cases/recommender/recommender.types';
 
-import { getFirebaseAuth } from '@/lib/auth/firebase-auth';
+import { authService } from '@/lib/auth/firebase-auth';
 import { handleError } from '@/lib/utils/error-mapper';
 
 import {
@@ -13,7 +13,7 @@ import {
 
 export async function getFavoriteRestaurantIdsUseCase(): Promise<FavoriteIdsResult> {
   try {
-    const user = getFirebaseAuth().currentUser;
+    const user = authService.getCurrentUser();
 
     if (!user) {
       throw new Error('Usuário não encontrado.');
@@ -32,7 +32,7 @@ export async function getFavoriteRestaurantIdsUseCase(): Promise<FavoriteIdsResu
 
 export async function loadFavoriteRestaurantsUseCase(): Promise<FavoriteRestaurantsResult> {
   try {
-    const user = getFirebaseAuth().currentUser;
+    const user = authService.getCurrentUser();
 
     if (!user) {
       throw new Error('Usuário não encontrado.');
@@ -83,7 +83,7 @@ export async function saveFavoriteUseCase(
   restaurantId: string,
 ): Promise<ToggleFavoriteResult> {
   try {
-    const user = getFirebaseAuth().currentUser;
+    const user = authService.getCurrentUser();
 
     if (!user) {
       throw new Error('Usuário não encontrado.');
@@ -112,7 +112,7 @@ export async function removeFavoriteUseCase(
   restaurantId: string,
 ): Promise<ToggleFavoriteResult> {
   try {
-    const user = getFirebaseAuth().currentUser;
+    const user = authService.getCurrentUser();
 
     if (!user) {
       throw new Error('Usuário não encontrado.');

@@ -22,6 +22,8 @@ export default function SignIn() {
     isPasswordVisible,
     togglePasswordVisibility,
     errors,
+    isGoogleSignInLoading,
+    onGoogleSignIn,
   } = useSignInModel();
 
   return (
@@ -173,7 +175,12 @@ export default function SignIn() {
                       type="small"
                       text="Ou continue com"
                     />
-                    <TouchableOpacity onPress={() => {}}>
+                    <TouchableOpacity
+                      accessibilityLabel="Entrar com Google"
+                      accessibilityRole="button"
+                      disabled={isGoogleSignInLoading}
+                      onPress={() => void onGoogleSignIn()}
+                    >
                       <Image
                         resizeMode="contain"
                         source={require('@/assets/images/google-icon.png')}

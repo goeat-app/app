@@ -1,6 +1,6 @@
 import { recommenderService } from 'services/recommender-service';
 
-import { getFirebaseAuth } from '@/lib/auth/firebase-auth';
+import { authService } from '@/lib/auth/firebase-auth';
 import { handleError } from '@/lib/utils/error-mapper';
 import { RestaurantFilters } from '@/store/restaurant-filter-store';
 
@@ -10,7 +10,7 @@ export async function getRecommendationsUseCase(
   filters?: RestaurantFilters,
 ): Promise<RecommenderResult> {
   try {
-    const user = getFirebaseAuth().currentUser;
+    const user = authService.getCurrentUser();
 
     if (!user) {
       throw new Error('Usuário não encontrado.');
