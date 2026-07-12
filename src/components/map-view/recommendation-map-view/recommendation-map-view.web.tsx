@@ -67,7 +67,7 @@ function MapContent({
     <Map
       defaultCenter={{ lat: mapRegion.latitude, lng: mapRegion.longitude }}
       defaultZoom={13}
-      mapId={process.env.EXPO_PUBLIC_GOOGLE_MAPS_MAP_ID}
+      mapId={process.env.EXPO_PUBLIC_GOOGLE_MAPS_MAP_ID.trim()}
       mapTypeControl={false}
       streetViewControl={false}
       style={{ width: '100%', height: '100%' }}
