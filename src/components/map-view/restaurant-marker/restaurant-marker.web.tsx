@@ -22,6 +22,7 @@ export function RestaurantMarker({
       <View
         accessibilityLabel={title}
         accessibilityRole="button"
+        accessibilityState={{ selected }}
         style={{
           width: MARKER_SIZE,
           height: MARKER_SIZE,
