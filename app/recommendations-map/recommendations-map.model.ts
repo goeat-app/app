@@ -1,5 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import type MapView from 'react-native-maps';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { mapRestaurantsService } from 'services/map-restaurants-service';
 import { RecommendedRestaurant } from 'use-cases/recommender/recommender.types';
@@ -8,55 +7,20 @@ import { ensureUserLocationUseCase } from 'use-cases/user-location/ensure-user-l
 import { loadingWrapper } from '@/hooks/loading-wrapper';
 import { useUserStore } from '@/store/user';
 
+import {
+  getRegionForCoordinates,
+  getUserCoordinate,
+  toCoordinate,
+} from './recommendations-map.utils';
+import type { MapCoordinate } from './recommendations-map.utils';
+
 export type RecommendationsMapModel = ReturnType<
   typeof useRecommendationsMapModel
 >;
 
-export type MapCoordinate = {
-  latitude: number;
-  longitude: number;
-};
-
-function toCoordinate(
-  restaurant: Pick<RecommendedRestaurant, 'latitude' | 'longitude'>,
-): MapCoordinate | null {
-  const latitude = Number(restaurant.latitude);
-  const longitude = Number(restaurant.longitude);
-
-  if (
-    !Number.isFinite(latitude) ||
-    !Number.isFinite(longitude) ||
-    latitude === 0 ||
-    longitude === 0
-  ) {
-    return null;
-  }
-
-  return { latitude, longitude };
-}
-
-function getRegionForCoordinates(coords: MapCoordinate[]) {
-  if (coords.length === 0) return null;
-
-  const lats = coords.map(c => c.latitude);
-  const lngs = coords.map(c => c.longitude);
-  const minLat = Math.min(...lats);
-  const maxLat = Math.max(...lats);
-  const minLng = Math.min(...lngs);
-  const maxLng = Math.max(...lngs);
-
-  return {
-    latitude: (minLat + maxLat) / 2,
-    longitude: (minLng + maxLng) / 2,
-    latitudeDelta: Math.max((maxLat - minLat) * 1.5, 0.04),
-    longitudeDelta: Math.max((maxLng - minLng) * 1.5, 0.04),
-  };
-}
-
 export function useRecommendationsMapModel() {
-  const mapRef = useRef<MapView>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [isMapReady, setIsMapReady] = useState(false);
+  const [hasLoadError, setHasLoadError] = useState(false);
   const [restaurants, setRestaurants] = useState<RecommendedRestaurant[]>([]);
   const [selectedRestaurantId, setSelectedRestaurantId] = useState<
     string | null
@@ -66,28 +30,39 @@ export function useRecommendationsMapModel() {
 
   const loadMapRestaurants = useCallback(
     async (latitude?: number, longitude?: number) => {
+      setHasLoadError(false);
+
       const hasLocation =
         latitude !== undefined &&
         longitude !== undefined &&
         (latitude !== 0 || longitude !== 0);
 
-      const data = await loadingWrapper(() =>
-        mapRestaurantsService.getRestaurantsForMap(
-          hasLocation ? { latitude, longitude } : undefined,
-        ),
-      );
-      setRestaurants(data);
+      try {
+        const data = await loadingWrapper(() =>
+          mapRestaurantsService.getRestaurantsForMap(
+            hasLocation ? { latitude, longitude } : undefined,
+          ),
+        );
+        setRestaurants(data);
+      } catch (error) {
+        setHasLoadError(true);
+        console.error('Error loading map restaurants:', error);
+      }
     },
     [],
   );
 
   useEffect(() => {
     async function init() {
-      await ensureUserLocationUseCase();
-
-      const { userLocation: location } = useUserStore.getState();
-      await loadMapRestaurants(location.latitude, location.longitude);
-      setIsLoading(false);
+      try {
+        await ensureUserLocationUseCase();
+      } catch (error) {
+        console.error('Error resolving user location:', error);
+      } finally {
+        const { userLocation: location } = useUserStore.getState();
+        await loadMapRestaurants(location.latitude, location.longitude);
+        setIsLoading(false);
+      }
     }
 
     init();
@@ -101,52 +76,27 @@ export function useRecommendationsMapModel() {
     [restaurants],
   );
 
+  const userCoordinate = useMemo(
+    () => getUserCoordinate(userLocation),
+    [userLocation],
+  );
+
   const mapRegion = useMemo(() => {
     const coords: MapCoordinate[] = [...restaurantCoordinates];
 
-    if (userLocation.latitude !== 0 || userLocation.longitude !== 0) {
-      coords.push({
-        latitude: userLocation.latitude,
-        longitude: userLocation.longitude,
-      });
-    }
+    if (userCoordinate) coords.push(userCoordinate);
 
     return getRegionForCoordinates(coords);
-  }, [restaurantCoordinates, userLocation]);
-
-  const fitMapToMarkers = useCallback(() => {
-    if (!mapRef.current || restaurantCoordinates.length === 0) return;
-
-    const coords: MapCoordinate[] = [...restaurantCoordinates];
-
-    if (userLocation.latitude !== 0 || userLocation.longitude !== 0) {
-      coords.push({
-        latitude: userLocation.latitude,
-        longitude: userLocation.longitude,
-      });
-    }
-
-    mapRef.current.fitToCoordinates(coords, {
-      edgePadding: { top: 80, right: 40, bottom: 280, left: 40 },
-      animated: true,
-    });
-  }, [restaurantCoordinates, userLocation]);
-
-  useEffect(() => {
-    if (isMapReady) {
-      fitMapToMarkers();
-    }
-  }, [fitMapToMarkers, isMapReady]);
+  }, [restaurantCoordinates, userCoordinate]);
 
   return {
-    mapRef,
     restaurants,
     isLoading,
-    isMapReady,
-    setIsMapReady,
+    hasLoadError,
     mapRegion,
     toCoordinate,
-    fitMapToMarkers,
+    restaurantCoordinates,
+    userCoordinate,
     selectedRestaurantId,
     setSelectedRestaurantId,
   };

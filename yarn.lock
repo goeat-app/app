@@ -2027,6 +2027,13 @@
   resolved "https://registry.yarnpkg.com/@firebase/webchannel-wrapper/-/webchannel-wrapper-1.0.6.tgz#4be6a62b8c27a6bad8cc8da41f9a12de901e965d"
   integrity sha512-Vr/Mqu79dMwGRAyGbJ4uN4+BtXB3/mRTdzetD1daWNeG8QaWuzhhbG77GltO5c0yYmYls8i250iX73624GJd7Q==
 
+"@googlemaps/js-api-loader@^2.0.2":
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/@googlemaps/js-api-loader/-/js-api-loader-2.1.1.tgz#49c2fa6cc2ad4eb49727d9f3572bae8ff519dbdf"
+  integrity sha512-yUpAwksbHrlZIWD49JmveNSfBG4oAK0AwMknfSaPMnP5N7UT8oFRVCqwjGb1XQovi//7KLbPQKZpbofiLGzpDw==
+  dependencies:
+    "@types/google.maps" "^3.53.1"
+
 "@gorhom/bottom-sheet@^5.2.12":
   version "5.2.14"
   resolved "https://registry.yarnpkg.com/@gorhom/bottom-sheet/-/bottom-sheet-5.2.14.tgz#2b74ad9293b0ad40518487c6dcd151cadd5b3de3"
@@ -3271,6 +3278,11 @@
   resolved "https://registry.yarnpkg.com/@types/geojson/-/geojson-7946.0.16.tgz#8ebe53d69efada7044454e3305c19017d97ced2a"
   integrity sha512-6C8nqWur3j98U6+lXDfTUWIfgvZU+EumvpHKcYjujKH7woYyLj2sUmff0tRhrqM7BohUw7Pz3ZB1jj2gW9Fvmg==
 
+"@types/google.maps@^3.53.1", "@types/google.maps@^3.64.0":
+  version "3.65.2"
+  resolved "https://registry.yarnpkg.com/@types/google.maps/-/google.maps-3.65.2.tgz#49444106055b0b759ea85f09dab121ee151374ad"
+  integrity sha512-e52bmOhGCQSNabFpL48iQlwJybq6rfns8NUVJ20MR7CdPlHQ2RmSCnPbJfrUYJfogrE4OiHQTZ4LXpop+eer1w==
+
 "@types/graceful-fs@^4.1.3":
   version "4.1.9"
   resolved "https://registry.yarnpkg.com/@types/graceful-fs/-/graceful-fs-4.1.9.tgz#2a06bc0f68a20ab37b3e36aa238be6abdf49e8b4"
@@ -3584,6 +3596,15 @@
   dependencies:
     "@urql/core" "^5.1.2"
     wonka "^6.3.2"
+
+"@vis.gl/react-google-maps@^1.9.0":
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/@vis.gl/react-google-maps/-/react-google-maps-1.9.0.tgz#5815f32e08cad310c35fdffff89085adc0ed634f"
+  integrity sha512-ELL/zo8mRMPGDQZwHRClf2tE1/PMYYKjg+C/dUn8rmlQ0e+s7rkcNmCgaeBAV48GJzEcrBsr+vjDv4AvzJrlUA==
+  dependencies:
+    "@googlemaps/js-api-loader" "^2.0.2"
+    "@types/google.maps" "^3.64.0"
+    fast-equals "^6.0.0"
 
 "@xmldom/xmldom@^0.8.8":
   version "0.8.13"
@@ -5852,6 +5873,11 @@ fast-diff@^1.1.2:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/fast-diff/-/fast-diff-1.3.0.tgz#ece407fa550a64d638536cd727e129c61616e0f0"
   integrity sha512-VxPP4NqbUjj6MaAOafWeUn2cXWLcCtljklUtZf0Ind4XQ+QPtmA0b18zZy0jIQx+ExRVCR/ZQpBmik5lXshNsw==
+
+fast-equals@^6.0.0:
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/fast-equals/-/fast-equals-6.0.2.tgz#36b0a0289a927f48a3c99b773970a077b2deb57f"
+  integrity sha512-sAjhj9ZhOxYCGiNMnZLaucOqf5ZeFnHNoKoAZiD9thhJ0N8RP85qJK759/97C/3L7NzzmGVB5uiX9AUpySZmUQ==
 
 fast-glob@^3.2.9, fast-glob@^3.3.2:
   version "3.3.3"

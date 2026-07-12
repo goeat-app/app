@@ -34,7 +34,7 @@ export function RestaurantCard({
           source={getRestaurantImageSource(item)}
           imageStyle={{ borderTopLeftRadius: 16, borderTopRightRadius: 16 }}
         >
-          <View style={styles.bottomOverlay} pointerEvents="none" />
+          <View style={styles.bottomOverlay} />
           <Button onPress={onFavoritePress}>
             <Animated.View
               style={{
@@ -110,6 +110,7 @@ const styles = StyleSheet.create({
   },
   bottomOverlay: {
     position: 'absolute',
+    pointerEvents: 'none',
     left: 0,
     right: 0,
     bottom: 0,

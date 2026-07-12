@@ -13,7 +13,8 @@
     "typecheck": "tsc --noEmit",
     "web:build": "expo export -p web && npx workbox-cli generateSW workbox-config.js",
     "web:watch": "nodemon --watch app --watch src --watch styles --ext ts,tsx,js,jsx,css --exec npm run web:build",
-    "web:preview": "npx serve dist"
+    "web:preview": "npx serve dist",
+    "firebase:deploy": "firebase deploy --only hosting"
   },
   "jest": {
     "preset": "jest-expo",
@@ -40,6 +41,7 @@
     "@react-native-google-signin/google-signin": "^16.1.2",
     "@react-navigation/bottom-tabs": "^7.3.10",
     "@react-navigation/native": "^7.1.8",
+    "@vis.gl/react-google-maps": "^1.9.0",
     "axios": "^1.13.2",
     "expo": "~54.0.35",
     "expo-build-properties": "^56.0.18",

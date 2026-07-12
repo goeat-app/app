@@ -1,20 +1,36 @@
+import { useCallback, useEffect, useRef } from 'react';
 import MapView from 'react-native-maps';
 
-import type { RecommendationsMapModel } from '@/app/recommendations-map/recommendations-map.model';
-
 import { RestaurantMarker } from '../restaurant-marker/restaurant-marker';
+import type { RecommendationMapViewProps } from './recommendation-map-view.types';
 
 export default function RecommendationMapView({
-  mapRef,
   mapRegion,
   restaurants,
+  restaurantCoordinates,
+  userCoordinate,
   toCoordinate,
-  setIsMapReady,
-  fitMapToMarkers,
   setSelectedRestaurantId,
-}: RecommendationsMapModel & {
-  mapRegion: NonNullable<RecommendationsMapModel['mapRegion']>;
-}) {
+}: RecommendationMapViewProps) {
+  const mapRef = useRef<MapView>(null);
+
+  const fitMapToMarkers = useCallback(() => {
+    const coordinates = userCoordinate
+      ? [...restaurantCoordinates, userCoordinate]
+      : restaurantCoordinates;
+
+    if (!mapRef.current || coordinates.length === 0) return;
+
+    mapRef.current.fitToCoordinates(coordinates, {
+      edgePadding: { top: 80, right: 40, bottom: 280, left: 40 },
+      animated: true,
+    });
+  }, [restaurantCoordinates, userCoordinate]);
+
+  useEffect(() => {
+    fitMapToMarkers();
+  }, [fitMapToMarkers]);
+
   return (
     <MapView
       ref={mapRef}
@@ -23,7 +39,6 @@ export default function RecommendationMapView({
       showsMyLocationButton={true}
       initialRegion={mapRegion}
       onMapReady={() => {
-        setIsMapReady(true);
         fitMapToMarkers();
       }}
     >

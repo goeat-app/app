@@ -16,13 +16,29 @@ export default function RecommendationsMap() {
   const { mapRegion, ...recommendationsMapModel } =
     useRecommendationsMapModel();
 
-  const { restaurants, selectedRestaurantId, isLoading } =
+  const { restaurants, selectedRestaurantId, isLoading, hasLoadError } =
     recommendationsMapModel;
 
-  if (isLoading || !mapRegion) {
+  if (isLoading) {
     return (
       <View className="flex-1 items-center justify-center">
         <Typography type="span" text="Carregando mapa..." />
+      </View>
+    );
+  }
+
+  if (!mapRegion) {
+    return (
+      <View className="flex-1 items-center justify-center px-6">
+        <Typography
+          type="span"
+          text={
+            hasLoadError
+              ? 'Não foi possível carregar os restaurantes. Tente novamente mais tarde.'
+              : 'Nenhum restaurante com localização disponível.'
+          }
+          className="text-center text-[#474747]"
+        />
       </View>
     );
   }
