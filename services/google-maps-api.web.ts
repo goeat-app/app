@@ -7,6 +7,7 @@ const apiReady = new Promise<void>((resolve, reject) => {
   resolveApiReady = resolve;
   rejectApiReady = reject;
 });
+apiReady.catch(() => undefined);
 
 export function markGoogleMapsApiReady(): void {
   resolveApiReady?.();
