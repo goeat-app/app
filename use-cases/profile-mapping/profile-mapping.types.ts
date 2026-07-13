@@ -25,8 +25,8 @@ export interface ProfileMapping {
   priceRange: PriceRangeParams;
   foodTypes: { id: string }[];
   placeTypes: { id: string }[];
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export type GetProfileMappingResult =
