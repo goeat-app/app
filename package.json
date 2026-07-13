@@ -25,6 +25,7 @@
       "^@/hooks/(.*)$": "<rootDir>/hooks/$1",
       "^@/lib/(.*)$": "<rootDir>/lib/$1",
       "^@/store/(.*)$": "<rootDir>/store/$1",
+      "^services/(.*)$": "<rootDir>/services/$1",
       "^@/(.*)$": "<rootDir>/src/$1"
     }
   },
@@ -79,6 +80,7 @@
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@rocketseat/eslint-config": "^2.2.2",
+    "@types/google.maps": "^3.65.2",
     "@types/react": "~19.1.4",
     "@typescript-eslint/eslint-plugin": "^8.62.0",
     "@typescript-eslint/parser": "^8.62.0",

@@ -1,9 +1,8 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { Text, View } from 'react-native';
 
 import {
   AdvancedMarker,
-  APIProvider,
   ControlPosition,
   Map,
   MapControl,
@@ -67,7 +66,7 @@ function MapContent({
     <Map
       defaultCenter={{ lat: mapRegion.latitude, lng: mapRegion.longitude }}
       defaultZoom={13}
-      mapId={process.env.EXPO_PUBLIC_GOOGLE_MAPS_MAP_ID.trim()}
+      mapId={process.env.EXPO_PUBLIC_GOOGLE_MAPS_MAP_ID?.trim()}
       mapTypeControl={false}
       streetViewControl={false}
       style={{ width: '100%', height: '100%' }}
@@ -155,7 +154,6 @@ function MapFallback({ message }: { message: string }) {
 export default function RecommendationMapView(
   props: RecommendationMapViewProps,
 ) {
-  const [loadError, setLoadError] = useState(false);
   const apiKey = process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY?.trim();
   const mapId = process.env.EXPO_PUBLIC_GOOGLE_MAPS_MAP_ID?.trim();
 
@@ -165,17 +163,9 @@ export default function RecommendationMapView(
     );
   }
 
-  if (loadError) {
-    return (
-      <MapFallback message="Não foi possível carregar o Google Maps. Tente novamente mais tarde." />
-    );
-  }
-
   return (
     <View className="flex-1">
-      <APIProvider apiKey={apiKey} onError={() => setLoadError(true)}>
-        <MapContent {...props} />
-      </APIProvider>
+      <MapContent {...props} />
     </View>
   );
 }
