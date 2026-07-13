@@ -33,6 +33,7 @@ import { NativeStackNavigationOptions } from '@react-navigation/native-stack';
 import { router, Stack, usePathname } from 'expo-router';
 import { getProfileMapping } from 'use-cases/profile-mapping/profile-mapping.use-case';
 
+import { GoogleMapsProvider } from '@/components/google-maps-provider/google-maps-provider';
 import Loading from '@/components/loading/loading';
 import { PwaInstallBanner } from '@/components/pwa-install-banner/pwa-install-banner';
 import { useAuth } from '@/hooks/use-auth';
@@ -193,87 +194,89 @@ export default function Layout() {
   }
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <SafeAreaProvider>
-        <SafeAreaView
-          className="flex-1 bg-[#FDF6F5]"
-          edges={['top', 'right', 'bottom', 'left']}
-        >
-          <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            className="flex-1"
+    <GoogleMapsProvider>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <SafeAreaProvider>
+          <SafeAreaView
+            className="flex-1 bg-[#FDF6F5]"
+            edges={['top', 'right', 'bottom', 'left']}
           >
-            <Stack screenOptions={screenOptions}>
-              <Stack.Screen
-                name="onboarding/first-onboarding"
-                options={{
-                  headerShown: false,
-                }}
-              />
+            <KeyboardAvoidingView
+              behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+              className="flex-1"
+            >
+              <Stack screenOptions={screenOptions}>
+                <Stack.Screen
+                  name="onboarding/first-onboarding"
+                  options={{
+                    headerShown: false,
+                  }}
+                />
 
-              <Stack.Screen
-                name="signin/signin-view"
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen name="signup/signup-view" />
-              <Stack.Screen
-                name="profile-mapping/step-one/step-one-view"
-                options={{
-                  headerShown: false,
-                }}
-              />
-              <Stack.Screen name="profile-mapping/step-two/step-two-view" />
-              <Stack.Screen name="profile-mapping/step-three/step-three-view" />
-              <Stack.Screen
-                name="recommendations/recommendations-view"
-                options={{
-                  headerShown: false,
-                }}
-              />
-              <Stack.Screen
-                name="home/home"
-                options={{
-                  headerShown: false,
-                }}
-              />
-              <Stack.Screen
-                name="favorites/favorites"
-                options={{
-                  headerShown: false,
-                }}
-              />
-              <Stack.Screen
-                name="profile-page/profile-page"
-                options={{
-                  headerShown: false,
-                }}
-              />
-              <Stack.Screen
-                name="edit-profile/edit-profile"
-                options={{
-                  headerShown: false,
-                }}
-              />
-              <Stack.Screen
-                name="restaurant-details/restaurant-details/[id]"
-                options={{
-                  headerShown: false,
-                }}
-              />
-              <Stack.Screen
-                name="recommendations-map/recommendations-map"
-                options={{
-                  headerShown: false,
-                }}
-              />
-            </Stack>
+                <Stack.Screen
+                  name="signin/signin-view"
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen name="signup/signup-view" />
+                <Stack.Screen
+                  name="profile-mapping/step-one/step-one-view"
+                  options={{
+                    headerShown: false,
+                  }}
+                />
+                <Stack.Screen name="profile-mapping/step-two/step-two-view" />
+                <Stack.Screen name="profile-mapping/step-three/step-three-view" />
+                <Stack.Screen
+                  name="recommendations/recommendations-view"
+                  options={{
+                    headerShown: false,
+                  }}
+                />
+                <Stack.Screen
+                  name="home/home"
+                  options={{
+                    headerShown: false,
+                  }}
+                />
+                <Stack.Screen
+                  name="favorites/favorites"
+                  options={{
+                    headerShown: false,
+                  }}
+                />
+                <Stack.Screen
+                  name="profile-page/profile-page"
+                  options={{
+                    headerShown: false,
+                  }}
+                />
+                <Stack.Screen
+                  name="edit-profile/edit-profile"
+                  options={{
+                    headerShown: false,
+                  }}
+                />
+                <Stack.Screen
+                  name="restaurant-details/restaurant-details/[id]"
+                  options={{
+                    headerShown: false,
+                  }}
+                />
+                <Stack.Screen
+                  name="recommendations-map/recommendations-map"
+                  options={{
+                    headerShown: false,
+                  }}
+                />
+              </Stack>
 
-            <Loading />
-            <Toast />
-            <PwaInstallBanner />
-          </KeyboardAvoidingView>
-        </SafeAreaView>
-      </SafeAreaProvider>
-    </GestureHandlerRootView>
+              <Loading />
+              <Toast />
+              <PwaInstallBanner />
+            </KeyboardAvoidingView>
+          </SafeAreaView>
+        </SafeAreaProvider>
+      </GestureHandlerRootView>
+    </GoogleMapsProvider>
   );
 }
