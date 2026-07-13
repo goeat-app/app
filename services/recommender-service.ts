@@ -6,10 +6,9 @@ import { RestaurantFilters } from '@/store/restaurant-filter-store';
 
 export const recommenderService = {
   async getRecommendations(
-    userId: string,
     filters: RestaurantFilters | undefined,
   ): Promise<RecommendedRestaurant[]> {
-    const params: Record<string, string> = { userId };
+    const params: Record<string, string> = {};
 
     if (filters) {
       if (filters.minRating > 0) params.minRating = String(filters.minRating);

@@ -19,4 +19,18 @@ export interface CreateProfilePayload {
   priceRange: PriceRangeParams;
 }
 
+export interface ProfileMapping {
+  id: string;
+  userId: string;
+  priceRange: PriceRangeParams;
+  foodTypes: { id: string }[];
+  placeTypes: { id: string }[];
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export type GetProfileMappingResult =
+  | { success: true; profileMapping: ProfileMapping | null }
+  | ProfileMappingError;
+
 export type ProfileMappingResult = ProfileMappingSuccess | ProfileMappingError;

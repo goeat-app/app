@@ -25,6 +25,7 @@
       "^@/hooks/(.*)$": "<rootDir>/hooks/$1",
       "^@/lib/(.*)$": "<rootDir>/lib/$1",
       "^@/store/(.*)$": "<rootDir>/store/$1",
+      "^services/(.*)$": "<rootDir>/services/$1",
       "^@/(.*)$": "<rootDir>/src/$1"
     }
   },

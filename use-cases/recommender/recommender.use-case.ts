@@ -16,10 +16,7 @@ export async function getRecommendationsUseCase(
       throw new Error('Usuário não encontrado.');
     }
 
-    const result = await recommenderService.getRecommendations(
-      user.uid,
-      filters,
-    );
+    const result = await recommenderService.getRecommendations(filters);
 
     return { success: true, data: result };
   } catch (error) {

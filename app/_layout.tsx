@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   ActivityIndicator,
   KeyboardAvoidingView,
@@ -31,9 +31,12 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { NativeStackNavigationOptions } from '@react-navigation/native-stack';
 import { router, Stack, usePathname } from 'expo-router';
+import { getProfileMapping } from 'use-cases/profile-mapping/profile-mapping.use-case';
 
 import Loading from '@/components/loading/loading';
+import { PwaInstallBanner } from '@/components/pwa-install-banner/pwa-install-banner';
 import { useAuth } from '@/hooks/use-auth';
+import { useProfileMappingStore } from '@/store/profile-mapping';
 
 import '../global.css';
 
@@ -51,6 +54,8 @@ const PROTECTED_ROUTES = [
   '/reviews/reviews',
 ];
 
+const PROFILE_MAPPING_ROUTE_PREFIX = '/profile-mapping/';
+
 export default function Layout() {
   const [fontsLoaded] = useFonts({
     PoppinsRegular: Poppins_400Regular,
@@ -65,8 +70,46 @@ export default function Layout() {
   });
 
   const pathname = usePathname();
-  const { isAuthenticated, isLoading } = useAuth();
-  const isReady = fontsLoaded && !isLoading;
+  const { user, isAuthenticated, isLoading } = useAuth();
+  const hasCreatedProfileMapping = useProfileMappingStore(
+    state => state.hasCreatedProfileMapping,
+  );
+  const [profileMappingCheckedUserId, setProfileMappingCheckedUserId] =
+    useState<string | null>(null);
+  const [needsProfileMapping, setNeedsProfileMapping] = useState(false);
+  const isProfileMappingLoading =
+    isAuthenticated && profileMappingCheckedUserId !== user?.uid;
+  const isReady = fontsLoaded && !isLoading && !isProfileMappingLoading;
+
+  useEffect(() => {
+    let isActive = true;
+
+    if (!user) {
+      useProfileMappingStore.getState().setHasCreatedProfileMapping(false);
+      setProfileMappingCheckedUserId(null);
+      setNeedsProfileMapping(false);
+      return () => {
+        isActive = false;
+      };
+    }
+
+    const checkProfileMapping = async () => {
+      const result = await getProfileMapping();
+
+      if (!isActive) {
+        return;
+      }
+
+      setNeedsProfileMapping(result.success && !result.profileMapping);
+      setProfileMappingCheckedUserId(user.uid);
+    };
+
+    void checkProfileMapping();
+
+    return () => {
+      isActive = false;
+    };
+  }, [user]);
 
   useEffect(() => {
     if (Platform.OS !== 'web' || __DEV__ || !('serviceWorker' in navigator)) {
@@ -90,10 +133,26 @@ export default function Layout() {
       return;
     }
 
+    if (
+      isAuthenticated &&
+      needsProfileMapping &&
+      !hasCreatedProfileMapping &&
+      !pathname.startsWith(PROFILE_MAPPING_ROUTE_PREFIX)
+    ) {
+      router.replace('/profile-mapping/step-one/step-one-view');
+      return;
+    }
+
     if (isAuthenticated && pathname === '/signin/signin-view') {
       router.replace('/home/home');
     }
-  }, [isAuthenticated, pathname, isReady]);
+  }, [
+    hasCreatedProfileMapping,
+    isAuthenticated,
+    needsProfileMapping,
+    pathname,
+    isReady,
+  ]);
 
   const screenOptions = useMemo<NativeStackNavigationOptions>(
     () => ({
@@ -211,6 +270,7 @@ export default function Layout() {
 
             <Loading />
             <Toast />
+            <PwaInstallBanner />
           </KeyboardAvoidingView>
         </SafeAreaView>
       </SafeAreaProvider>

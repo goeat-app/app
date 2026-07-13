@@ -3,6 +3,7 @@ import { PlaceTypes } from 'use-cases/profile-mapping/place-types/place-types.ty
 import { create } from 'zustand';
 
 interface ProfileMappingState {
+  hasCreatedProfileMapping: boolean;
   placeTypes: PlaceTypes[];
   foodCategories: FoodType[];
   selectedFoodCategories: string[];
@@ -11,9 +12,11 @@ interface ProfileMappingState {
   setSelectedFoodCategories: (id: string[]) => void;
   setPlaceTypes: (types: PlaceTypes[]) => void;
   setSelectedPlaceTypes: (id: string[]) => void;
+  setHasCreatedProfileMapping: (hasCreated: boolean) => void;
 }
 
 export const useProfileMappingStore = create<ProfileMappingState>(set => ({
+  hasCreatedProfileMapping: false,
   selectedPlaceTypes: [],
   selectedFoodCategories: [],
   foodCategories: [],
@@ -24,4 +27,6 @@ export const useProfileMappingStore = create<ProfileMappingState>(set => ({
     set({ selectedFoodCategories: id }),
   setPlaceTypes: (types: PlaceTypes[]) => set({ placeTypes: types }),
   setSelectedPlaceTypes: (id: string[]) => set({ selectedPlaceTypes: id }),
+  setHasCreatedProfileMapping: (hasCreated: boolean) =>
+    set({ hasCreatedProfileMapping: hasCreated }),
 }));
