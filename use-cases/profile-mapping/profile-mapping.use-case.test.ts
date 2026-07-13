@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
+import { AxiosError } from 'axios';
 import { profileMappingService } from 'services/profile-mapping-service';
 
 import { getProfileMapping } from './profile-mapping.use-case';
