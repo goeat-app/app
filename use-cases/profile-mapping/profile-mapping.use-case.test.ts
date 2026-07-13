@@ -54,14 +54,15 @@ describe('getProfileMapping', () => {
   });
 
   it('does not treat other request failures as a missing mapping', async () => {
-    getProfileMock.mockRejectedValue({
-      isAxiosError: true,
-      response: { status: 500 },
-    });
+    getProfileMock.mockRejectedValue(
+      Object.assign(new AxiosError('Request failed'), {
+        response: { status: 500 } as any,
+      }),
+    );
 
     await expect(getProfileMapping()).resolves.toEqual({
       success: false,
-      error: 'Erro inesperado. Tente novamente.',
+      error: 'Erro ao carregar o mapeamento do perfil.',
     });
   });
 });
