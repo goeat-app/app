@@ -30,8 +30,8 @@ describe('getProfileMapping', () => {
       priceRange: { minValue: 20, maxValue: 100 },
       foodTypes: [{ id: 'food-id' }],
       placeTypes: [{ id: 'place-id' }],
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      createdAt: new Date().toDateString(),
+      updatedAt: new Date().toDateString(),
     };
     getProfileMock.mockResolvedValue(profileMapping);
 
@@ -56,7 +56,7 @@ describe('getProfileMapping', () => {
   it('does not treat other request failures as a missing mapping', async () => {
     getProfileMock.mockRejectedValue(
       Object.assign(new AxiosError('Request failed'), {
-        response: { status: 500 } as any,
+        response: { status: 500 },
       }),
     );
 
