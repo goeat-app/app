@@ -37,6 +37,11 @@ import { GoogleMapsProvider } from '@/components/google-maps-provider/google-map
 import Loading from '@/components/loading/loading';
 import { PwaInstallBanner } from '@/components/pwa-install-banner/pwa-install-banner';
 import { useAuth } from '@/hooks/use-auth';
+import {
+  initAnalytics,
+  trackScreen,
+  trackUserId,
+} from '@/lib/analytics/analytics';
 import { useProfileMappingStore } from '@/store/profile-mapping';
 
 import '../global.css';
@@ -56,6 +61,14 @@ const PROTECTED_ROUTES = [
 ];
 
 const PROFILE_MAPPING_ROUTE_PREFIX = '/profile-mapping/';
+
+async function syncWebAnalytics(pathname: string, userId: string | null) {
+  await initAnalytics();
+  if (pathname) {
+    await trackScreen(pathname);
+  }
+  await trackUserId(userId);
+}
 
 export default function Layout() {
   const [fontsLoaded] = useFonts({
@@ -121,6 +134,14 @@ export default function Layout() {
       console.warn('Service worker registration failed.', error);
     });
   }, []);
+
+  useEffect(() => {
+    if (Platform.OS !== 'web') {
+      return;
+    }
+
+    void syncWebAnalytics(pathname, user?.uid ?? null);
+  }, [pathname, user?.uid]);
 
   useEffect(() => {
     if (!isReady) {

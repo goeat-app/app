@@ -3,6 +3,8 @@ import { Platform, Pressable, Text, View } from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
 
+import { trackEvent } from '@/lib/analytics/analytics';
+
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
   userChoice: Promise<{ outcome: 'accepted' | 'dismissed'; platform: string }>;
@@ -44,6 +46,7 @@ export function PwaInstallBanner() {
     const handleInstalled = () => {
       setInstallPrompt(null);
       setShowIosInstructions(false);
+      void trackEvent('pwa_install');
     };
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
@@ -76,8 +79,10 @@ export function PwaInstallBanner() {
       return;
     }
 
+    void trackEvent('pwa_install_prompt');
     await installPrompt.prompt();
-    await installPrompt.userChoice;
+    const choice = await installPrompt.userChoice;
+    void trackEvent('pwa_install_choice', { outcome: choice.outcome });
     setInstallPrompt(null);
   };
 

@@ -19,6 +19,17 @@
   <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
 
   <title>%WEB_TITLE%</title>
+
+  <!-- Google tag (gtag.js) — must be in static HTML for GA install verification -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZFCZKJPF8V"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    // send_page_view: false — SPA envia page/screen views via trackScreen no router
+    gtag('config', 'G-ZFCZKJPF8V', { send_page_view: false });
+  </script>
+
   <!-- The `react-native-web` recommended style reset: https://necolas.github.io/react-native-web/docs/setup/#root-element -->
   <style id="expo-reset">
     /* These styles make the body full-height */
