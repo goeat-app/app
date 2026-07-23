@@ -11,6 +11,10 @@ import {
 } from '@vis.gl/react-google-maps';
 
 import type { MapCoordinate } from '@/app/recommendations-map/recommendations-map.utils';
+import {
+  googleMapsConfig,
+  isGoogleMapsConfigured,
+} from '@/lib/maps/google-maps-config.web';
 
 import { RestaurantMarker } from '../restaurant-marker/restaurant-marker';
 import type { RecommendationMapViewProps } from './recommendation-map-view.types';
@@ -66,7 +70,7 @@ function MapContent({
     <Map
       defaultCenter={{ lat: mapRegion.latitude, lng: mapRegion.longitude }}
       defaultZoom={13}
-      mapId={process.env.EXPO_PUBLIC_GOOGLE_MAPS_MAP_ID?.trim()}
+      mapId={googleMapsConfig.mapId}
       mapTypeControl={false}
       streetViewControl={false}
       style={{ width: '100%', height: '100%' }}
@@ -143,10 +147,12 @@ function MapContent({
   );
 }
 
-function MapFallback({ message }: { message: string }) {
+function MapFallback() {
   return (
     <View className="flex-1 items-center justify-center bg-[#F1F0F5] px-6">
-      <Text className="text-center text-[#474747]">{message}</Text>
+      <Text className="text-center text-[#474747]">
+        Não foi possível carregar o mapa. Tente novamente mais tarde.
+      </Text>
     </View>
   );
 }
@@ -154,13 +160,8 @@ function MapFallback({ message }: { message: string }) {
 export default function RecommendationMapView(
   props: RecommendationMapViewProps,
 ) {
-  const apiKey = process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY?.trim();
-  const mapId = process.env.EXPO_PUBLIC_GOOGLE_MAPS_MAP_ID?.trim();
-
-  if (!apiKey || !mapId) {
-    return (
-      <MapFallback message="Mapa indisponível. Configure a chave e o Map ID do Google Maps para a versão web." />
-    );
+  if (!isGoogleMapsConfigured()) {
+    return <MapFallback />;
   }
 
   return (
