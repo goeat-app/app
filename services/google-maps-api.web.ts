@@ -1,5 +1,7 @@
 /// <reference types="google.maps" />
 
+import { googleMapsConfig } from '@/lib/maps/google-maps-config.web';
+
 let resolveApiReady: (() => void) | undefined;
 let rejectApiReady: ((reason: unknown) => void) | undefined;
 
@@ -18,7 +20,7 @@ export function markGoogleMapsApiFailed(error: unknown): void {
 }
 
 export async function importGoogleMapsGeocodingLibrary() {
-  if (!process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY?.trim()) {
+  if (!googleMapsConfig.apiKey) {
     throw new Error('Missing EXPO_PUBLIC_GOOGLE_MAPS_API_KEY.');
   }
 
